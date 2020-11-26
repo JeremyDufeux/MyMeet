@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">My Meet</string>
     <string name="add_meeting">Add Meeting</string>
+    <string name="room">Room</string>
+    <string name="_1">1</string>
+    <string name="subject">Subject</string>
+    <string name="_12_00">12:00</string>
+    <string name="participant">Participant</string>
+    <string name="remove_meeting">Remove meeting</string>
 </resources>
