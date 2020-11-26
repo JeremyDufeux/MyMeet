@@ -3,6 +3,7 @@ package com.jeremydufeux.mymeet.model;
 import android.graphics.Color;
 
 import java.util.Date;
+import java.util.Date;
 import java.util.List;
 
 public class Meeting {
@@ -12,16 +13,16 @@ public class Meeting {
     private Date mDuration;
     private List<String> mParticipants;
     private int mRoom;
-    private Color mRoomColor;
+    private int mRoomColor;
 
-    public Meeting(long id, String subject, Date date, Date duration, List<String> participants, int room, Color roomColor) {
+    public Meeting(long id, String subject, Date date, Date duration, List<String> participants, int room, int color) {
         mId = id;
         mSubject = subject;
         mDate = date;
         mDuration = duration;
         mParticipants = participants;
-        this.mRoom = room;
-        mRoomColor = roomColor;
+        mRoom = room;
+        mRoomColor = color;
     }
 
     public long getId() {
@@ -72,11 +73,11 @@ public class Meeting {
         mRoom = room;
     }
 
-    public Color getRoomColor() {
+    public int getRoomColor() {
         return mRoomColor;
     }
 
-    public void setRoomColor(Color roomColor) {
+    public void setRoomColor(int roomColor) {
         mRoomColor = roomColor;
     }
 }
