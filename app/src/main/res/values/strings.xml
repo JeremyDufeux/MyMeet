@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My Meet</string>
+    <string name="add_meeting">Add Meeting</string>
 </resources>
