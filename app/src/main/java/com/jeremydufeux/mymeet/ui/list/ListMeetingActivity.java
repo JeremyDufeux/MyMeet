@@ -1,8 +1,10 @@
-package com.jeremydufeux.mymeet;
+package com.jeremydufeux.mymeet.ui.list;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.jeremydufeux.mymeet.R;
 
 public class ListMeetingActivity extends AppCompatActivity {
 
