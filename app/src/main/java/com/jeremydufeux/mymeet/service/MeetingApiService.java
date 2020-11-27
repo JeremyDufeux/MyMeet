@@ -27,6 +27,12 @@ public interface MeetingApiService {
     void deleteMeeting(Meeting meeting);
 
     /**
+     * Update meeting
+     * @param meeting to update
+     */
+    void updateMeeting(Meeting meeting);
+
+    /**
      * Find a free room depending on the date and time
      * @param date of meeting
      * @param duration of meeting

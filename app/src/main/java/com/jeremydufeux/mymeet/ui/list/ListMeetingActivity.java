@@ -1,28 +1,28 @@
 package com.jeremydufeux.mymeet.ui.list;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.jeremydufeux.mymeet.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.jeremydufeux.mymeet.databinding.ActivityListMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
 import com.jeremydufeux.mymeet.event.OpenMeetingEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
+import com.jeremydufeux.mymeet.ui.add.AddMeetingActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
+import static com.jeremydufeux.mymeet.ui.add.AddMeetingActivity.BUNDLE_EXTRA_MEETING_ID;
+
 public class ListMeetingActivity extends AppCompatActivity {
-    private static final String TAG = "ContentValues";
     private MeetingApiService mApiService;
     private ActivityListMeetingBinding mBinding;
     private ListMeetingAdapter mAdapter;
@@ -53,6 +53,10 @@ public class ListMeetingActivity extends AppCompatActivity {
     }
 
     private void setupFab() {
+        mBinding.listMeetingsFab.setOnClickListener(view -> {
+            Intent addMeetingActivityIntent = new Intent(ListMeetingActivity.this, AddMeetingActivity.class);
+            startActivity(addMeetingActivityIntent);
+        });
     }
 
     @Subscribe
@@ -64,6 +68,9 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     @Subscribe
     public void onOpenMeetingEvent(OpenMeetingEvent event){
+        Intent editMeetingActivityIntent = new Intent(ListMeetingActivity.this, AddMeetingActivity.class);
+        editMeetingActivityIntent.putExtra(BUNDLE_EXTRA_MEETING_ID, event.meeting.getId());
+        startActivity(editMeetingActivityIntent);
     }
 
     @Override

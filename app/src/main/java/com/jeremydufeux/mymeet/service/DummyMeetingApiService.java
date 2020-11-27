@@ -26,6 +26,11 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
+    public void updateMeeting(Meeting meeting) {
+        //meetings.set(meeting);
+    }
+
+    @Override
     public Room findRoom(Date date, Date duration) {
         return rooms.get(0);
     }

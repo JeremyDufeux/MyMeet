@@ -1,25 +1,16 @@
 package com.jeremydufeux.mymeet.service;
 
 
-
-import android.graphics.Color;
-import android.util.Log;
-
-import com.jeremydufeux.mymeet.di.DI;
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.model.Room;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
-import static android.content.ContentValues.TAG;
 
 public class DummyMeetingGenerator {
     private static List<Meeting> DUMMY_MEETINGS;
