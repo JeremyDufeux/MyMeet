@@ -9,4 +9,8 @@
     <string name="room_color">Room color</string>
     <string name="_29_11_1990">29/11/1990</string>
     <string name="_10h55">10h55</string>
+    <string name="affected_room_number_2">Affected room number: 2</string>
+    <string name="participant_email">jeremy.dufeux@gmail.com</string>
+    <string name="remove_participant">Remove participant</string>
+    <string name="add_participant">Add participant</string>
 </resources>
