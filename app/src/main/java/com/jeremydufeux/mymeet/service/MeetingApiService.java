@@ -1,6 +1,7 @@
 package com.jeremydufeux.mymeet.service;
 
 import com.jeremydufeux.mymeet.model.Meeting;
+import com.jeremydufeux.mymeet.model.Room;
 
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,6 @@ public interface MeetingApiService {
      * @param duration of meeting
      * @return room id
      */
-    int findRoom(Date date, Date duration);
+    Room findRoom(Date date, Date duration);
 
 }
