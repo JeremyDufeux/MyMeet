@@ -30,7 +30,7 @@ public interface MeetingApiService {
      * Update meeting
      * @param meeting to update
      */
-    void updateMeeting(Meeting meeting);
+    void updateMeeting(int index, Meeting meeting);
 
     /**
      * Find a free room depending on the date and time

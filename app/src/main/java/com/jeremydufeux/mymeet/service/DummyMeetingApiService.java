@@ -26,8 +26,8 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
-    public void updateMeeting(Meeting meeting) {
-        //meetings.set(meeting);
+    public void updateMeeting(int index, Meeting meeting) {
+        meetings.set(index, meeting);
     }
 
     @Override
