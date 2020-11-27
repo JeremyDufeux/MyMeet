@@ -17,6 +17,7 @@ import com.jeremydufeux.mymeet.model.Meeting;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -69,7 +70,7 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
     private String getTime(Date date){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        return String.format(Locale.FRANCE, "%d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
+        return DateFormat.getTimeInstance(DateFormat.SHORT).format(cal.getTime());
     }
 
     @Override
