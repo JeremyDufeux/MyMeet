@@ -1,20 +1,21 @@
 package com.jeremydufeux.mymeet.model;
 
-import android.graphics.Color;
-
-import java.util.Date;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public class Meeting {
     private long mId;
     private String mSubject;
-    private Date mDate;
-    private Date mDuration;
+    private Calendar mDate;
+    private Calendar mDuration;
     private List<String> mParticipants;
     private Room mRoom;
 
-    public Meeting(long id, String subject, Date date, Date duration, List<String> participants, Room room) {
+    public Meeting(){
+
+    }
+
+    public Meeting(long id, String subject, Calendar date, Calendar duration, List<String> participants, Room room) {
         mId = id;
         mSubject = subject;
         mDate = date;
@@ -39,19 +40,19 @@ public class Meeting {
         mSubject = subject;
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return mDate;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         mDate = date;
     }
 
-    public Date getDuration() {
+    public Calendar getDuration() {
         return mDuration;
     }
 
-    public void setDuration(Date duration) {
+    public void setDuration(Calendar duration) {
         mDuration = duration;
     }
 

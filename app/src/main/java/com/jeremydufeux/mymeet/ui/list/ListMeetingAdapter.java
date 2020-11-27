@@ -19,7 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -67,10 +66,8 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
         return string.toString();
     }
 
-    private String getTime(Date date){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return DateFormat.getTimeInstance(DateFormat.SHORT).format(cal.getTime());
+    private String getTime(Calendar date){
+        return DateFormat.getTimeInstance(DateFormat.SHORT).format(date.getTime());
     }
 
     @Override
