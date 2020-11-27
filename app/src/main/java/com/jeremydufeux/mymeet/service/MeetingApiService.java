@@ -12,7 +12,7 @@ public interface MeetingApiService {
      * Get all meeting
      * @return list of meetings
      */
-    List<Meeting> getMeeting();
+    List<Meeting> getMeetings();
 
     /**
      * Add meeting

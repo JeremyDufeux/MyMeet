@@ -3,12 +3,12 @@ package com.jeremydufeux.mymeet.model;
 public class Room {
     private long mId;
     private int mNumber;
-    private int mColor;
+    private String mImageUrl;
 
-    public Room(long id, int number, int color) {
+    public Room(long id, int number, String imageUrl) {
         mId = id;
         mNumber = number;
-        mColor = color;
+        mImageUrl = imageUrl;
     }
 
     public long getId() {
@@ -27,11 +27,11 @@ public class Room {
         mNumber = number;
     }
 
-    public int getColor() {
-        return mColor;
+    public String getImageUrl() {
+        return mImageUrl;
     }
 
-    public void setColor(int color) {
-        mColor = color;
+    public void setImageUrl(String imageUrl) {
+        mImageUrl = imageUrl;
     }
 }

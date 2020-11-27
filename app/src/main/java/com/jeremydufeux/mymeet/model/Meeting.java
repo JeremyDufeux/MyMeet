@@ -12,17 +12,15 @@ public class Meeting {
     private Date mDate;
     private Date mDuration;
     private List<String> mParticipants;
-    private int mRoom;
-    private int mRoomColor;
+    private Room mRoom;
 
-    public Meeting(long id, String subject, Date date, Date duration, List<String> participants, int room, int color) {
+    public Meeting(long id, String subject, Date date, Date duration, List<String> participants, Room room) {
         mId = id;
         mSubject = subject;
         mDate = date;
         mDuration = duration;
         mParticipants = participants;
         mRoom = room;
-        mRoomColor = color;
     }
 
     public long getId() {
@@ -65,19 +63,11 @@ public class Meeting {
         mParticipants = participants;
     }
 
-    public int getRoom() {
+    public Room getRoom() {
         return mRoom;
     }
 
-    public void setRoom(int room) {
+    public void setRoom(Room room) {
         mRoom = room;
-    }
-
-    public int getRoomColor() {
-        return mRoomColor;
-    }
-
-    public void setRoomColor(int roomColor) {
-        mRoomColor = roomColor;
     }
 }

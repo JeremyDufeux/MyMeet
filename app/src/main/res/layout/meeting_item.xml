@@ -3,73 +3,104 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:id="@+id/meeting_item"
+    android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/meeting_item_room_im"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@drawable/ic_room"
+        app:layout_constraintBottom_toBottomOf="@id/meeting_item_participant_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/room_color" />
 
     <TextView
         android:id="@+id/meeting_item_room_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="@string/room"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/meeting_item_room_im"
+        app:layout_constraintStart_toStartOf="@+id/meeting_item_room_im"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/circle"
+    <TextView
+        android:id="@+id/meeting_item_room_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/_1"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:backgroundTint="@color/blue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meeting_item_room_label_tv" />
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="@+id/meeting_item_room_im"
+        app:layout_constraintStart_toStartOf="@+id/meeting_item_room_im"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/meeting_item_subject_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/subject"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/meeting_item_date_tv"
+        app:layout_constraintStart_toStartOf="@+id/meeting_item_participant_tv"
+        app:layout_constraintTop_toTopOf="@+id/meeting_item_room_im" />
+
+    <TextView
+        android:id="@+id/meeting_item_date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/subject"
-        app:layout_constraintBottom_toTopOf="@+id/meeting_item_participant_tv"
-        app:layout_constraintStart_toStartOf="@+id/meeting_item_participant_tv"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="15dp"
+        android:text="@string/_29_11_1990"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/meeting_item_room_im" />
+
 
     <TextView
         android:id="@+id/meeting_item_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/_12_00"
-        app:layout_constraintBottom_toBottomOf="@+id/meeting_item_subject_tv"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/meeting_item_subject_tv" />
+        android:text="@string/_10h55"
+        app:layout_constraintBottom_toTopOf="@+id/meeting_item_participant_tv"
+        app:layout_constraintEnd_toEndOf="@+id/meeting_item_date_tv"
+        app:layout_constraintStart_toStartOf="@+id/meeting_item_date_tv"
+        app:layout_constraintTop_toBottomOf="@+id/meeting_item_date_tv" />
 
 
     <TextView
         android:id="@+id/meeting_item_participant_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="15dp"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="@string/participant"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintBottom_toBottomOf="@id/meeting_item_room_im"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/meeting_item_room_im"/>
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="30sp"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_width="25sp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="5dp"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/remove_meeting"
         android:src="@drawable/ic_bin"
-        app:tint="@color/grey"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintBottom_toBottomOf="@+id/meeting_item_room_im"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/remove_meeting" />
+        app:tint="@color/grey" />
 
 
 

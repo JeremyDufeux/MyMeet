@@ -7,11 +7,11 @@ import java.util.Date;
 import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService{
-    private List<Meeting> meetings = DummyMeetingGenerator.generateMeetings();
     private List<Room> rooms = DummyRoomGenerator.generateRooms();
+    private List<Meeting> meetings = DummyMeetingGenerator.generateMeetings(rooms);
 
     @Override
-    public List<Meeting> getMeeting() {
+    public List<Meeting> getMeetings() {
         return meetings;
     }
 
