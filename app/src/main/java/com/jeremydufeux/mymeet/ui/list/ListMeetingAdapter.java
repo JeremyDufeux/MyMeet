@@ -50,7 +50,6 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
 
         holder.mBinding.meetingItemRoomNumberTv.setText(String.format(Locale.FRANCE, "%d", meeting.getRoom().getNumber()));
         holder.mBinding.meetingItemSubjectTv.setText(meeting.getSubject());
-        holder.mBinding.meetingItemDateTv.setText(getDate(meeting.getDate()));
         holder.mBinding.meetingItemTimeTv.setText(getTime(meeting.getDate()));
         holder.mBinding.meetingItemParticipantTv.setText(getParticipantString(meeting.getParticipants()));
     }
@@ -65,13 +64,6 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
         }
 
         return string.toString();
-    }
-
-    private String getDate(Date date)
-    {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return String.format(Locale.FRANCE, "%d/%d/%d", cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
     }
 
     private String getTime(Date date){
