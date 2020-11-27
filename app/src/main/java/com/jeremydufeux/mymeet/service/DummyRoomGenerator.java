@@ -34,7 +34,6 @@ public class DummyRoomGenerator {
                     System.currentTimeMillis(),
                     i+1,
                     url));
-            Log.d(TAG, "createRooms: " +url);
         }
     }
 

@@ -15,7 +15,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.MeetingItemBinding;
+import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
+import com.jeremydufeux.mymeet.event.OpenMeetingEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -52,6 +56,9 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
         holder.mBinding.meetingItemSubjectTv.setText(meeting.getSubject());
         holder.mBinding.meetingItemTimeTv.setText(getTime(meeting.getDate()));
         holder.mBinding.meetingItemParticipantTv.setText(getParticipantString(meeting.getParticipants()));
+
+        holder.mBinding.meetingItem.setOnClickListener(view -> EventBus.getDefault().post(new OpenMeetingEvent(meeting)));
+        holder.mBinding.meetingItemRemoveIv.setOnClickListener(view -> EventBus.getDefault().post(new DeleteMeetingEvent(meeting)));
     }
 
     private String getParticipantString(List<String> participants) {

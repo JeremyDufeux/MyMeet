@@ -80,11 +80,11 @@
         android:singleLine="true"
         android:text="@string/participants"
         app:layout_constraintBottom_toBottomOf="@id/meeting_item_room_im"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/meeting_item_remove_iv"
         app:layout_constraintStart_toEndOf="@+id/meeting_item_room_im"/>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/meeting_item_remove_iv"
         android:layout_width="25sp"
         android:layout_height="25dp"
         android:layout_marginEnd="5dp"
