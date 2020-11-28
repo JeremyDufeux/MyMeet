@@ -2,21 +2,19 @@ package com.jeremydufeux.mymeet.model;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 public class Meeting {
-    private long mId;
+    private String mId;
     private String mSubject;
     private Calendar mDate;
     private Calendar mDuration;
     private List<String> mParticipants;
     private Room mRoom;
 
-    public Meeting(){
 
-    }
-
-    public Meeting(long id, String subject, Calendar date, Calendar duration, List<String> participants, Room room) {
-        mId = id;
+    public Meeting(String subject, Calendar date, Calendar duration, List<String> participants, Room room) {
+        mId = UUID.randomUUID().toString();
         mSubject = subject;
         mDate = date;
         mDuration = duration;
@@ -24,12 +22,8 @@ public class Meeting {
         mRoom = room;
     }
 
-    public long getId() {
+    public String getId() {
         return mId;
-    }
-
-    public void setId(long id) {
-        mId = id;
     }
 
     public String getSubject() {

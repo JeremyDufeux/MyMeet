@@ -16,7 +16,6 @@ public class DummyMeetingGenerator {
     public static List<Meeting> generateMeetings(List<Room> rooms) {
         DUMMY_MEETINGS = new ArrayList<>();
         DUMMY_MEETINGS.add(new Meeting(
-                System.currentTimeMillis(),
                 "Duck jokes",
                 calDateConverter(2020,11,28,12,55),
                 calDurationConverter(1,0),
@@ -24,15 +23,13 @@ public class DummyMeetingGenerator {
                 rooms.get(new Random().nextInt(rooms.size()))));
 
         DUMMY_MEETINGS.add(new Meeting(
-                System.currentTimeMillis(),
                 "Pasta cooking",
-                calDateConverter(2020,11,28,13,55),
+                calDateConverter(2020,12,28,13,55),
                 calDurationConverter(0,30),
                 new ArrayList<>(Arrays.asList("jeremy.dufeux@gmail.com", "jeremy.dufeux@gmail.com")),
                 rooms.get(new Random().nextInt(rooms.size()))));
 
         DUMMY_MEETINGS.add(new Meeting(
-                System.currentTimeMillis(),
                 "Big machines",
                 calDateConverter(2020,11,29,18,0),
                 calDurationConverter(4,30),
@@ -40,7 +37,6 @@ public class DummyMeetingGenerator {
                 rooms.get(new Random().nextInt(rooms.size()))));
 
         DUMMY_MEETINGS.add(new Meeting(
-                System.currentTimeMillis(),
                 "Trump's language",
                 calDateConverter(2020,11,30,11,0),
                 calDurationConverter(2,30),
@@ -48,9 +44,8 @@ public class DummyMeetingGenerator {
                 rooms.get(new Random().nextInt(rooms.size()))));
 
         DUMMY_MEETINGS.add(new Meeting(
-                System.currentTimeMillis(),
                 "Dogs and cats war",
-                calDateConverter(2020,12,11,9,0),
+                calDateConverter(2021,12,11,9,0),
                 calDurationConverter(1,0),
                 new ArrayList<>(Arrays.asList("jeremy.dufeux@gmail.com", "jeremy.dufeux@gmail.com", "jeremy.dufeux@gmail.com", "jeremy.dufeux@gmail.com")),
                 rooms.get(new Random().nextInt(rooms.size()))));
@@ -61,7 +56,7 @@ public class DummyMeetingGenerator {
     private static Calendar calDateConverter(int year, int month, int day, int hour, int minute){
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.MONTH, month-1);
         cal.set(Calendar.DAY_OF_MONTH, day);
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);

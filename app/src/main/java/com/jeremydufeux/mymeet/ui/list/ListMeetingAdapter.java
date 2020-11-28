@@ -14,11 +14,10 @@ import com.jeremydufeux.mymeet.databinding.MeetingItemBinding;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
 import com.jeremydufeux.mymeet.event.OpenMeetingEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
+import com.jeremydufeux.mymeet.utils.Tools;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,7 +46,7 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
 
         holder.mBinding.meetingItemRoomNumberTv.setText(String.format(Locale.FRANCE, "%d", meeting.getRoom().getNumber()));
         holder.mBinding.meetingItemSubjectTv.setText(meeting.getSubject());
-        holder.mBinding.meetingItemTimeTv.setText(getTime(meeting.getDate()));
+        holder.mBinding.meetingItemTimeTv.setText(Tools.getTimeFromCal(meeting.getDate()));
         holder.mBinding.meetingItemParticipantTv.setText(getParticipantString(meeting.getParticipants()));
 
         holder.mBinding.meetingItem.setOnClickListener(view -> EventBus.getDefault().post(new OpenMeetingEvent(meeting)));
@@ -66,9 +65,6 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
         return string.toString();
     }
 
-    private String getTime(Calendar date){
-        return DateFormat.getTimeInstance(DateFormat.SHORT).format(date.getTime());
-    }
 
     @Override
     public int getItemCount() {

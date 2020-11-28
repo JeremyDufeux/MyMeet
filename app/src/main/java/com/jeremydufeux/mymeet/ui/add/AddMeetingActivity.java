@@ -11,6 +11,7 @@ import com.jeremydufeux.mymeet.di.DI;
 import com.jeremydufeux.mymeet.dialog.DatePicker;
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
+import com.jeremydufeux.mymeet.utils.Tools;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -32,10 +33,10 @@ public class AddMeetingActivity extends AppCompatActivity implements android.app
         mService = DI.getMeetingApiService();
 
         if(getIntent().getExtras() != null && getIntent().getExtras().containsKey(BUNDLE_EXTRA_MEETING_ID)) {
-            long id = getIntent().getExtras().getLong(BUNDLE_EXTRA_MEETING_ID);
+            String id = getIntent().getExtras().getString(BUNDLE_EXTRA_MEETING_ID);
 
             for (Meeting meeting : mService.getMeetings()) {
-                if (meeting.getId() == id) {
+                if (meeting.getId().equals(id)) {
                     mMeeting = meeting;
                     break;
                 }
@@ -47,11 +48,15 @@ public class AddMeetingActivity extends AppCompatActivity implements android.app
     }
 
     private void loadData(){
-        mBinding.addMeetingDateEt.setText(getDate());
+        mBinding.addMeetingSubjectTv.setText(mMeeting.getSubject());
+        mBinding.addMeetingDateEt.setText(Tools.getDateFromCal(mMeeting.getDate()));
         mBinding.addMeetingDateEt.setOnClickListener(v -> {
             DialogFragment datePicker = new DatePicker(mMeeting.getDate());
             datePicker.show(getSupportFragmentManager(), "date picker");
         });
+
+
+
     }
     private void loadHint() {
         mBinding.addMeetingDateEt.setHint(getDate());
