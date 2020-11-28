@@ -1,6 +1,5 @@
 package com.jeremydufeux.mymeet.dialog;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 
@@ -10,12 +9,12 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
-public class DatePickerFragment extends DialogFragment {
+public class DatePicker extends DialogFragment {
     int year;
     int month;
     int day;
 
-    public DatePickerFragment(Calendar cal) {
+    public DatePicker(Calendar cal) {
         this.year = cal.get(Calendar.YEAR);
         this.month = cal.get(Calendar.MONTH);
         this.day = cal.get(Calendar.DAY_OF_MONTH);
@@ -24,6 +23,6 @@ public class DatePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
+        return new android.app.DatePickerDialog(getActivity(), (android.app.DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
     }
 }

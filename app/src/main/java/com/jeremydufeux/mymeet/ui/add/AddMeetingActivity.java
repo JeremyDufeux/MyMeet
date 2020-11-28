@@ -1,16 +1,14 @@
 package com.jeremydufeux.mymeet.ui.add;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.jeremydufeux.mymeet.databinding.ActivityAddMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
-import com.jeremydufeux.mymeet.dialog.DatePickerFragment;
+import com.jeremydufeux.mymeet.dialog.DatePicker;
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
 
@@ -18,7 +16,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AddMeetingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class AddMeetingActivity extends AppCompatActivity implements android.app.DatePickerDialog.OnDateSetListener{
     public static final String BUNDLE_EXTRA_MEETING_ID = "BUNDLE_EXTRA_MEETING_ID";
     private MeetingApiService mService;
     private ActivityAddMeetingBinding mBinding;
@@ -51,7 +49,7 @@ public class AddMeetingActivity extends AppCompatActivity implements DatePickerD
     private void loadData(){
         mBinding.addMeetingDateEt.setText(getDate());
         mBinding.addMeetingDateEt.setOnClickListener(v -> {
-            DialogFragment datePicker = new DatePickerFragment(mMeeting.getDate());
+            DialogFragment datePicker = new DatePicker(mMeeting.getDate());
             datePicker.show(getSupportFragmentManager(), "date picker");
         });
     }
@@ -62,7 +60,7 @@ public class AddMeetingActivity extends AppCompatActivity implements DatePickerD
 
 
     @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+    public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);

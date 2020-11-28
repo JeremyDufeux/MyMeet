@@ -15,7 +15,9 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/Theme.MyMeet"
         tools:targetApi="n">
-        <activity android:name=".ui.add.AddMeetingActivity"/>
+        <activity
+            android:name=".ui.add.AddMeetingActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.list.ListMeetingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -9,8 +9,14 @@
     <string name="room_color">Room color</string>
     <string name="_29_11_1990">29/11/1990</string>
     <string name="_10h55">10h55</string>
-    <string name="affected_room_number_2">Affected room number: 2</string>
     <string name="participant_email">jeremy.dufeux@gmail.com</string>
     <string name="remove_participant">Remove participant</string>
     <string name="add_participant">Add participant</string>
+    <string name="your_meeting_will_take_place_in">Your meeting will take place in</string>
+    <string name="participant_e_mail">Participant e-mail</string>
+    <string name="room_2">room 2</string>
+    <string name="duration">Duration</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="_01_00">01:00</string>
 </resources>
