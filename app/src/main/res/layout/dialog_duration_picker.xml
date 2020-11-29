@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:id="@+id/dialog_duration_time_picker"
+    android:orientation="horizontal">
+
+    <NumberPicker
+        android:id="@+id/dialog_duration_hour_np"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/two_dot"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+
+    <NumberPicker
+        android:id="@+id/dialog_duration_minute_np"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+</LinearLayout>

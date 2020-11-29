@@ -19,4 +19,6 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="_01_00">01:00</string>
+    <string name="two_dot">:</string>
+    <string name="select_meeting_duration">Select meeting duration</string>
 </resources>

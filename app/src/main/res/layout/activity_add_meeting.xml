@@ -31,7 +31,8 @@
         android:text="@string/date"
         app:layout_constraintEnd_toEndOf="@+id/add_meeting_date_et"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_date_et"
-        app:layout_constraintTop_toBottomOf="@+id/add_meeting_subject_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_subject_tv"
+        tools:viewBindingIgnore="true"/>
 
     <EditText
         android:id="@+id/add_meeting_date_et"
@@ -58,7 +59,8 @@
         android:text="@string/time"
         app:layout_constraintEnd_toEndOf="@+id/add_meeting_time_et"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_time_et"
-        app:layout_constraintTop_toBottomOf="@+id/add_meeting_date_et" />
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_date_et"
+        tools:viewBindingIgnore="true"/>
 
     <EditText
         android:id="@+id/add_meeting_time_et"
@@ -84,7 +86,8 @@
         android:text="@string/duration"
         app:layout_constraintEnd_toEndOf="@+id/add_meeting_duration_et"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_duration_et"
-        app:layout_constraintTop_toBottomOf="@+id/add_meeting_date_et" />
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_date_et"
+        tools:viewBindingIgnore="true"/>
 
     <EditText
         android:id="@+id/add_meeting_duration_et"
