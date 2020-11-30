@@ -14,6 +14,7 @@ import com.jeremydufeux.mymeet.databinding.MeetingItemBinding;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
 import com.jeremydufeux.mymeet.event.OpenMeetingEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
+import com.jeremydufeux.mymeet.model.Participant;
 import com.jeremydufeux.mymeet.utils.Tools;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,13 +54,13 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
         holder.mBinding.meetingItemRemoveIv.setOnClickListener(view -> EventBus.getDefault().post(new DeleteMeetingEvent(meeting)));
     }
 
-    private String getParticipantString(List<String> participants) {
+    private String getParticipantString(List<Participant> participants) {
         StringBuilder string = new StringBuilder();
         String prefix = "";
-        for (String participant : participants) {
+        for (Participant participant : participants) {
             string.append(prefix);
             prefix = ", ";
-            string.append(participant);
+            string.append(participant.getEmail());
         }
 
         return string.toString();

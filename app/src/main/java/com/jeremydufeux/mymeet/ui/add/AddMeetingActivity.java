@@ -15,6 +15,7 @@ import com.jeremydufeux.mymeet.di.DI;
 import com.jeremydufeux.mymeet.dialog.DurationPickerDialog;
 import com.jeremydufeux.mymeet.event.DeleteParticipantEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
+import com.jeremydufeux.mymeet.model.Participant;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
 import com.jeremydufeux.mymeet.utils.Tools;
 
@@ -40,7 +41,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     private Meeting mMeeting;
     private Calendar mCalendar;
     private Calendar mDuration;
-    private List<String> mParticipantList;
+    private List<Participant> mParticipantList;
 
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
@@ -114,8 +115,9 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         mBinding.addMeetingAddParticipantBtn.setOnClickListener(v -> {
             EditText participantEt = mBinding.addMeetingParticipantEt;
-            String participant = participantEt.getText().toString();
-            if(!participant.equals("")){
+            String email = participantEt.getText().toString();
+            if(!email.equals("")){
+                Participant participant = new Participant(email);
                 mParticipantList.add(participant);
                 mAdapter.notifyItemInserted(mParticipantList.indexOf(participant));
             }

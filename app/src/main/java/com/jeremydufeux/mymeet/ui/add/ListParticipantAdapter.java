@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ParticipantItemBinding;
 import com.jeremydufeux.mymeet.event.DeleteParticipantEvent;
+import com.jeremydufeux.mymeet.model.Participant;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 public class ListParticipantAdapter extends RecyclerView.Adapter<ListParticipantAdapter.ParticipantHolder> {
-    private List<String> mParticipantsList;
+    private List<Participant> mParticipantsList;
 
-    public ListParticipantAdapter(List<String> participantsList) {
+    public ListParticipantAdapter(List<Participant> participantsList) {
         mParticipantsList = participantsList;
     }
 
@@ -31,9 +32,9 @@ public class ListParticipantAdapter extends RecyclerView.Adapter<ListParticipant
 
     @Override
     public void onBindViewHolder(@NonNull ParticipantHolder holder, int position) {
-        String participant = mParticipantsList.get(position);
+        Participant participant = mParticipantsList.get(position);
 
-        holder.mBinding.participantItemEmailEt.setText(participant);
+        holder.mBinding.participantItemEmailEt.setText(participant.getEmail());
 
         holder.mBinding.participantItemRemoveBtn.setOnClickListener(v -> EventBus.getDefault().post(new DeleteParticipantEvent(participant)));
     }

@@ -9,11 +9,11 @@ public class Meeting {
     private String mSubject;
     private Calendar mDate;
     private Calendar mDuration;
-    private List<String> mParticipants;
+    private List<Participant> mParticipants;
     private Room mRoom;
 
 
-    public Meeting(String subject, Calendar date, Calendar duration, List<String> participants, Room room) {
+    public Meeting(String subject, Calendar date, Calendar duration, List<Participant> participants, Room room) {
         mId = UUID.randomUUID().toString();
         mSubject = subject;
         mDate = date;
@@ -50,11 +50,11 @@ public class Meeting {
         mDuration = duration;
     }
 
-    public List<String> getParticipants() {
+    public List<Participant> getParticipants() {
         return mParticipants;
     }
 
-    public void setParticipants(List<String> participants) {
+    public void setParticipants(List<Participant> participants) {
         mParticipants = participants;
     }
 
