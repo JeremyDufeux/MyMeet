@@ -6,16 +6,23 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ActivityAddMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
 import com.jeremydufeux.mymeet.dialog.DurationPickerDialog;
+import com.jeremydufeux.mymeet.event.DeleteParticipantEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
 import com.jeremydufeux.mymeet.utils.Tools;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static com.jeremydufeux.mymeet.utils.Tools.getCalendarFromTime;
 import static com.jeremydufeux.mymeet.utils.Tools.getDateFromCal;
@@ -25,10 +32,14 @@ public class AddMeetingActivity extends AppCompatActivity {
     public static final String BUNDLE_EXTRA_MEETING_ID = "BUNDLE_EXTRA_MEETING_ID";
     private MeetingApiService mService;
     private ActivityAddMeetingBinding mBinding;
-    private Meeting mMeeting;
+    private ListParticipantAdapter mAdapter;
+
     private boolean mEditMode; // false = Add Mode / true = Edit Mode
+
+    private Meeting mMeeting;
     private Calendar mCalendar;
     private Calendar mDuration;
+    private List<String> mParticipantList;
 
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
@@ -45,6 +56,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         mCalendar = Calendar.getInstance();
         mDuration = getCalendarFromTime(1,0);
+        mParticipantList = new ArrayList<>();
 
         setupDialogs();
         setupUi();
@@ -58,6 +70,7 @@ public class AddMeetingActivity extends AppCompatActivity {
                     mMeeting = meeting;
                     mCalendar = mMeeting.getDate();
                     mDuration = mMeeting.getDuration();
+                    mParticipantList = mMeeting.getParticipants();
                     break;
                 }
             }
@@ -108,6 +121,10 @@ public class AddMeetingActivity extends AppCompatActivity {
             durationPickerDialog.setMinute(mDuration.get(Calendar.MINUTE));
             durationPickerDialog.show(getSupportFragmentManager(), null);
         });
+
+        mAdapter = new ListParticipantAdapter(mParticipantList);
+        mBinding.addMeetingListParticipantsRv.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.addMeetingListParticipantsRv.setAdapter(mAdapter);
     }
 
     private void loadData(){
@@ -117,4 +134,22 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mMeeting.getDuration()));
     }
 
+    @Subscribe
+    public void onDeleteParticipantEvent(DeleteParticipantEvent event){
+        int index = mParticipantList.indexOf(event.participant);
+        mParticipantList.remove(event.participant);
+        mAdapter.notifyItemRemoved(index);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

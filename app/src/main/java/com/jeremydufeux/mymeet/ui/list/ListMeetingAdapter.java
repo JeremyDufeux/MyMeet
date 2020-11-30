@@ -72,7 +72,7 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
     }
 
     public class MeetingHolder extends RecyclerView.ViewHolder{
-        public MeetingItemBinding mBinding;
+        MeetingItemBinding mBinding;
 
         public MeetingHolder(View itemView) {
             super(itemView);
