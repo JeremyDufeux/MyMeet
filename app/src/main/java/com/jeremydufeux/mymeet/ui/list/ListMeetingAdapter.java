@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.MeetingHolder> {
-    private List<Meeting> mMeetingList;
+    private final List<Meeting> mMeetingList;
 
     public ListMeetingAdapter(List<Meeting> meetingList) {
         mMeetingList = meetingList;

@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 public class ListParticipantAdapter extends RecyclerView.Adapter<ListParticipantAdapter.ParticipantHolder> {
-    private List<Participant> mParticipantsList;
+    private final List<Participant> mParticipantsList;
 
     public ListParticipantAdapter(List<Participant> participantsList) {
         mParticipantsList = participantsList;

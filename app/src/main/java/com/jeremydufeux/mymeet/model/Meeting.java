@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Meeting {
-    private String mId;
+    private final String mId;
     private String mSubject;
     private Calendar mDate;
     private Calendar mDuration;

@@ -9,10 +9,8 @@ import java.util.List;
 
 public class DummyRoomGenerator {
 
-    private static List<Room> DUMMY_ROOMS;
-
-    private static void createRooms(){
-        DUMMY_ROOMS = new ArrayList<>();
+    public static List<Room> generateRooms() {
+        List<Room> dummyRooms = new ArrayList<>();
         int roomAmount = 10;
 
         float[] hsv = new float[3];
@@ -27,14 +25,10 @@ public class DummyRoomGenerator {
             String hexColor = String.format("%02x%02x%02x", Color.red(color), Color.green(color), Color.blue(color));
             String url = "https://dummyimage.com/500/"+hexColor+"/000000.png&text=+";
 
-            DUMMY_ROOMS.add(new Room(
+            dummyRooms.add(new Room(
                     i+1,
                     url));
         }
-    }
-
-    public static List<Room> generateRooms() {
-        createRooms();
-        return DUMMY_ROOMS;
+        return dummyRooms;
     }
 }

@@ -3,7 +3,7 @@ package com.jeremydufeux.mymeet.model;
 import java.util.UUID;
 
 public class Room {
-    private String mId;
+    private final String mId;
     private int mNumber;
     private String mImageUrl;
 
