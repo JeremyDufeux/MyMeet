@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -51,9 +52,6 @@ public class DurationPickerDialog extends DialogFragment {
         }
         numberPicker2.setValue(minuteSelection);
 
-        View header = inflater.inflate(R.layout.dialog_duration_picker_header, null);
-        builder.setCustomTitle(header);
-
         builder.setPositiveButton("OK", (dialog, which) -> {
             hour = numberPicker1.getValue();
             minute = numberPicker2.getValue()*10;
@@ -66,12 +64,19 @@ public class DurationPickerDialog extends DialogFragment {
         builder.setNegativeButton("Cancel", (dialog, which) -> {
         });
 
+        View header = inflater.inflate(R.layout.dialog_custom_header, null);
+        TextView titleTv = header.findViewById(R.id.dialog_custom_header_title);
+        titleTv.setText(title);
+        builder.setCustomTitle(header);
+
         builder.setView(mView);
         return builder.create();
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    @Override
+    public void onStart() {
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.dialog_shape);
+        super.onStart();
     }
 
     public void setHour(int hour) {
@@ -80,6 +85,14 @@ public class DurationPickerDialog extends DialogFragment {
 
     public void setMinute(int minute) {
         this.minute = minute;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setDurationSetListener(DurationPickerDialogListener valueChangeListener) {

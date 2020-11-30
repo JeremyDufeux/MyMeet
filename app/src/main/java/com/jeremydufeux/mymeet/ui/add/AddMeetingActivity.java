@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ActivityAddMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
 import com.jeremydufeux.mymeet.dialog.DurationPickerDialog;
@@ -25,15 +26,13 @@ public class AddMeetingActivity extends AppCompatActivity {
     private MeetingApiService mService;
     private ActivityAddMeetingBinding mBinding;
     private Meeting mMeeting;
-    private boolean mEditMode;
+    private boolean mEditMode; // false = Add Mode / true = Edit Mode
     private Calendar mCalendar;
     private Calendar mDuration;
 
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private DurationPickerDialog durationPickerDialog;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +80,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
 
         durationPickerDialog = new DurationPickerDialog();
+        durationPickerDialog.setTitle(getString(R.string.select_meeting_duration));
         durationPickerDialog.setDurationSetListener((hour, minute) -> {
             mDuration.set(Calendar.HOUR_OF_DAY, hour);
             mDuration.set(Calendar.MINUTE, minute);

@@ -21,4 +21,5 @@
     <string name="_01_00">01:00</string>
     <string name="two_dot">:</string>
     <string name="select_meeting_duration">Select meeting duration</string>
+    <string name="title">Title</string>
 </resources>
