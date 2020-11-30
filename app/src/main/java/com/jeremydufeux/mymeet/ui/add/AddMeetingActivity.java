@@ -61,7 +61,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         mParticipantList = new ArrayList<>();
 
         setupDialogs();
-        setupHints();
+        setupUi();
         setupListeners();
         checkForEditIntent();
         setupRecyclerView();
@@ -90,7 +90,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         });
     }
 
-    private void setupHints() {
+    private void setupUi() {
         mBinding.addMeetingDateEt.setHint(getDateFromCal(mCalendar));
         mBinding.addMeetingTimeEt.setHint(getTimeFromCal(mCalendar));
         mBinding.addMeetingDurationEt.setHint(getTimeFromCal(mDuration));

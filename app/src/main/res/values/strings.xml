@@ -22,4 +22,6 @@
     <string name="two_dot">:</string>
     <string name="select_meeting_duration">Select meeting duration</string>
     <string name="title">Title</string>
+    <string name="add_a_participant">Add a participant :</string>
+    <string name="participants_list">Participants list :</string>
 </resources>
