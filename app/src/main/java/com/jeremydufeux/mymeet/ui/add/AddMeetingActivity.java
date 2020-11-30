@@ -2,9 +2,13 @@ package com.jeremydufeux.mymeet.ui.add;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -117,15 +121,29 @@ public class AddMeetingActivity extends AppCompatActivity {
             durationPickerDialog.show(getSupportFragmentManager(), null);
         });
 
-        mBinding.addMeetingAddParticipantBtn.setOnClickListener(v -> {
-            EditText participantEt = mBinding.addMeetingParticipantEt;
-            String email = participantEt.getText().toString();
-            if(!email.equals("")){
-                Participant participant = new Participant(email);
-                mParticipantList.add(participant);
-                mAdapter.notifyItemInserted(mParticipantList.indexOf(participant));
+        mBinding.addMeetingAddParticipantBtn.setOnClickListener(v -> addParticipant());
+
+        mBinding.addMeetingParticipantEt.setOnEditorActionListener((v, actionId, event) -> {
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                addParticipant();
             }
+            return false;
         });
+    }
+
+    private void addParticipant(){
+        EditText participantEt = mBinding.addMeetingParticipantEt;
+        String email = participantEt.getText().toString();
+        if(!email.equals("")){
+            Participant participant = new Participant(email);
+            mParticipantList.add(participant);
+            mAdapter.notifyItemInserted(mParticipantList.indexOf(participant));
+            participantEt.setText("");
+            closeKeyboard();
+            mBinding.addMeetingListParticipantsRv.smoothScrollToPosition(mParticipantList.size());
+        } else {
+            Toast.makeText(this, getString(R.string.toast_email_field), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void checkForEditIntent() {
@@ -164,6 +182,17 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingListParticipantsRv.setLayoutManager(new LinearLayoutManager(this));
         mBinding.addMeetingListParticipantsRv.setAdapter(mAdapter);
     }
+
+    private void closeKeyboard() {
+        View view = getCurrentFocus();
+        if(view != null)
+        {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
+    }
+
 
     @Subscribe
     public void onDeleteParticipantEvent(DeleteParticipantEvent event){
