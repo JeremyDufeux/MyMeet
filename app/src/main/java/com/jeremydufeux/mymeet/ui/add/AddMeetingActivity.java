@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,23 +60,10 @@ public class AddMeetingActivity extends AppCompatActivity {
         mParticipantList = new ArrayList<>();
 
         setupDialogs();
-        setupUi();
-
-        if(getIntent().getExtras() != null && getIntent().getExtras().containsKey(BUNDLE_EXTRA_MEETING_ID)) {
-            String id = getIntent().getExtras().getString(BUNDLE_EXTRA_MEETING_ID);
-
-            for (Meeting meeting : mService.getMeetings()) {
-                if (meeting.getId().equals(id)) {
-                    mEditMode = true;
-                    mMeeting = meeting;
-                    mCalendar = mMeeting.getDate();
-                    mDuration = mMeeting.getDuration();
-                    mParticipantList = mMeeting.getParticipants();
-                    break;
-                }
-            }
-            loadData();
-        }
+        setupHints();
+        setupListeners();
+        checkForEditIntent();
+        setupRecyclerView();
     }
 
     private void setupDialogs() {
@@ -101,11 +89,13 @@ public class AddMeetingActivity extends AppCompatActivity {
         });
     }
 
-    private void setupUi() {
+    private void setupHints() {
         mBinding.addMeetingDateEt.setHint(getDateFromCal(mCalendar));
         mBinding.addMeetingTimeEt.setHint(getTimeFromCal(mCalendar));
         mBinding.addMeetingDurationEt.setHint(getTimeFromCal(mDuration));
+    }
 
+    private void setupListeners(){
         mBinding.addMeetingDateEt.setOnClickListener(view -> {
             datePickerDialog.updateDate(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.show();
@@ -122,16 +112,46 @@ public class AddMeetingActivity extends AppCompatActivity {
             durationPickerDialog.show(getSupportFragmentManager(), null);
         });
 
-        mAdapter = new ListParticipantAdapter(mParticipantList);
-        mBinding.addMeetingListParticipantsRv.setLayoutManager(new LinearLayoutManager(this));
-        mBinding.addMeetingListParticipantsRv.setAdapter(mAdapter);
+        mBinding.addMeetingAddParticipantBtn.setOnClickListener(v -> {
+            EditText participantEt = mBinding.addMeetingParticipantEt;
+            String participant = participantEt.getText().toString();
+            if(!participant.equals("")){
+                mParticipantList.add(participant);
+                mAdapter.notifyItemInserted(mParticipantList.indexOf(participant));
+            }
+        });
+    }
+
+    private void checkForEditIntent() {
+        if(getIntent().getExtras() != null && getIntent().getExtras().containsKey(BUNDLE_EXTRA_MEETING_ID)) {
+            String id = getIntent().getExtras().getString(BUNDLE_EXTRA_MEETING_ID);
+
+            for (Meeting meeting : mService.getMeetings()) {
+                if (meeting.getId().equals(id)) {
+                    mEditMode = true;
+                    mMeeting = meeting;
+                    break;
+                }
+            }
+            loadData();
+        }
     }
 
     private void loadData(){
+        mCalendar = mMeeting.getDate();
+        mDuration = mMeeting.getDuration();
+        mParticipantList = mMeeting.getParticipants();
+
         mBinding.addMeetingSubjectTv.setText(mMeeting.getSubject());
         mBinding.addMeetingDateEt.setText(getDateFromCal(mMeeting.getDate()));
         mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mMeeting.getDate()));
         mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mMeeting.getDuration()));
+    }
+
+    private void setupRecyclerView() {
+        mAdapter = new ListParticipantAdapter(mParticipantList);
+        mBinding.addMeetingListParticipantsRv.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.addMeetingListParticipantsRv.setAdapter(mAdapter);
     }
 
     @Subscribe
