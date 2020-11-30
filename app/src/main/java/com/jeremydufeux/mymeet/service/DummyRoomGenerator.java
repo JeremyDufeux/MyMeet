@@ -1,14 +1,11 @@
 package com.jeremydufeux.mymeet.service;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import com.jeremydufeux.mymeet.model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class DummyRoomGenerator {
 
@@ -31,7 +28,6 @@ public class DummyRoomGenerator {
             String url = "https://dummyimage.com/500/"+hexColor+"/000000.png&text=+";
 
             DUMMY_ROOMS.add(new Room(
-                    System.currentTimeMillis(),
                     i+1,
                     url));
         }

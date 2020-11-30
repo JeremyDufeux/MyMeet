@@ -1,22 +1,20 @@
 package com.jeremydufeux.mymeet.model;
 
+import java.util.UUID;
+
 public class Room {
-    private long mId;
+    private String mId;
     private int mNumber;
     private String mImageUrl;
 
-    public Room(long id, int number, String imageUrl) {
-        mId = id;
+    public Room(int number, String imageUrl) {
+        mId = UUID.randomUUID().toString();
         mNumber = number;
         mImageUrl = imageUrl;
     }
 
-    public long getId() {
+    public String getId() {
         return mId;
-    }
-
-    public void setId(long id) {
-        mId = id;
     }
 
     public int getNumber() {
