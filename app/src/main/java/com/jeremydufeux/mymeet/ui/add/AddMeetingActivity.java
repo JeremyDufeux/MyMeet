@@ -18,6 +18,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.chip.ChipGroup;
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ActivityAddMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
@@ -28,6 +29,7 @@ import com.jeremydufeux.mymeet.model.Participant;
 import com.jeremydufeux.mymeet.model.Room;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
 import com.jeremydufeux.mymeet.utils.Tools;
+import com.jeremydufeux.mymeet.widget.GlideChip;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,6 +53,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private boolean mEditMode; // false = Add Mode / true = Edit Mode
 
+    private List<Room> mRoomsList;
     private Meeting mMeeting;
     private Calendar mCalendar;
     private Calendar mDuration;
@@ -72,6 +75,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         mService = DI.getMeetingApiService();
 
+        mRoomsList = mService.getRooms();
         mCalendar = Calendar.getInstance();
         mDuration = getCalendarFromTime(1,0);
         mParticipantList = new ArrayList<>();
@@ -125,8 +129,16 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingTimeEt.setHint(getTimeFromCal(mCalendar));
         mBinding.addMeetingDurationEt.setHint(getTimeFromCal(mDuration));
 
-        mBinding.addMeetingRoomNumberTv.setVisibility(View.INVISIBLE);
-        mBinding.addMeetingRoomTv.setVisibility(View.INVISIBLE);
+        ChipGroup chipGroup = mBinding.addMeetingRoomsCpg;
+        for (Room room : mRoomsList){
+            GlideChip chip = new GlideChip(this);
+            String roomTitle = String.format(Locale.getDefault(), "%s %d", getString(R.string.room), room.getNumber());
+            chip.setText(roomTitle);
+            chip.setIconUrl(room.getImageUrl());
+            chip.setCheckable(true);
+            chip.setCheckedIcon(null);
+            chipGroup.addView(chip);
+        }
     }
 
     private void setupListeners(){
@@ -196,11 +208,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingDateEt.setText(getDateFromCal(mMeeting.getDate()));
         mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mMeeting.getDate()));
         mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mMeeting.getDuration()));
-
-        String roomString = String.format(Locale.getDefault(),"%s %d", getString(R.string.room),mMeeting.getRoom().getNumber());
-        mBinding.addMeetingRoomNumberTv.setText(roomString);
-        mBinding.addMeetingRoomNumberTv.setVisibility(View.VISIBLE);
-        mBinding.addMeetingRoomTv.setVisibility(View.VISIBLE);
     }
 
     private void save() {

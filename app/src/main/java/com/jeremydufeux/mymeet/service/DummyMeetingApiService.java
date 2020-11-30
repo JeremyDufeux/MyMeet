@@ -16,6 +16,11 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    @Override
     public void addMeeting(Meeting meeting) {
         meetings.add(meeting);
     }

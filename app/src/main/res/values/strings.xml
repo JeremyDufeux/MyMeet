@@ -28,4 +28,5 @@
     <string name="save">Save</string>
     <string name="edit_meeting_title">Edit meeting</string>
     <string name="add_meeting_title">Add meeting</string>
+    <string name="select_a_meeting_room">Select a meeting room :</string>
 </resources>

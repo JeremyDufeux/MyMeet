@@ -15,6 +15,12 @@ public interface MeetingApiService {
     List<Meeting> getMeetings();
 
     /**
+     * Get all room
+     * @return list of rooms
+     */
+    List<Room> getRooms();
+
+    /**
      * Add meeting
      * @param meeting to add
      */
