@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -20,9 +21,13 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
+import static com.jeremydufeux.mymeet.ui.add.AddMeetingActivity.BUNDLE_EXTRA_MEETING_ADDED_AT;
+import static com.jeremydufeux.mymeet.ui.add.AddMeetingActivity.BUNDLE_EXTRA_MEETING_EDITED_AT;
 import static com.jeremydufeux.mymeet.ui.add.AddMeetingActivity.BUNDLE_EXTRA_MEETING_ID;
 
 public class ListMeetingActivity extends AppCompatActivity {
+    public static final int ADD_MEETING_ADD_REQUEST_CODE = 1;
+    public static final int ADD_MEETING_EDIT_REQUEST_CODE = 2;
     private MeetingApiService mApiService;
     private ActivityListMeetingBinding mBinding;
     private ListMeetingAdapter mAdapter;
@@ -54,7 +59,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     private void setupFab() {
         mBinding.listMeetingsFab.setOnClickListener(view -> {
             Intent addMeetingActivityIntent = new Intent(ListMeetingActivity.this, AddMeetingActivity.class);
-            startActivity(addMeetingActivityIntent);
+            startActivityForResult(addMeetingActivityIntent, ADD_MEETING_ADD_REQUEST_CODE);
         });
     }
 
@@ -69,7 +74,29 @@ public class ListMeetingActivity extends AppCompatActivity {
     public void onOpenMeetingEvent(OpenMeetingEvent event){
         Intent editMeetingActivityIntent = new Intent(ListMeetingActivity.this, AddMeetingActivity.class);
         editMeetingActivityIntent.putExtra(BUNDLE_EXTRA_MEETING_ID, event.meeting.getId());
-        startActivity(editMeetingActivityIntent);
+        startActivityForResult(editMeetingActivityIntent, ADD_MEETING_EDIT_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        int position;
+        if (resultCode == RESULT_OK) {
+            switch (requestCode){
+                case ADD_MEETING_ADD_REQUEST_CODE:
+                    assert data != null;
+                    position = data.getIntExtra(BUNDLE_EXTRA_MEETING_ADDED_AT, 0);
+                    mAdapter.notifyItemInserted(position);
+                    mBinding.listMeetingsRv.smoothScrollToPosition(position);
+                    break;
+                case ADD_MEETING_EDIT_REQUEST_CODE:
+                    assert data != null;
+                    position = data.getIntExtra(BUNDLE_EXTRA_MEETING_EDITED_AT, 0);
+                    mAdapter.notifyItemChanged(position);
+                    mBinding.listMeetingsRv.smoothScrollToPosition(position);
+                    break;
+            }
+        }
     }
 
     @Override

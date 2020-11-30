@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,8 @@ import static com.jeremydufeux.mymeet.utils.Tools.getTimeFromCal;
 
 public class AddMeetingActivity extends AppCompatActivity {
     public static final String BUNDLE_EXTRA_MEETING_ID = "BUNDLE_EXTRA_MEETING_ID";
+    public static final String BUNDLE_EXTRA_MEETING_ADDED_AT = "BUNDLE_EXTRA_MEETING_ADDED_AT";
+    public static final String BUNDLE_EXTRA_MEETING_EDITED_AT = "BUNDLE_EXTRA_MEETING_EDITED_AT";
     private MeetingApiService mService;
     private ActivityAddMeetingBinding mBinding;
     private ListParticipantAdapter mAdapter;
@@ -57,6 +60,8 @@ public class AddMeetingActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private DurationPickerDialog durationPickerDialog;
+
+    private Intent resultIntent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +102,7 @@ public class AddMeetingActivity extends AppCompatActivity {
             mCalendar.set(Calendar.YEAR, year);
             mCalendar.set(Calendar.MONTH, month);
             mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            mBinding.addMeetingDateEt.setText(getTimeFromCal(mCalendar));
+            mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar));
         }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
 
         timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, (timePicker, hour, minute) -> {
@@ -207,8 +212,12 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         if (mEditMode){
             mService.updateMeeting(mMeeting);
+            resultIntent.putExtra(BUNDLE_EXTRA_MEETING_EDITED_AT, mService.getMeetings().indexOf(mMeeting));
+            setResult(RESULT_OK, resultIntent);
         } else {
             mService.addMeeting(mMeeting);
+            resultIntent.putExtra(BUNDLE_EXTRA_MEETING_ADDED_AT, mService.getMeetings().indexOf(mMeeting));
+            setResult(RESULT_OK, resultIntent);
         }
     }
 
