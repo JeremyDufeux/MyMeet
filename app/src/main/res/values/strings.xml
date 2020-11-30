@@ -26,4 +26,6 @@
     <string name="participants_list">Participants list :</string>
     <string name="toast_email_field">Please enter an email in the field</string>
     <string name="save">Save</string>
+    <string name="edit_meeting_title">Edit meeting</string>
+    <string name="add_meeting_title">Add meeting</string>
 </resources>

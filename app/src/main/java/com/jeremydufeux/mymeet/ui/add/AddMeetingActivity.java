@@ -91,9 +91,9 @@ public class AddMeetingActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         if(mEditMode) {
-            actionBar.setTitle("Edit meeting");
+            actionBar.setTitle(getString(R.string.edit_meeting_title));
         } else {
-            actionBar.setTitle("Add meeting");
+            actionBar.setTitle(getString(R.string.add_meeting_title));
         }
     }
 
@@ -197,7 +197,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mMeeting.getDate()));
         mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mMeeting.getDuration()));
 
-        String roomString = String.format(Locale.getDefault(),"Room %d", mMeeting.getRoom().getNumber());
+        String roomString = String.format(Locale.getDefault(),"%s %d", getString(R.string.room),mMeeting.getRoom().getNumber());
         mBinding.addMeetingRoomNumberTv.setText(roomString);
         mBinding.addMeetingRoomNumberTv.setVisibility(View.VISIBLE);
         mBinding.addMeetingRoomTv.setVisibility(View.VISIBLE);
