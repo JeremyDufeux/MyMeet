@@ -3,7 +3,7 @@ package com.jeremydufeux.mymeet.service;
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.model.Room;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService{
@@ -26,12 +26,12 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
-    public void updateMeeting(int index, Meeting meeting) {
-        meetings.set(index, meeting);
+    public void updateMeeting(Meeting meeting) {
+        meetings.set(meetings.indexOf(meeting), meeting);
     }
 
     @Override
-    public Room findRoom(Date date, Date duration) {
+    public Room findRoom(Calendar date, Calendar duration) {
         return rooms.get(0);
     }
 }

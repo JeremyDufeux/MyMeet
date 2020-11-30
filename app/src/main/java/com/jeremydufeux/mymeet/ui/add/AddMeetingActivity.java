@@ -1,15 +1,19 @@
 package com.jeremydufeux.mymeet.ui.add;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -20,6 +24,7 @@ import com.jeremydufeux.mymeet.dialog.DurationPickerDialog;
 import com.jeremydufeux.mymeet.event.DeleteParticipantEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.model.Participant;
+import com.jeremydufeux.mymeet.model.Room;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
 import com.jeremydufeux.mymeet.utils.Tools;
 
@@ -46,6 +51,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     private Meeting mMeeting;
     private Calendar mCalendar;
     private Calendar mDuration;
+    private Room mRoom;
     private List<Participant> mParticipantList;
 
     private DatePickerDialog datePickerDialog;
@@ -64,12 +70,26 @@ public class AddMeetingActivity extends AppCompatActivity {
         mCalendar = Calendar.getInstance();
         mDuration = getCalendarFromTime(1,0);
         mParticipantList = new ArrayList<>();
+        mRoom = mService.findRoom(mCalendar, mDuration);
+        mMeeting = new Meeting("", mCalendar, mDuration, mParticipantList, mRoom);
 
         setupDialogs();
         setupUi();
         setupListeners();
         checkForEditIntent();
+        setupActionBar();
         setupRecyclerView();
+    }
+
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(mEditMode) {
+            actionBar.setTitle("Edit meeting");
+        } else {
+            actionBar.setTitle("Add meeting");
+        }
     }
 
     private void setupDialogs() {
@@ -135,6 +155,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         EditText participantEt = mBinding.addMeetingParticipantEt;
         String email = participantEt.getText().toString();
         if(!email.equals("")){
+            // TODO Check email
             Participant participant = new Participant(email);
             mParticipantList.add(participant);
             mAdapter.notifyItemInserted(mParticipantList.indexOf(participant));
@@ -177,6 +198,45 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingRoomTv.setVisibility(View.VISIBLE);
     }
 
+    private void save() {
+        mMeeting.setSubject(mBinding.addMeetingSubjectTv.getText().toString());
+        mMeeting.setDate(mCalendar);
+        mMeeting.setDuration(mDuration);
+        // TODO set room
+        mMeeting.setParticipants(mParticipantList);
+
+        if (mEditMode){
+            mService.updateMeeting(mMeeting);
+        } else {
+            mService.addMeeting(mMeeting);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_meeting_action_bar_menu, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home : {
+                // TODO discard changes dialog
+                finish();
+                return true;
+            }
+            case R.id.add_meeting_save : {
+                // TODO check fields
+                save();
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setupRecyclerView() {
         mAdapter = new ListParticipantAdapter(mParticipantList);
         mBinding.addMeetingListParticipantsRv.setLayoutManager(new LinearLayoutManager(this));
@@ -192,7 +252,6 @@ public class AddMeetingActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
     }
-
 
     @Subscribe
     public void onDeleteParticipantEvent(DeleteParticipantEvent event){

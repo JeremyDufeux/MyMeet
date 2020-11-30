@@ -3,7 +3,7 @@ package com.jeremydufeux.mymeet.service;
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.model.Room;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public interface MeetingApiService {
@@ -30,7 +30,7 @@ public interface MeetingApiService {
      * Update meeting
      * @param meeting to update
      */
-    void updateMeeting(int index, Meeting meeting);
+    void updateMeeting(Meeting meeting);
 
     /**
      * Find a free room depending on the date and time
@@ -38,6 +38,6 @@ public interface MeetingApiService {
      * @param duration of meeting
      * @return room id
      */
-    Room findRoom(Date date, Date duration);
+    Room findRoom(Calendar date, Calendar duration);
 
 }
