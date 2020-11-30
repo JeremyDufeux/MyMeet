@@ -46,7 +46,7 @@ public class DurationPickerDialog extends DialogFragment {
 
         int minuteSelection = 0;
         for (int i = 0; i < DISPLAYED_MINS.length; i++) {
-            if(DISPLAYED_MINS[i].equals(String.format(Locale.FRANCE,"%02d", minute))){
+            if(DISPLAYED_MINS[i].equals(String.format(Locale.getDefault(),"%02d", minute))){
                 minuteSelection = i;
             }
         }

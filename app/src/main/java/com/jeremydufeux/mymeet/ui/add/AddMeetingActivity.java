@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static com.jeremydufeux.mymeet.utils.Tools.getCalendarFromTime;
 import static com.jeremydufeux.mymeet.utils.Tools.getDateFromCal;
@@ -94,6 +95,9 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingDateEt.setHint(getDateFromCal(mCalendar));
         mBinding.addMeetingTimeEt.setHint(getTimeFromCal(mCalendar));
         mBinding.addMeetingDurationEt.setHint(getTimeFromCal(mDuration));
+
+        mBinding.addMeetingRoomNumberTv.setVisibility(View.INVISIBLE);
+        mBinding.addMeetingRoomTv.setVisibility(View.INVISIBLE);
     }
 
     private void setupListeners(){
@@ -148,6 +152,11 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingDateEt.setText(getDateFromCal(mMeeting.getDate()));
         mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mMeeting.getDate()));
         mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mMeeting.getDuration()));
+
+        String roomString = String.format(Locale.getDefault(),"Room %d", mMeeting.getRoom().getNumber());
+        mBinding.addMeetingRoomNumberTv.setText(roomString);
+        mBinding.addMeetingRoomNumberTv.setVisibility(View.VISIBLE);
+        mBinding.addMeetingRoomTv.setVisibility(View.VISIBLE);
     }
 
     private void setupRecyclerView() {

@@ -45,7 +45,7 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mBinding.meetingItemRoomIm);
 
-        holder.mBinding.meetingItemRoomNumberTv.setText(String.format(Locale.FRANCE, "%d", meeting.getRoom().getNumber()));
+        holder.mBinding.meetingItemRoomNumberTv.setText(String.format(Locale.getDefault(), "%d", meeting.getRoom().getNumber()));
         holder.mBinding.meetingItemSubjectTv.setText(meeting.getSubject());
         holder.mBinding.meetingItemTimeTv.setText(Tools.getTimeFromCal(meeting.getDate()));
         holder.mBinding.meetingItemParticipantTv.setText(getParticipantString(meeting.getParticipants()));
