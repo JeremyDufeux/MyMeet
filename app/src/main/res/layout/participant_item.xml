@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="5dp">
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginTop="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +21,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue"
+            app:tint="@color/colorPrimary"
             tools:viewBindingIgnore="true" />
 
         <TextView
@@ -46,7 +47,7 @@
             android:contentDescription="@string/remove_participant"
             android:padding="5dp"
             android:scaleType="fitXY"
-            android:tint="@color/grey"
+            android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

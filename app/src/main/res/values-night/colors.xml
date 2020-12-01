@@ -3,12 +3,12 @@
     <!-- Primary brand color. -->
     <color name="colorPrimary">@color/blue</color>
     <color name="colorPrimaryVariant">@color/blue_2</color>
-    <color name="colorOnPrimary">@color/white</color>
+    <color name="colorOnPrimary">@color/black</color>
     <!-- Secondary brand color. -->
-    <color name="colorSecondary">@color/blue</color>
-    <color name="colorSecondaryVariant">@color/teal_700</color>
-    <color name="colorOnSecondary">@color/black</color>
-    
+    <color name="colorSecondary">@color/teal_200</color>
+    <color name="colorSecondaryVariant">@color/blue_2</color>
+    <color name="colorOnSecondary">@color/white</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -22,5 +22,4 @@
     <color name="blue_2">#3F7ABD</color>
     <color name="light_grey">#E5E5E5</color>
     <color name="dark_grey">#1E1E1E</color>
-    <color name="green">#21E916</color>
 </resources>

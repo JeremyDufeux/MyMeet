@@ -18,6 +18,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ActivityAddMeetingBinding;
@@ -29,7 +30,6 @@ import com.jeremydufeux.mymeet.model.Participant;
 import com.jeremydufeux.mymeet.model.Room;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
 import com.jeremydufeux.mymeet.utils.Tools;
-import com.jeremydufeux.mymeet.widget.GlideChip;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -131,12 +131,10 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         ChipGroup chipGroup = mBinding.addMeetingRoomsCpg;
         for (Room room : mRoomsList){
-            GlideChip chip = new GlideChip(this);
+            Chip chip = new Chip(this);
             String roomTitle = String.format(Locale.getDefault(), "%s %d", getString(R.string.room), room.getNumber());
             chip.setText(roomTitle);
-            chip.setIconUrl(room.getImageUrl());
             chip.setCheckable(true);
-            chip.setCheckedIcon(null);
             chipGroup.addView(chip);
         }
     }

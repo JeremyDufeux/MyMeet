@@ -29,4 +29,6 @@
     <string name="edit_meeting_title">Edit meeting</string>
     <string name="add_meeting_title">Add meeting</string>
     <string name="select_a_meeting_room">Select a meeting room :</string>
+    <string name="this_room_is_available_for_this_slot">This room is available for this slot</string>
+    <string name="availability_status">Availability status</string>
 </resources>

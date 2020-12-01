@@ -26,12 +26,12 @@
         android:autofillHints=""
         android:gravity="center"
         android:hint="@string/subject"
+        android:text="@string/subject"
         android:imeOptions="actionDone"
         android:inputType="text"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_subject_label_tv" />
 
@@ -90,8 +90,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_time_label_tv" />
 
-
-
     <TextView
         android:id="@+id/add_meeting_duration_label_tv"
         android:layout_width="wrap_content"
@@ -145,8 +143,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:singleLine="true"
-            app:singleSelection="true" />
+            app:singleSelection="true"
+            />
     </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/add_meeting_add_room_availability_im"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginHorizontal="5dp"
+        android:src="@drawable/ic_check"
+        app:layout_constraintEnd_toStartOf="@+id/add_meeting_add_room_availability_tv"
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_rooms_scv"
+        android:contentDescription="@string/availability_status" />
+
+    <TextView
+        android:id="@+id/add_meeting_add_room_availability_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/this_room_is_available_for_this_slot"
+        app:layout_constraintBottom_toBottomOf="@+id/add_meeting_add_room_availability_im"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add_meeting_add_room_availability_im"
+        tools:viewBindingIgnore="true" />
+
 
     <TextView
         android:id="@+id/add_meeting_add_participant_label_tv"
@@ -156,7 +177,7 @@
         android:layout_marginTop="5dp"
         android:text="@string/add_a_participant"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_participant_et"
-        app:layout_constraintTop_toBottomOf="@+id/add_meeting_rooms_scv"
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_add_room_availability_tv"
         tools:viewBindingIgnore="true" />
 
     <EditText
@@ -180,7 +201,7 @@
         android:padding="5dp"
         android:layout_margin="5dp"
         android:src="@drawable/ic_add"
-        app:tint="@color/blue"
+        app:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/add_meeting_participant_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/add_meeting_participant_et"
