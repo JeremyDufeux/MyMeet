@@ -127,6 +127,8 @@ public class AddMeetingActivity extends AppCompatActivity {
         timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, (timePicker, hour, minute) -> {
             mCalendar.set(Calendar.HOUR_OF_DAY, hour);
             mCalendar.set(Calendar.MINUTE, minute);
+            mCalendar.set(Calendar.SECOND, 0);
+            mCalendar.set(Calendar.MILLISECOND, 0);
             mBinding.addMeetingTimeEt.setText(getTimeFromCal(mCalendar));
             mCheckFields[FIELD_TIME] = true;
             checkAvailability();

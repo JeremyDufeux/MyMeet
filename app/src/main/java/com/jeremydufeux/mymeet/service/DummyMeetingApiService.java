@@ -1,7 +1,5 @@
 package com.jeremydufeux.mymeet.service;
 
-import android.util.Log;
-
 import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.model.Room;
 
@@ -37,30 +35,37 @@ public class DummyMeetingApiService implements MeetingApiService{
         meetings.set(meetings.indexOf(meeting), meeting);
     }
 
-    @Override
-    public boolean checkRoomAvailability(Room room, Calendar start, Calendar duration) {
+    public boolean checkRoomAvailability(Room room, Calendar A_Start, Calendar duration) {
         boolean roomAvailable = true;
 
-        Calendar end = (Calendar) start.clone();
-        end.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
-        end.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
+        Calendar A_End = (Calendar) A_Start.clone();
+        A_End.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
+        A_End.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
 
         for(Meeting meeting : meetings){
             if(meeting.getRoom().getNumber() == room.getNumber()){
+                Calendar B_Start = meeting.getStartDate();
+                Calendar B_End = meeting.getEndDate();
 
-                Log.d("Debug", "checkRoomAvailability: room     " + room.getNumber());
-                Log.d("Debug", "checkRoomAvailability: A start    " + start.getTime());
-                Log.d("Debug", "checkRoomAvailability: B start    " + meeting.getStartDate().getTime());
-
-                Log.d("Debug", "checkRoomAvailability: A duration " + duration.getTime());
-                Log.d("Debug", "checkRoomAvailability: B duration " + meeting.getDuration().getTime());
-
-                Log.d("Debug", "checkRoomAvailability: A end      " + end.getTime());
-                Log.d("Debug", "checkRoomAvailability: B end      " + meeting.getEndDate().getTime());
-
-                // si ( b.start est après a.start et avant a.end ) ou si (b.end est après a.start et avant a.end)  => false
-                if((meeting.getStartDate().after(start) && meeting.getStartDate().before(end)) || (meeting.getEndDate().after(start) && meeting.getEndDate().before(end))){
+                if(A_Start.compareTo(B_Start) == 0){
+                    // The meeting have the same start time than another
                     roomAvailable = false;
+                }
+                else if (A_End.compareTo(B_End) == 0) {
+                    // The meeting have the same end time than another
+                    roomAvailable = false;
+                }
+                else if (B_Start.after(A_Start)) {
+                    if (B_Start.before(A_End) && !(B_Start.compareTo(A_End) == 0)) {
+                        // The meeting end during another
+                        roomAvailable = false;
+                    }
+                }
+                else if (B_End.after(A_Start)) {
+                    if (B_End.before(A_End)) {
+                        // The meeting start during another
+                        roomAvailable = false;
+                    }
                 }
             }
         }

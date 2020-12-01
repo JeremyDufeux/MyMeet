@@ -18,15 +18,15 @@ public class DummyMeetingGenerator {
         List<Meeting> dummyMeetings = new ArrayList<>();
         dummyMeetings.add(new Meeting(
                 "Duck jokes",
-                getCalendarFromDate(2020,12,1,12,55),
+                getCalendarFromDate(2020,12,1,12,0),
                 getCalendarFromTime(1,0),
                 new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
                 rooms.get(0)));
 
         dummyMeetings.add(new Meeting(
                 "Pasta cooking",
-                getCalendarFromDate(2020,12,28,13,55),
-                getCalendarFromTime(0,30),
+                getCalendarFromDate(2020,12,1,13,30),
+                getCalendarFromTime(1,30),
                 new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
                 rooms.get(2)));
 
