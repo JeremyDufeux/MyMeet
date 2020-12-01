@@ -7,19 +7,21 @@ import java.util.UUID;
 public class Meeting {
     private final String mId;
     private String mSubject;
-    private Calendar mDate;
+    private Calendar mStartDate;
+    private Calendar mEndDate;
     private Calendar mDuration;
     private List<Participant> mParticipants;
     private Room mRoom;
 
 
-    public Meeting(String subject, Calendar date, Calendar duration, List<Participant> participants, Room room) {
+    public Meeting(String subject, Calendar startDate, Calendar duration, List<Participant> participants, Room room) {
         mId = UUID.randomUUID().toString();
         mSubject = subject;
-        mDate = date;
+        mStartDate = startDate;
         mDuration = duration;
         mParticipants = participants;
         mRoom = room;
+        setDuration(duration);
     }
 
     public String getId() {
@@ -34,12 +36,20 @@ public class Meeting {
         mSubject = subject;
     }
 
-    public Calendar getDate() {
-        return mDate;
+    public Calendar getStartDate() {
+        return mStartDate;
     }
 
-    public void setDate(Calendar date) {
-        mDate = date;
+    public void setStartDate(Calendar startDate) {
+        mStartDate = startDate;
+    }
+
+    public Calendar getEndDate() {
+        return mEndDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        mEndDate = endDate;
     }
 
     public Calendar getDuration() {
@@ -47,7 +57,9 @@ public class Meeting {
     }
 
     public void setDuration(Calendar duration) {
-        mDuration = duration;
+        mEndDate = (Calendar) mStartDate.clone();
+        mEndDate.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
+        mEndDate.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
     }
 
     public List<Participant> getParticipants() {
@@ -65,4 +77,5 @@ public class Meeting {
     public void setRoom(Room room) {
         mRoom = room;
     }
+
 }

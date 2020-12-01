@@ -35,10 +35,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import static android.view.View.NO_ID;
 import static com.jeremydufeux.mymeet.utils.Tools.getCalendarFromTime;
 import static com.jeremydufeux.mymeet.utils.Tools.getDateFromCal;
 import static com.jeremydufeux.mymeet.utils.Tools.getTimeFromCal;
@@ -47,11 +49,20 @@ public class AddMeetingActivity extends AppCompatActivity {
     public static final String BUNDLE_EXTRA_MEETING_ID = "BUNDLE_EXTRA_MEETING_ID";
     public static final String BUNDLE_EXTRA_MEETING_ADDED_AT = "BUNDLE_EXTRA_MEETING_ADDED_AT";
     public static final String BUNDLE_EXTRA_MEETING_EDITED_AT = "BUNDLE_EXTRA_MEETING_EDITED_AT";
+
     private MeetingApiService mService;
     private ActivityAddMeetingBinding mBinding;
     private ListParticipantAdapter mAdapter;
 
     private boolean mEditMode; // false = Add Mode / true = Edit Mode
+
+    private boolean[] mCheckFields;
+    public static final int FIELD_SUBJECT       = 0;
+    public static final int FIELD_DATE          = 1;
+    public static final int FIELD_TIME          = 2;
+    public static final int FIELD_DURATION      = 3;
+    public static final int FIELD_ROOM          = 4;
+    public static final int FIELD_PARTICIPANTS  = 5;
 
     private List<Room> mRoomsList;
     private Meeting mMeeting;
@@ -75,11 +86,13 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         mService = DI.getMeetingApiService();
 
+        mCheckFields = new boolean[FIELD_PARTICIPANTS+1];
+        Arrays.fill(mCheckFields, false);
+
         mRoomsList = mService.getRooms();
         mCalendar = Calendar.getInstance();
         mDuration = getCalendarFromTime(1,0);
         mParticipantList = new ArrayList<>();
-        mRoom = mService.findRoom(mCalendar, mDuration);
         mMeeting = new Meeting("", mCalendar, mDuration, mParticipantList, mRoom);
 
         setupDialogs();
@@ -107,12 +120,16 @@ public class AddMeetingActivity extends AppCompatActivity {
             mCalendar.set(Calendar.MONTH, month);
             mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar));
+            mCheckFields[FIELD_DATE] = true;
+            checkAvailability();
         }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
 
         timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, (timePicker, hour, minute) -> {
             mCalendar.set(Calendar.HOUR_OF_DAY, hour);
             mCalendar.set(Calendar.MINUTE, minute);
             mBinding.addMeetingTimeEt.setText(getTimeFromCal(mCalendar));
+            mCheckFields[FIELD_TIME] = true;
+            checkAvailability();
         }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
 
         durationPickerDialog = new DurationPickerDialog();
@@ -120,6 +137,8 @@ public class AddMeetingActivity extends AppCompatActivity {
         durationPickerDialog.setDurationSetListener((hour, minute) -> {
             mDuration.set(Calendar.HOUR_OF_DAY, hour);
             mDuration.set(Calendar.MINUTE, minute);
+            mCheckFields[FIELD_DURATION] = true;
+            checkAvailability();
             mBinding.addMeetingDurationEt.setText(getTimeFromCal(mDuration));
         });
     }
@@ -133,17 +152,22 @@ public class AddMeetingActivity extends AppCompatActivity {
             Chip chip = new Chip(this);
             String roomTitle = String.format(Locale.getDefault(), "%s %d", getString(R.string.room), room.getNumber());
             chip.setText(roomTitle);
-            chip.setId(room.getNumber());
+            chip.setId(mRoomsList.indexOf(room));
             chip.setCheckable(true);
-            chip.setChipBackgroundColor(createStateColors());
+            chip.setChipBackgroundColor(createChipStateColors());
             mBinding.addMeetingRoomsCpg.addView(chip);
         }
-
-        mBinding.addMeetingAddRoomAvailabilityIm.setVisibility(View.GONE);
-        mBinding.addMeetingAddRoomAvailabilityTv.setVisibility(View.GONE);
+        hideAvailabilityMessage();
     }
 
     private void setupListeners(){
+        mBinding.addMeetingSubjectTv.setOnEditorActionListener((v, actionId, event) -> {
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                mBinding.addMeetingSubjectTv.clearFocus();
+            }
+            return false;
+        });
+
         mBinding.addMeetingDateEt.setOnClickListener(view -> {
             datePickerDialog.updateDate(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.show();
@@ -168,6 +192,40 @@ public class AddMeetingActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        mBinding.addMeetingRoomsCpg.setOnCheckedChangeListener((chipGroup, checkedId) -> {
+            if(checkedId != NO_ID) {
+                mCheckFields[FIELD_ROOM] = true;
+                mRoom = mRoomsList.get(checkedId);
+                checkAvailability();
+            } else {
+                mCheckFields[FIELD_ROOM] = false;
+                hideAvailabilityMessage();
+            }
+        });
+    }
+
+    private void checkAvailability(){
+        if(mCheckFields[FIELD_DATE] && mCheckFields[FIELD_TIME] && mCheckFields[FIELD_DURATION] && mCheckFields[FIELD_ROOM]) {
+            if (mService.checkRoomAvailability(mRoom, mCalendar, mDuration)) {
+                mBinding.addMeetingAddRoomAvailabilityIm.setImageResource(R.drawable.ic_check);
+                mBinding.addMeetingAddRoomAvailabilityTv.setText(getString(R.string.available_text));
+            } else {
+                mBinding.addMeetingAddRoomAvailabilityIm.setImageResource(R.drawable.ic_close);
+                mBinding.addMeetingAddRoomAvailabilityTv.setText(getString(R.string.not_available_text));
+            }
+            showAvailabilityMessage();
+        }
+    }
+
+    private void showAvailabilityMessage() {
+        mBinding.addMeetingAddRoomAvailabilityIm.setVisibility(View.VISIBLE);
+        mBinding.addMeetingAddRoomAvailabilityTv.setVisibility(View.VISIBLE);
+    }
+
+    private void hideAvailabilityMessage() {
+        mBinding.addMeetingAddRoomAvailabilityIm.setVisibility(View.INVISIBLE);
+        mBinding.addMeetingAddRoomAvailabilityTv.setVisibility(View.INVISIBLE);
     }
 
     private void addParticipant(){
@@ -181,6 +239,9 @@ public class AddMeetingActivity extends AppCompatActivity {
             participantEt.setText("");
             closeKeyboard();
             mBinding.addMeetingListParticipantsRv.smoothScrollToPosition(mParticipantList.size());
+            if(mParticipantList.size()>=2){
+                mCheckFields[FIELD_PARTICIPANTS] = true;
+            }
         } else {
             Toast.makeText(this, getString(R.string.toast_email_field), Toast.LENGTH_SHORT).show();
         }
@@ -202,40 +263,55 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     private void loadData(){
-        mCalendar = mMeeting.getDate();
+        mCalendar = mMeeting.getStartDate();
         mDuration = mMeeting.getDuration();
+        mRoom = mMeeting.getRoom();
         mParticipantList = mMeeting.getParticipants();
 
         mBinding.addMeetingSubjectTv.setText(mMeeting.getSubject());
-        mBinding.addMeetingDateEt.setText(getDateFromCal(mMeeting.getDate()));
-        mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mMeeting.getDate()));
+        mBinding.addMeetingDateEt.setText(getDateFromCal(mMeeting.getStartDate()));
+        mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mMeeting.getStartDate()));
         mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mMeeting.getDuration()));
 
-        int roomNumber = mMeeting.getRoom().getNumber();
-        mBinding.addMeetingRoomsCpg.check(roomNumber);
-        mBinding.addMeetingRoomsScv.setSmoothScrollingEnabled(true);
-        mBinding.addMeetingRoomsScv.smoothScrollTo(mBinding.addMeetingRoomsCpg.getMeasuredWidth()*roomNumber,0);
+        mBinding.addMeetingRoomsCpg.check(mRoomsList.indexOf(mMeeting.getRoom()));
+        showAvailabilityMessage();
 
-        mBinding.addMeetingAddRoomAvailabilityIm.setVisibility(View.VISIBLE);
-        mBinding.addMeetingAddRoomAvailabilityTv.setVisibility(View.VISIBLE);
+        // Set all fields to filled
+        Arrays.fill(mCheckFields, true);
     }
 
-    private void save() {
+    private boolean save() {
+        // Check if subject edit text is fill
+        if(!mBinding.addMeetingSubjectTv.getText().toString().equals("")){
+            mCheckFields[FIELD_SUBJECT] = true;
+        }
+
+        // Check if all fields are set
+        for(boolean checkField : mCheckFields) {
+            if (!checkField) {
+                Toast.makeText(this, getString(R.string.fill_all_fields_message), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
+        // Update local Meeting with all data needed
         mMeeting.setSubject(mBinding.addMeetingSubjectTv.getText().toString());
-        mMeeting.setDate(mCalendar);
-        mMeeting.setDuration(mDuration);
-        // TODO set room
+        mMeeting.setStartDate(mCalendar);
+        mMeeting.setEndDate(mDuration);
+        mMeeting.setRoom(mRoom);
         mMeeting.setParticipants(mParticipantList);
 
         if (mEditMode){
+            // If Edit mode : update Meeting and send his index to the list view
             mService.updateMeeting(mMeeting);
             resultIntent.putExtra(BUNDLE_EXTRA_MEETING_EDITED_AT, mService.getMeetings().indexOf(mMeeting));
-            setResult(RESULT_OK, resultIntent);
         } else {
+            // If add mode : add Meeting and send his index to the list view
             mService.addMeeting(mMeeting);
             resultIntent.putExtra(BUNDLE_EXTRA_MEETING_ADDED_AT, mService.getMeetings().indexOf(mMeeting));
-            setResult(RESULT_OK, resultIntent);
         }
+        setResult(RESULT_OK, resultIntent);
+        return true;
     }
 
     @Override
@@ -255,8 +331,9 @@ public class AddMeetingActivity extends AppCompatActivity {
             }
             case R.id.add_meeting_save : {
                 // TODO check fields
-                save();
-                finish();
+                if(save()){
+                    finish();
+                }
                 return true;
             }
         }
@@ -279,7 +356,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         }
     }
 
-    private ColorStateList createStateColors() {
+    private ColorStateList createChipStateColors() {
         int[][] backgroundStates = new int[][] {
                 new int[] { android.R.attr.state_checked}, // checked
                 new int[] { -android.R.attr.state_checked}  // unchecked
@@ -296,6 +373,9 @@ public class AddMeetingActivity extends AppCompatActivity {
         int index = mParticipantList.indexOf(event.participant);
         mParticipantList.remove(event.participant);
         mAdapter.notifyItemRemoved(index);
+        if(mParticipantList.size()<2){
+            mCheckFields[FIELD_PARTICIPANTS] = false;
+        }
     }
 
     @Override

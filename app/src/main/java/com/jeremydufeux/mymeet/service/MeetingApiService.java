@@ -39,11 +39,12 @@ public interface MeetingApiService {
     void updateMeeting(Meeting meeting);
 
     /**
-     * Find a free room depending on the date and time
+     * Check the room availability depending on the date and time
+     * @param room the selected room
      * @param date of meeting
      * @param duration of meeting
-     * @return room id
+     * @return the availability
      */
-    Room findRoom(Calendar date, Calendar duration);
+    boolean checkRoomAvailability(Room room, Calendar date, Calendar duration);
 
 }

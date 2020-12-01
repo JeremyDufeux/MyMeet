@@ -7,7 +7,6 @@
     tools:context=".ui.add.AddMeetingActivity"
     android:padding="10dp">
 
-
     <TextView
         android:id="@+id/add_meeting_subject_label_tv"
         android:layout_width="wrap_content"
@@ -26,7 +25,6 @@
         android:autofillHints=""
         android:gravity="center"
         android:hint="@string/subject"
-        android:text="@string/subject"
         android:imeOptions="actionDone"
         android:inputType="text"
         android:textSize="20sp"
@@ -160,7 +158,7 @@
         android:id="@+id/add_meeting_add_room_availability_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/this_room_is_available_for_this_slot"
+        android:text="@string/available_text"
         app:layout_constraintBottom_toBottomOf="@+id/add_meeting_add_room_availability_im"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -174,7 +172,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
         android:layout_marginTop="5dp"
-        android:text="@string/add_a_participant"
+        android:text="@string/add_at_least_two_participants"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_participant_et"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_add_room_availability_tv"
         tools:viewBindingIgnore="true" />

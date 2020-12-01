@@ -3,7 +3,6 @@ package com.jeremydufeux.mymeet.dialog;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
@@ -55,8 +54,6 @@ public class DurationPickerDialog extends DialogFragment {
         builder.setPositiveButton("OK", (dialog, which) -> {
             hour = numberPicker1.getValue();
             minute = numberPicker2.getValue()*10;
-
-            Log.d("Debug", "onCreateDialog: " + minute);
 
             valueChangeListener.onDurationSet(hour, minute);
         });

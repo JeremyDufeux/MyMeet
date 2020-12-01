@@ -22,13 +22,15 @@
     <string name="two_dot">:</string>
     <string name="select_meeting_duration">Select meeting duration</string>
     <string name="title">Title</string>
-    <string name="add_a_participant">Add a participant :</string>
+    <string name="add_at_least_two_participants">Add at least two participants :</string>
     <string name="participants_list">Participants list :</string>
     <string name="toast_email_field">Please enter an email in the field</string>
     <string name="save">Save</string>
     <string name="edit_meeting_title">Edit meeting</string>
     <string name="add_meeting_title">Add meeting</string>
     <string name="select_a_meeting_room">Select a meeting room :</string>
-    <string name="this_room_is_available_for_this_slot">This room is available for this slot</string>
+    <string name="available_text">This room is available for this slot</string>
+    <string name="not_available_text">This room is not available for this slot</string>
     <string name="availability_status">Availability status</string>
+    <string name="fill_all_fields_message">Please fill all fields</string>
 </resources>
