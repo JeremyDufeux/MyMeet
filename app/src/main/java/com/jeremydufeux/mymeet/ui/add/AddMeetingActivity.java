@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ActivityAddMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
@@ -64,7 +64,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     private TimePickerDialog timePickerDialog;
     private DurationPickerDialog durationPickerDialog;
 
-    private Intent resultIntent = new Intent();
+    private final Intent resultIntent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,14 +129,18 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingTimeEt.setHint(getTimeFromCal(mCalendar));
         mBinding.addMeetingDurationEt.setHint(getTimeFromCal(mDuration));
 
-        ChipGroup chipGroup = mBinding.addMeetingRoomsCpg;
         for (Room room : mRoomsList){
             Chip chip = new Chip(this);
             String roomTitle = String.format(Locale.getDefault(), "%s %d", getString(R.string.room), room.getNumber());
             chip.setText(roomTitle);
+            chip.setId(room.getNumber());
             chip.setCheckable(true);
-            chipGroup.addView(chip);
+            chip.setChipBackgroundColor(createStateColors());
+            mBinding.addMeetingRoomsCpg.addView(chip);
         }
+
+        mBinding.addMeetingAddRoomAvailabilityIm.setVisibility(View.GONE);
+        mBinding.addMeetingAddRoomAvailabilityTv.setVisibility(View.GONE);
     }
 
     private void setupListeners(){
@@ -206,6 +210,14 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingDateEt.setText(getDateFromCal(mMeeting.getDate()));
         mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mMeeting.getDate()));
         mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mMeeting.getDuration()));
+
+        int roomNumber = mMeeting.getRoom().getNumber();
+        mBinding.addMeetingRoomsCpg.check(roomNumber);
+        mBinding.addMeetingRoomsScv.setSmoothScrollingEnabled(true);
+        mBinding.addMeetingRoomsScv.smoothScrollTo(mBinding.addMeetingRoomsCpg.getMeasuredWidth()*roomNumber,0);
+
+        mBinding.addMeetingAddRoomAvailabilityIm.setVisibility(View.VISIBLE);
+        mBinding.addMeetingAddRoomAvailabilityTv.setVisibility(View.VISIBLE);
     }
 
     private void save() {
@@ -265,6 +277,18 @@ public class AddMeetingActivity extends AppCompatActivity {
             assert imm != null;
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
+    }
+
+    private ColorStateList createStateColors() {
+        int[][] backgroundStates = new int[][] {
+                new int[] { android.R.attr.state_checked}, // checked
+                new int[] { -android.R.attr.state_checked}  // unchecked
+        };
+        int[] backgroundColors = new int[] {
+                getResources().getColor(R.color.blue),
+                getResources().getColor(R.color.light_grey)
+        };
+        return new ColorStateList(backgroundStates, backgroundColors);
     }
 
     @Subscribe
