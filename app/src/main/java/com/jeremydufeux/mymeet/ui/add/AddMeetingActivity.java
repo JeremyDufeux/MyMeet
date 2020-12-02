@@ -209,7 +209,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private void checkAvailability(){
         if(mCheckFields[FIELD_DATE] && mCheckFields[FIELD_TIME] && mCheckFields[FIELD_DURATION] && mCheckFields[FIELD_ROOM]) {
-            if (mService.checkRoomAvailability(mRoom, mCalendar, mDuration)) {
+            if (mService.checkRoomAvailability(mMeeting.getId(), mRoom, mCalendar, mDuration)) {
                 mBinding.addMeetingAddRoomAvailabilityIm.setImageResource(R.drawable.ic_check);
                 mBinding.addMeetingAddRoomAvailabilityTv.setText(getString(R.string.available_text));
             } else {

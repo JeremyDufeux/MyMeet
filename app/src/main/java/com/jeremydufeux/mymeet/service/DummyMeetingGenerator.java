@@ -28,7 +28,7 @@ public class DummyMeetingGenerator {
                 getCalendarFromDate(2020,12,1,13,30),
                 getCalendarFromTime(1,30),
                 new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
-                rooms.get(2)));
+                rooms.get(0)));
 
         dummyMeetings.add(new Meeting(
                 "Big machines",

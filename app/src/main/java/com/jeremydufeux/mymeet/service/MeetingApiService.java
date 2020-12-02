@@ -45,6 +45,6 @@ public interface MeetingApiService {
      * @param duration of meeting
      * @return the availability
      */
-    boolean checkRoomAvailability(Room room, Calendar date, Calendar duration);
+    boolean checkRoomAvailability(String id, Room room, Calendar date, Calendar duration);
 
 }

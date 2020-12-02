@@ -36,7 +36,7 @@ public class DummyMeetingApiService implements MeetingApiService{
         meetings.set(meetings.indexOf(meeting), meeting);
     }
 
-    public boolean checkRoomAvailability(Room room, Calendar A_Start, Calendar duration) {
+    public boolean checkRoomAvailability(String id, Room room, Calendar A_Start, Calendar duration) {
         boolean roomAvailable = true;
 
         Calendar A_End = (Calendar) A_Start.clone();
@@ -44,28 +44,27 @@ public class DummyMeetingApiService implements MeetingApiService{
         A_End.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
 
         for(Meeting meeting : meetings){
-            if(meeting.getRoom().getNumber() == room.getNumber()){
-                Calendar B_Start = meeting.getStartDate();
-                Calendar B_End = meeting.getEndDate();
+            if(!id.equals(meeting.getId())) {
+                if (meeting.getRoom().getNumber() == room.getNumber()) {
+                    Calendar B_Start = meeting.getStartDate();
+                    Calendar B_End = meeting.getEndDate();
 
-                if(A_Start.compareTo(B_Start) == 0){
-                    // The meeting have the same start time than another
-                    roomAvailable = false;
-                }
-                else if (A_End.compareTo(B_End) == 0) {
-                    // The meeting have the same end time than another
-                    roomAvailable = false;
-                }
-                else if (B_Start.after(A_Start)) {
-                    if (B_Start.before(A_End) && !(B_Start.compareTo(A_End) == 0)) {
-                        // The meeting end during another / But can end at the beginning of another one
+                    if (A_Start.compareTo(B_Start) == 0) {
+                        // The meeting have the same start time than another
                         roomAvailable = false;
-                    }
-                }
-                else if (B_End.after(A_Start)) {
-                    if (B_End.before(A_End)) {
-                        // The meeting start during another
+                    } else if (A_End.compareTo(B_End) == 0) {
+                        // The meeting have the same end time than another
                         roomAvailable = false;
+                    } else if (B_Start.after(A_Start)) {
+                        if (B_Start.before(A_End) && !(B_Start.compareTo(A_End) == 0)) {
+                            // The meeting end during another / But can end at the beginning of another one
+                            roomAvailable = false;
+                        }
+                    } else if (B_End.after(A_Start)) {
+                        if (B_End.before(A_End)) {
+                            // The meeting start during another
+                            roomAvailable = false;
+                        }
                     }
                 }
             }
