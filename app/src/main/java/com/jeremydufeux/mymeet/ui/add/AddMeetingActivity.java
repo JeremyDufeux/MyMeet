@@ -159,6 +159,7 @@ public class AddMeetingActivity extends AppCompatActivity {
             chip.setChipBackgroundColor(createChipStateColors());
             mBinding.addMeetingRoomsCpg.addView(chip);
         }
+
         hideAvailabilityMessage();
     }
 
@@ -274,6 +275,14 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar));
         mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mCalendar));
         mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mDuration));
+
+        if(mRoomsList.indexOf(mRoom) == mRoomsList.size()-1){
+            // Create a dummy chip to avoid the last one is cut when scrolled to
+            Chip chip = new Chip(this);
+            chip.setVisibility(View.INVISIBLE);
+            mBinding.addMeetingRoomsCpg.addView(chip);
+        }
+
         mBinding.addMeetingRoomsCpg.post(() -> {
             Chip chip = mBinding.addMeetingRoomsCpg.findViewById(mRoomsList.indexOf(mRoom));
             mBinding.addMeetingRoomsCpg.check(chip.getId());
