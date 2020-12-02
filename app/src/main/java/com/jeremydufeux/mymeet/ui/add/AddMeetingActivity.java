@@ -271,11 +271,15 @@ public class AddMeetingActivity extends AppCompatActivity {
         mParticipantList = mMeeting.getParticipants();
 
         mBinding.addMeetingSubjectTv.setText(mMeeting.getSubject());
-        mBinding.addMeetingDateEt.setText(getDateFromCal(mMeeting.getStartDate()));
-        mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mMeeting.getStartDate()));
-        mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mMeeting.getDuration()));
+        mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar));
+        mBinding.addMeetingTimeEt.setText(Tools.getTimeFromCal(mCalendar));
+        mBinding.addMeetingDurationEt.setText(Tools.getTimeFromCal(mDuration));
+        mBinding.addMeetingRoomsCpg.post(() -> {
+            Chip chip = mBinding.addMeetingRoomsCpg.findViewById(mRoomsList.indexOf(mRoom));
+            mBinding.addMeetingRoomsCpg.check(chip.getId());
+            mBinding.addMeetingRoomsScv.smoothScrollTo(chip.getLeft(), 0);
+        });
 
-        mBinding.addMeetingRoomsCpg.check(mRoomsList.indexOf(mMeeting.getRoom()));
         showAvailabilityMessage();
 
         // Set all fields to filled

@@ -7,7 +7,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService{
-    private List<Room> rooms = DummyRoomGenerator.generateRooms();
+    public static final int ROOM_AMOUNT = 10;
+    private List<Room> rooms = DummyRoomGenerator.generateRooms(ROOM_AMOUNT);
     private List<Meeting> meetings = DummyMeetingGenerator.generateMeetings(rooms);
 
     @Override
@@ -57,7 +58,7 @@ public class DummyMeetingApiService implements MeetingApiService{
                 }
                 else if (B_Start.after(A_Start)) {
                     if (B_Start.before(A_End) && !(B_Start.compareTo(A_End) == 0)) {
-                        // The meeting end during another
+                        // The meeting end during another / But can end at the beginning of another one
                         roomAvailable = false;
                     }
                 }
