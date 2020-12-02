@@ -8,32 +8,37 @@ import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService{
     public static final int ROOM_AMOUNT = 10;
-    private List<Room> rooms = DummyRoomGenerator.generateRooms(ROOM_AMOUNT);
-    private List<Meeting> meetings = DummyMeetingGenerator.generateMeetings(rooms);
+    private List<Room> roomList = DummyRoomGenerator.generateRooms(ROOM_AMOUNT);
+    private List<Meeting> meetingList = DummyMeetingGenerator.generateMeetings(roomList);
 
     @Override
-    public List<Meeting> getMeetings() {
-        return meetings;
+    public List<Meeting> getMeetingList() {
+        return meetingList;
     }
 
     @Override
-    public List<Room> getRooms() {
-        return rooms;
+    public List<Room> getRoomList() {
+        return roomList;
     }
 
     @Override
     public void addMeeting(Meeting meeting) {
-        meetings.add(meeting);
+        meetingList.add(meeting);
     }
 
     @Override
     public void deleteMeeting(Meeting meeting) {
-        meetings.remove(meeting);
+        meetingList.remove(meeting);
     }
 
     @Override
-    public void updateMeeting(int index, Meeting meeting) {
-        meetings.set(index, meeting);
+    public void updateMeeting(Meeting meetingToUpdate) {
+        for (Meeting meeting : meetingList) {
+            if (meeting.getId().equals(meetingToUpdate.getId())) {
+                meetingList.set(meetingList.indexOf(meeting), meetingToUpdate);
+                break;
+            }
+        }
     }
 
     public boolean checkRoomAvailability(String id, Room room, Calendar A_Start, Calendar duration) {
@@ -43,7 +48,7 @@ public class DummyMeetingApiService implements MeetingApiService{
         A_End.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
         A_End.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
 
-        for(Meeting meeting : meetings){
+        for(Meeting meeting : meetingList){
             if(!id.equals(meeting.getId())) {
                 if (meeting.getRoom().getNumber() == room.getNumber()) {
                     Calendar B_Start = meeting.getStartDate();

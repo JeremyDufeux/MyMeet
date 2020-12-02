@@ -66,7 +66,6 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private List<Room> mRoomsList;
     private Meeting mMeeting;
-    private int mMeetingIndex;
     private Calendar mCalendar;
     private Calendar mDuration;
     private Room mRoom;
@@ -86,7 +85,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         mCheckFields = new boolean[FIELD_PARTICIPANTS+1];
         Arrays.fill(mCheckFields, false);
 
-        mRoomsList = mService.getRooms();
+        mRoomsList = mService.getRoomList();
         mCalendar = Calendar.getInstance();
         mDuration = getCalendarFromTime(1,0);
         mParticipantList = new ArrayList<>();
@@ -251,13 +250,12 @@ public class AddMeetingActivity extends AppCompatActivity {
         if(getIntent().getExtras() != null && getIntent().getExtras().containsKey(BUNDLE_EXTRA_MEETING_ID)) {
             String id = getIntent().getExtras().getString(BUNDLE_EXTRA_MEETING_ID);
 
-            List<Meeting> meetingList = mService.getMeetings();
+            List<Meeting> meetingList = mService.getMeetingList();
 
             for (Meeting meeting : meetingList) {
                 if (meeting.getId().equals(id)) {
                     mEditMode = true;
                     mMeeting = (Meeting) meeting.clone();
-                    mMeetingIndex = meetingList.indexOf(meeting);
                     break;
                 }
             }
@@ -318,12 +316,12 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         if (mEditMode){
             // If Edit mode : update Meeting and send his index to the list view
-            mService.updateMeeting(mMeetingIndex, mMeeting);
-            resultIntent.putExtra(BUNDLE_EXTRA_MEETING_EDITED_AT, mService.getMeetings().indexOf(mMeeting));
+            mService.updateMeeting(mMeeting);
+            resultIntent.putExtra(BUNDLE_EXTRA_MEETING_EDITED_AT, mService.getMeetingList().indexOf(mMeeting));
         } else {
             // If add mode : add Meeting and send his index to the list view
             mService.addMeeting(mMeeting);
-            resultIntent.putExtra(BUNDLE_EXTRA_MEETING_ADDED_AT, mService.getMeetings().indexOf(mMeeting));
+            resultIntent.putExtra(BUNDLE_EXTRA_MEETING_ADDED_AT, mService.getMeetingList().indexOf(mMeeting));
         }
         setResult(RESULT_OK, resultIntent);
         return true;

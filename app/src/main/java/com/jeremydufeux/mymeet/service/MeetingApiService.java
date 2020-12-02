@@ -12,13 +12,13 @@ public interface MeetingApiService {
      * Get all meeting
      * @return list of meetings
      */
-    List<Meeting> getMeetings();
+    List<Meeting> getMeetingList();
 
     /**
      * Get all room
      * @return list of rooms
      */
-    List<Room> getRooms();
+    List<Room> getRoomList();
 
     /**
      * Add meeting
@@ -36,7 +36,7 @@ public interface MeetingApiService {
      * Update meeting
      * @param meeting to update
      */
-    void updateMeeting(int index, Meeting meeting);
+    void updateMeeting(Meeting meeting);
 
     /**
      * Check the room availability depending on the date and time

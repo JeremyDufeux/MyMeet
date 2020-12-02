@@ -47,7 +47,7 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     private void setupApiService() {
         mApiService = DI.getMeetingApiService();
-        mMeetingList = mApiService.getMeetings();
+        mMeetingList = mApiService.getMeetingList();
     }
 
     private void setupRecyclerView() {
