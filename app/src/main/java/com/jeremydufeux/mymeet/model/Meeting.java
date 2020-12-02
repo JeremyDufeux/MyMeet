@@ -1,11 +1,14 @@
 package com.jeremydufeux.mymeet.model;
 
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-public class Meeting {
-    private final String mId;
+public class Meeting implements Cloneable{
+    private String mId;
     private String mSubject;
     private Calendar mStartDate;
     private Calendar mEndDate;
@@ -76,6 +79,25 @@ public class Meeting {
 
     public void setRoom(Room room) {
         mRoom = room;
+    }
+
+    @NonNull
+    @Override
+    public Object clone() {
+        try {
+            Meeting clone = (Meeting) super.clone();
+            clone.mId = this.mId;
+            clone.mSubject = this.mSubject;
+            clone.mStartDate = (Calendar) this.mStartDate.clone();
+            clone.mDuration = (Calendar) this.mDuration.clone();
+            clone.mEndDate = (Calendar) this.mEndDate.clone();
+            clone.mParticipants = new ArrayList<>(this.mParticipants);
+            clone.mRoom = this.mRoom;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return new InternalError("Clone Error");
+        }
     }
 
 }

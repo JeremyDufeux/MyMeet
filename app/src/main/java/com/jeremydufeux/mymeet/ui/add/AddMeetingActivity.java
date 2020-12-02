@@ -66,14 +66,11 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private List<Room> mRoomsList;
     private Meeting mMeeting;
+    private int mMeetingIndex;
     private Calendar mCalendar;
     private Calendar mDuration;
     private Room mRoom;
     private List<Participant> mParticipantList;
-
-    private DatePickerDialog datePickerDialog;
-    private TimePickerDialog timePickerDialog;
-    private DurationPickerDialog durationPickerDialog;
 
     private final Intent resultIntent = new Intent();
 
@@ -95,7 +92,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         mParticipantList = new ArrayList<>();
         mMeeting = new Meeting("", mCalendar, mDuration, mParticipantList, mRoom);
 
-        setupDialogs();
         setupUi();
         setupListeners();
         checkForEditIntent();
@@ -112,37 +108,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         } else {
             actionBar.setTitle(getString(R.string.add_meeting_title));
         }
-    }
-
-    private void setupDialogs() {
-        datePickerDialog = new DatePickerDialog(AddMeetingActivity.this, (datePicker, year, month, dayOfMonth) -> {
-            mCalendar.set(Calendar.YEAR, year);
-            mCalendar.set(Calendar.MONTH, month);
-            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar));
-            mCheckFields[FIELD_DATE] = true;
-            checkAvailability();
-        }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
-
-        timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, (timePicker, hour, minute) -> {
-            mCalendar.set(Calendar.HOUR_OF_DAY, hour);
-            mCalendar.set(Calendar.MINUTE, minute);
-            mCalendar.set(Calendar.SECOND, 0);
-            mCalendar.set(Calendar.MILLISECOND, 0);
-            mBinding.addMeetingTimeEt.setText(getTimeFromCal(mCalendar));
-            mCheckFields[FIELD_TIME] = true;
-            checkAvailability();
-        }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
-
-        durationPickerDialog = new DurationPickerDialog();
-        durationPickerDialog.setTitle(getString(R.string.select_meeting_duration));
-        durationPickerDialog.setDurationSetListener((hour, minute) -> {
-            mDuration.set(Calendar.HOUR_OF_DAY, hour);
-            mDuration.set(Calendar.MINUTE, minute);
-            mCheckFields[FIELD_DURATION] = true;
-            checkAvailability();
-            mBinding.addMeetingDurationEt.setText(getTimeFromCal(mDuration));
-        });
     }
 
     private void setupUi() {
@@ -171,21 +136,11 @@ public class AddMeetingActivity extends AppCompatActivity {
             return false;
         });
 
-        mBinding.addMeetingDateEt.setOnClickListener(view -> {
-            datePickerDialog.updateDate(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.show();
-        });
+        mBinding.addMeetingDateEt.setOnClickListener(view -> openCalendarDialog());
 
-        mBinding.addMeetingTimeEt.setOnClickListener(view -> {
-            timePickerDialog.updateTime(mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE));
-            timePickerDialog.show();
-        });
+        mBinding.addMeetingTimeEt.setOnClickListener(view -> openTimeDialog());
 
-        mBinding.addMeetingDurationEt.setOnClickListener(view -> {
-            durationPickerDialog.setHour(mDuration.get(Calendar.HOUR_OF_DAY));
-            durationPickerDialog.setMinute(mDuration.get(Calendar.MINUTE));
-            durationPickerDialog.show(getSupportFragmentManager(), null);
-        });
+        mBinding.addMeetingDurationEt.setOnClickListener(view -> openDurationDialog());
 
         mBinding.addMeetingAddParticipantBtn.setOnClickListener(v -> addParticipant());
 
@@ -206,6 +161,48 @@ public class AddMeetingActivity extends AppCompatActivity {
                 hideAvailabilityMessage();
             }
         });
+    }
+
+    private void openCalendarDialog(){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(AddMeetingActivity.this, (datePicker, year, month, dayOfMonth) -> {
+            mCalendar.set(Calendar.YEAR, year);
+            mCalendar.set(Calendar.MONTH, month);
+            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar));
+            mCheckFields[FIELD_DATE] = true;
+            checkAvailability();
+        }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.updateDate(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    private void openTimeDialog(){
+        TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, (timePicker, hour, minute) -> {
+            mCalendar.set(Calendar.HOUR_OF_DAY, hour);
+            mCalendar.set(Calendar.MINUTE, minute);
+            mCalendar.set(Calendar.SECOND, 0);
+            mCalendar.set(Calendar.MILLISECOND, 0);
+            mBinding.addMeetingTimeEt.setText(getTimeFromCal(mCalendar));
+            mCheckFields[FIELD_TIME] = true;
+            checkAvailability();
+        }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
+        timePickerDialog.updateTime(mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE));
+        timePickerDialog.show();
+    }
+
+    private void openDurationDialog(){
+        DurationPickerDialog durationPickerDialog = new DurationPickerDialog();
+        durationPickerDialog.setTitle(getString(R.string.select_meeting_duration));
+        durationPickerDialog.setDurationSetListener((hour, minute) -> {
+            mDuration.set(Calendar.HOUR_OF_DAY, hour);
+            mDuration.set(Calendar.MINUTE, minute);
+            mCheckFields[FIELD_DURATION] = true;
+            checkAvailability();
+            mBinding.addMeetingDurationEt.setText(getTimeFromCal(mDuration));
+        });
+        durationPickerDialog.setHour(mDuration.get(Calendar.HOUR_OF_DAY));
+        durationPickerDialog.setMinute(mDuration.get(Calendar.MINUTE));
+        durationPickerDialog.show(getSupportFragmentManager(), null);
     }
 
     private void checkAvailability(){
@@ -254,10 +251,13 @@ public class AddMeetingActivity extends AppCompatActivity {
         if(getIntent().getExtras() != null && getIntent().getExtras().containsKey(BUNDLE_EXTRA_MEETING_ID)) {
             String id = getIntent().getExtras().getString(BUNDLE_EXTRA_MEETING_ID);
 
-            for (Meeting meeting : mService.getMeetings()) {
+            List<Meeting> meetingList = mService.getMeetings();
+
+            for (Meeting meeting : meetingList) {
                 if (meeting.getId().equals(id)) {
                     mEditMode = true;
-                    mMeeting = meeting;
+                    mMeeting = (Meeting) meeting.clone();
+                    mMeetingIndex = meetingList.indexOf(meeting);
                     break;
                 }
             }
@@ -318,7 +318,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         if (mEditMode){
             // If Edit mode : update Meeting and send his index to the list view
-            mService.updateMeeting(mMeeting);
+            mService.updateMeeting(mMeetingIndex, mMeeting);
             resultIntent.putExtra(BUNDLE_EXTRA_MEETING_EDITED_AT, mService.getMeetings().indexOf(mMeeting));
         } else {
             // If add mode : add Meeting and send his index to the list view

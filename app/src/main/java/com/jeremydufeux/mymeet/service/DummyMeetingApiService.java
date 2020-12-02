@@ -32,8 +32,8 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
-    public void updateMeeting(Meeting meeting) {
-        meetings.set(meetings.indexOf(meeting), meeting);
+    public void updateMeeting(int index, Meeting meeting) {
+        meetings.set(index, meeting);
     }
 
     public boolean checkRoomAvailability(String id, Room room, Calendar A_Start, Calendar duration) {
