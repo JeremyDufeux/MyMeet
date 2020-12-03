@@ -1,13 +1,18 @@
 package com.jeremydufeux.mymeet.ui.list;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ActivityListMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
@@ -97,6 +102,26 @@ public class ListMeetingActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    private void openFilterDialog(){
+        Log.d("Debug", "openFilterDialog");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.list_meetings_action_bar_menu, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.list_meetings_filter) {
+            openFilterDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
