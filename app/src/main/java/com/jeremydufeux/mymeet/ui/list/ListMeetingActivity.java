@@ -3,7 +3,6 @@ package com.jeremydufeux.mymeet.ui.list;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +46,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     private List<Meeting> mMeetingList;
     private List<Meeting> mFilteredMeetingList;
 
-    private HashMap<Integer, Boolean> roomFilter;
+    private HashMap<String, Boolean> roomFilter;
     private Calendar dateFilter;
 
     @Override
@@ -120,9 +119,11 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     private void openFilterDialog(){
         FilterDialog filterDialog = new FilterDialog();
+        filterDialog.setDateSelection(dateFilter);
+        filterDialog.setRoomSelection(roomFilter);
         filterDialog.setFilterListener(new FilterDialog.FilterDialogListener() {
             @Override
-            public void onFilterSet(Calendar dateSelection, HashMap<Integer, Boolean> roomSelection) {
+            public void onFilterSet(Calendar dateSelection, HashMap<String, Boolean> roomSelection) {
                 roomFilter = roomSelection;
                 dateFilter = dateSelection;
                 filterMeetings();
@@ -130,8 +131,6 @@ public class ListMeetingActivity extends AppCompatActivity {
 
             @Override
             public void onClearFilter() {
-                roomFilter = null;
-                dateFilter = null;
                 removeListFilters();
             }
         });
@@ -143,15 +142,14 @@ public class ListMeetingActivity extends AppCompatActivity {
         if(dateFilter!=null){
             for(Meeting meeting : mMeetingList){
                 if(isSameDay(meeting.getStartDate(), dateFilter)){
-                    if(Objects.requireNonNull(roomFilter.get(meeting.getRoom().getNumber()))) {
-                        Log.d("Debug", "filterMeetings:  " + meeting.getSubject());
+                    if(Objects.requireNonNull(roomFilter.get("all")) || Objects.requireNonNull(roomFilter.get(Integer.toString(meeting.getRoom().getNumber())))) {
                         mFilteredMeetingList.add(meeting);
                     }
                 }
             }
-        } else {
+        } else if(!Objects.requireNonNull(roomFilter.get("all"))){
             for(Meeting meeting : mMeetingList) {
-                if(Objects.requireNonNull(roomFilter.get(meeting.getRoom().getNumber()))) {
+                if(Objects.requireNonNull(roomFilter.get(Integer.toString(meeting.getRoom().getNumber())))) {
                     mFilteredMeetingList.add(meeting);
                 }
             }
@@ -162,6 +160,8 @@ public class ListMeetingActivity extends AppCompatActivity {
     }
 
     private void removeListFilters(){
+        roomFilter = null;
+        dateFilter = null;
         mAdapter = new ListMeetingAdapter(mMeetingList);
         mBinding.listMeetingsRv.setAdapter(mAdapter);
     }
