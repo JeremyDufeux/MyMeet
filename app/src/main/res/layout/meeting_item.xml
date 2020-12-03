@@ -55,9 +55,20 @@
         android:textColor="@color/colorOnSecondary"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/meeting_item_time_tv"
+        app:layout_constraintEnd_toStartOf="@+id/meeting_item_date_tv"
         app:layout_constraintStart_toStartOf="@+id/meeting_item_participant_tv"
         app:layout_constraintTop_toTopOf="@+id/meeting_item_room_im" />
+
+    <TextView
+        android:id="@+id/meeting_item_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/_29_11_1990"
+        android:textColor="@color/colorOnSecondary"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/meeting_item_remove_iv"
+        app:layout_constraintTop_toTopOf="@+id/meeting_item_subject_tv" />
 
 
     <TextView
@@ -66,11 +77,9 @@
         android:layout_height="wrap_content"
         android:text="@string/_10h55"
         android:textColor="@color/colorOnSecondary"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/meeting_item_subject_tv"
-        app:layout_constraintEnd_toEndOf="@+id/meeting_item_participant_tv"
-        app:layout_constraintTop_toTopOf="@+id/meeting_item_room_im" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/meeting_item_participant_tv"
+        app:layout_constraintEnd_toEndOf="@+id/meeting_item_date_tv" />
 
 
     <TextView
@@ -78,13 +87,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="15dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/participants"
         app:layout_constraintBottom_toBottomOf="@id/meeting_item_room_im"
-        app:layout_constraintEnd_toStartOf="@+id/meeting_item_remove_iv"
-        app:layout_constraintStart_toEndOf="@+id/meeting_item_room_im"/>
+        app:layout_constraintEnd_toStartOf="@+id/meeting_item_time_tv"
+        app:layout_constraintStart_toEndOf="@+id/meeting_item_room_im" />
 
     <ImageButton
         android:id="@+id/meeting_item_remove_iv"
