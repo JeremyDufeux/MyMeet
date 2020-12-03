@@ -19,18 +19,23 @@ import com.jeremydufeux.mymeet.dialog.FilterDialog;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
 import com.jeremydufeux.mymeet.event.OpenMeetingEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
+import com.jeremydufeux.mymeet.model.Room;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
 import com.jeremydufeux.mymeet.ui.add.AddMeetingActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static com.jeremydufeux.mymeet.ui.add.AddMeetingActivity.BUNDLE_EXTRA_MEETING_ADDED_AT;
 import static com.jeremydufeux.mymeet.ui.add.AddMeetingActivity.BUNDLE_EXTRA_MEETING_EDITED_AT;
 import static com.jeremydufeux.mymeet.ui.add.AddMeetingActivity.BUNDLE_EXTRA_MEETING_ID;
+import static com.jeremydufeux.mymeet.utils.Tools.isSameDay;
 
 public class ListMeetingActivity extends AppCompatActivity {
     public static final int ADD_MEETING_ADD_REQUEST_CODE = 1;
@@ -38,7 +43,12 @@ public class ListMeetingActivity extends AppCompatActivity {
     private MeetingApiService mApiService;
     private ActivityListMeetingBinding mBinding;
     private ListMeetingAdapter mAdapter;
+    private List<Room> mRoomList;
     private List<Meeting> mMeetingList;
+    private List<Meeting> mFilteredMeetingList;
+
+    private HashMap<Integer, Boolean> roomFilter;
+    private Calendar dateFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,8 @@ public class ListMeetingActivity extends AppCompatActivity {
     private void setupApiService() {
         mApiService = DI.getMeetingApiService();
         mMeetingList = mApiService.getMeetingList();
+        mFilteredMeetingList = new ArrayList<>();
+        mRoomList = mApiService.getRoomList();
     }
 
     private void setupRecyclerView() {
@@ -110,14 +122,48 @@ public class ListMeetingActivity extends AppCompatActivity {
         FilterDialog filterDialog = new FilterDialog();
         filterDialog.setFilterListener(new FilterDialog.FilterDialogListener() {
             @Override
-            public void onFilterSet(Calendar dateSelection, boolean[] roomSelection) {
+            public void onFilterSet(Calendar dateSelection, HashMap<Integer, Boolean> roomSelection) {
+                roomFilter = roomSelection;
+                dateFilter = dateSelection;
+                filterMeetings();
             }
 
             @Override
             public void onClearFilter() {
+                roomFilter = null;
+                dateFilter = null;
+                removeListFilters();
             }
         });
         filterDialog.show(getSupportFragmentManager(), null);
+    }
+
+    private void filterMeetings(){
+        mFilteredMeetingList.clear();
+        if(dateFilter!=null){
+            for(Meeting meeting : mMeetingList){
+                if(isSameDay(meeting.getStartDate(), dateFilter)){
+                    if(Objects.requireNonNull(roomFilter.get(meeting.getRoom().getNumber()))) {
+                        Log.d("Debug", "filterMeetings:  " + meeting.getSubject());
+                        mFilteredMeetingList.add(meeting);
+                    }
+                }
+            }
+        } else {
+            for(Meeting meeting : mMeetingList) {
+                if(Objects.requireNonNull(roomFilter.get(meeting.getRoom().getNumber()))) {
+                    mFilteredMeetingList.add(meeting);
+                }
+            }
+        }
+
+        mAdapter = new ListMeetingAdapter(mFilteredMeetingList);
+        mBinding.listMeetingsRv.setAdapter(mAdapter);
+    }
+
+    private void removeListFilters(){
+        mAdapter = new ListMeetingAdapter(mMeetingList);
+        mBinding.listMeetingsRv.setAdapter(mAdapter);
     }
 
     @Override

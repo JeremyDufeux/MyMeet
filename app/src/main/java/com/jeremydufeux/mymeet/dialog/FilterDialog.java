@@ -20,8 +20,8 @@ import com.jeremydufeux.mymeet.di.DI;
 import com.jeremydufeux.mymeet.model.Room;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -32,11 +32,13 @@ import static com.jeremydufeux.mymeet.utils.Tools.getCalendarFromDate;
 public class FilterDialog extends DialogFragment implements Chip.OnCheckedChangeListener{
     private FilterDialogListener onSetListener;
 
+    private List<Room> roomList;
+    private HashMap<Integer, Boolean> roomSelection;
+    private Calendar dateSelection;
+
     private Chip chipAll;
     private List<Chip> chipList;
 
-    private Calendar dateSelection;
-    private boolean[] roomSelection;
 
     @SuppressLint("InflateParams")
     @NonNull
@@ -46,8 +48,8 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View mView = inflater.inflate(R.layout.dialog_filter, null);
 
-        List<Room> roomList = DI.getMeetingApiService().getRoomList();
-        roomSelection = new boolean[roomList.size()];
+        roomList = DI.getMeetingApiService().getRoomList();
+        roomSelection = new HashMap<>();
 
         CalendarView calendarView = mView.findViewById(R.id.dialog_filter_cal);
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> dateSelection = getCalendarFromDate(year, month, dayOfMonth, 0, 0));
@@ -65,14 +67,16 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
         chipGroup.addView(chipAll);
 
         for (int i = 0; i < roomList.size(); i++) {
+            Room room = roomList.get(i);
             chipList.add(new Chip(getActivity()));
-            String roomTitle = String.format(Locale.getDefault(), "%s %d", getString(R.string.room), roomList.get(i).getNumber());
+            String roomTitle = String.format(Locale.getDefault(), "%s %d", getString(R.string.room), room.getNumber());
             chipList.get(i).setText(roomTitle);
-            chipList.get(i).setTag(roomList.indexOf(roomList.get(i)));
+            chipList.get(i).setTag(room.getNumber());
             chipList.get(i).setCheckable(true);
             chipList.get(i).setChipBackgroundColor(createChipStateColors(getActivity()));
             chipList.get(i).setOnCheckedChangeListener(this);
             chipGroup.addView(chipList.get(i));
+            roomSelection.put(room.getNumber(), true);
         }
 
         builder.setPositiveButton(R.string.ok, (dialog, which) -> onSetListener.onFilterSet(dateSelection, roomSelection));
@@ -92,17 +96,19 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(buttonView.getTag().equals("all")){
             if(isChecked){
-                Arrays.fill(roomSelection, true);
-                for (int i = 0; i < chipList.size(); i++) {
+                for (int i = 0; i < roomList.size(); i++) {
                     chipList.get(i).setChecked(false);
+                    roomSelection.put(roomList.get(i).getNumber(), true);
                 }
             }
         } else {
             if(chipAll.isChecked() && isChecked){
                 chipAll.setChecked(false);
-                Arrays.fill(roomSelection, false);
+                for (Room room : roomList){
+                    roomSelection.put(room.getNumber(), false);                    
+                }
             }
-            roomSelection[(int) buttonView.getTag()] = isChecked;
+            roomSelection.put((Integer)buttonView.getTag(), isChecked);
         }
     }
 
@@ -117,7 +123,7 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
     }
 
     public interface FilterDialogListener {
-        void onFilterSet(Calendar dateSelection, boolean[] roomSelection);
+        void onFilterSet(Calendar dateSelection, HashMap<Integer, Boolean> roomSelection);
         void onClearFilter();
     }
 }

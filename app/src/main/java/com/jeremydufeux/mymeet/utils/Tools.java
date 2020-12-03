@@ -19,7 +19,7 @@ public class Tools {
     }
 
     public static Calendar getCalendarFromDate(int year, int month, int day, int hour, int minute){
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();  // TODO Check clear()
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH, day);
@@ -40,6 +40,12 @@ public class Tools {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal;
+    }
+
+    public static boolean isSameDay(Calendar calendarA, Calendar calendarB){
+        return calendarA.get(Calendar.YEAR) == calendarB.get(Calendar.YEAR) &&
+                calendarA.get(Calendar.MONTH) == calendarB.get(Calendar.MONTH) &&
+                calendarA.get(Calendar.DAY_OF_MONTH) == calendarB.get(Calendar.DAY_OF_MONTH);
     }
 
     public static ColorStateList createChipStateColors(Context context) {
