@@ -20,7 +20,6 @@ import java.util.Objects;
 public class DurationPickerDialog extends DialogFragment {
     private final static String[] DISPLAYED_MINS = { "0", "10", "20", "30", "40", "50" };
     private DurationPickerDialogListener valueChangeListener;
-    private String title;
     private int hour = 0;
     private int minute = 0;
 
@@ -51,19 +50,19 @@ public class DurationPickerDialog extends DialogFragment {
         }
         numberPicker2.setValue(minuteSelection);
 
-        builder.setPositiveButton("OK", (dialog, which) -> {
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
             hour = numberPicker1.getValue();
             minute = numberPicker2.getValue()*10;
 
             valueChangeListener.onDurationSet(hour, minute);
         });
 
-        builder.setNegativeButton("Cancel", (dialog, which) -> {
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
         });
 
         View header = inflater.inflate(R.layout.dialog_custom_header, null);
         TextView titleTv = header.findViewById(R.id.dialog_custom_header_title);
-        titleTv.setText(title);
+        titleTv.setText(R.string.select_meeting_duration);
         builder.setCustomTitle(header);
 
         builder.setView(mView);
@@ -82,14 +81,6 @@ public class DurationPickerDialog extends DialogFragment {
 
     public void setMinute(int minute) {
         this.minute = minute;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public void setDurationSetListener(DurationPickerDialogListener valueChangeListener) {

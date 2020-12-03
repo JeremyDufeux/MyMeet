@@ -33,4 +33,9 @@
     <string name="not_available_text">This room is not available for this slot</string>
     <string name="availability_status">Availability status</string>
     <string name="fill_all_fields_message">Please fill all fields</string>
+    <string name="discard_changes">Discard changes?</string>
+    <string name="discard_dialog_message">Do you want to discard changes?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 </resources>

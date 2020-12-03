@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +22,7 @@ import com.google.android.material.chip.Chip;
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ActivityAddMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
+import com.jeremydufeux.mymeet.dialog.DiscardDialog;
 import com.jeremydufeux.mymeet.dialog.DurationPickerDialog;
 import com.jeremydufeux.mymeet.event.DeleteParticipantEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.view.View.NO_ID;
+import static com.jeremydufeux.mymeet.utils.Tools.createChipStateColors;
 import static com.jeremydufeux.mymeet.utils.Tools.getCalendarFromTime;
 import static com.jeremydufeux.mymeet.utils.Tools.getDateFromCal;
 import static com.jeremydufeux.mymeet.utils.Tools.getTimeFromCal;
@@ -63,6 +64,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     public static final int FIELD_DURATION      = 3;
     public static final int FIELD_ROOM          = 4;
     public static final int FIELD_PARTICIPANTS  = 5;
+    private boolean mCheckFieldsEditMode;
 
     private List<Room> mRoomsList;
     private Meeting mMeeting;
@@ -120,7 +122,7 @@ public class AddMeetingActivity extends AppCompatActivity {
             chip.setText(roomTitle);
             chip.setId(mRoomsList.indexOf(room));
             chip.setCheckable(true);
-            chip.setChipBackgroundColor(createChipStateColors());
+            chip.setChipBackgroundColor(createChipStateColors(this));
             mBinding.addMeetingRoomsCpg.addView(chip);
         }
 
@@ -129,9 +131,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private void setupListeners(){
         mBinding.addMeetingSubjectTv.setOnEditorActionListener((v, actionId, event) -> {
-            if(actionId == EditorInfo.IME_ACTION_DONE){
-                mBinding.addMeetingSubjectTv.clearFocus();
-            }
+            if(actionId == EditorInfo.IME_ACTION_DONE) mBinding.addMeetingSubjectTv.clearFocus();
             return false;
         });
 
@@ -144,9 +144,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingAddParticipantBtn.setOnClickListener(v -> addParticipant());
 
         mBinding.addMeetingParticipantEt.setOnEditorActionListener((v, actionId, event) -> {
-            if(actionId == EditorInfo.IME_ACTION_DONE){
-                addParticipant();
-            }
+            if(actionId == EditorInfo.IME_ACTION_DONE) addParticipant();
             return false;
         });
 
@@ -169,6 +167,7 @@ public class AddMeetingActivity extends AppCompatActivity {
             mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar));
             mCheckFields[FIELD_DATE] = true;
+            mCheckFieldsEditMode = true;
             checkAvailability();
         }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.updateDate(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
@@ -183,6 +182,7 @@ public class AddMeetingActivity extends AppCompatActivity {
             mCalendar.set(Calendar.MILLISECOND, 0);
             mBinding.addMeetingTimeEt.setText(getTimeFromCal(mCalendar));
             mCheckFields[FIELD_TIME] = true;
+            mCheckFieldsEditMode = true;
             checkAvailability();
         }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
         timePickerDialog.updateTime(mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE));
@@ -191,17 +191,29 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     private void openDurationDialog(){
         DurationPickerDialog durationPickerDialog = new DurationPickerDialog();
-        durationPickerDialog.setTitle(getString(R.string.select_meeting_duration));
         durationPickerDialog.setDurationSetListener((hour, minute) -> {
             mDuration.set(Calendar.HOUR_OF_DAY, hour);
             mDuration.set(Calendar.MINUTE, minute);
             mCheckFields[FIELD_DURATION] = true;
+            mCheckFieldsEditMode = true;
             checkAvailability();
             mBinding.addMeetingDurationEt.setText(getTimeFromCal(mDuration));
         });
         durationPickerDialog.setHour(mDuration.get(Calendar.HOUR_OF_DAY));
         durationPickerDialog.setMinute(mDuration.get(Calendar.MINUTE));
         durationPickerDialog.show(getSupportFragmentManager(), null);
+    }
+
+    private void openDiscardDialog(){
+        DiscardDialog discardDialog = new DiscardDialog();
+        discardDialog.setDiscardDialogListener(this::finish);
+
+        int score = checkField();
+        if((mEditMode && mCheckFieldsEditMode) || (!mEditMode && score>0)){
+            discardDialog.show(getSupportFragmentManager(), null);
+        } else {
+            finish();
+        }
     }
 
     private void checkAvailability(){
@@ -240,6 +252,7 @@ public class AddMeetingActivity extends AppCompatActivity {
             mBinding.addMeetingListParticipantsRv.smoothScrollToPosition(mParticipantList.size());
             if(mParticipantList.size()>=2){
                 mCheckFields[FIELD_PARTICIPANTS] = true;
+                mCheckFieldsEditMode = true;
             }
         } else {
             Toast.makeText(this, getString(R.string.toast_email_field), Toast.LENGTH_SHORT).show();
@@ -293,20 +306,33 @@ public class AddMeetingActivity extends AppCompatActivity {
         Arrays.fill(mCheckFields, true);
     }
 
-    private boolean save() {
+    private int checkField(){
         // Check if subject edit text is fill
         if(!mBinding.addMeetingSubjectTv.getText().toString().equals("")){
             mCheckFields[FIELD_SUBJECT] = true;
         }
-
-        // Check if all fields are set
-        for(boolean checkField : mCheckFields) {
-            if (!checkField) {
-                Toast.makeText(this, getString(R.string.fill_all_fields_message), Toast.LENGTH_SHORT).show();
-                return false;
-            }
+        if(!mBinding.addMeetingSubjectTv.getText().toString().equals(mMeeting.getSubject())){
+            mCheckFieldsEditMode = true;
+        }
+        if(mEditMode && !mRoom.getId().equals(mMeeting.getRoom().getId())){
+            mCheckFieldsEditMode = true;
         }
 
+        int checkScore = 0;
+        // Check if all fields are set
+        for(boolean checkField : mCheckFields) {
+            if (checkField) {
+                checkScore++;
+            }
+        }
+        return checkScore;
+    }
+
+    private boolean save() {
+        if(checkField() != mCheckFields.length){
+            Toast.makeText(this, getString(R.string.fill_all_fields_message), Toast.LENGTH_SHORT).show();
+            return false;
+        }
         // Update local Meeting with all data needed
         mMeeting.setSubject(mBinding.addMeetingSubjectTv.getText().toString());
         mMeeting.setStartDate(mCalendar);
@@ -338,12 +364,10 @@ public class AddMeetingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home : {
-                // TODO discard changes dialog
-                finish();
+                openDiscardDialog();
                 return true;
             }
             case R.id.add_meeting_save : {
-                // TODO check fields
                 if(save()){
                     finish();
                 }
@@ -369,26 +393,15 @@ public class AddMeetingActivity extends AppCompatActivity {
         }
     }
 
-    private ColorStateList createChipStateColors() {
-        int[][] backgroundStates = new int[][] {
-                new int[] { android.R.attr.state_checked}, // checked
-                new int[] { -android.R.attr.state_checked}  // unchecked
-        };
-        int[] backgroundColors = new int[] {
-                getResources().getColor(R.color.blue),
-                getResources().getColor(R.color.light_grey)
-        };
-        return new ColorStateList(backgroundStates, backgroundColors);
-    }
-
     @Subscribe
-    public void onDeleteParticipantEvent(DeleteParticipantEvent event){
+    public void onDeleteParticipantEvent(DeleteParticipantEvent event) {
         int index = mParticipantList.indexOf(event.participant);
         mParticipantList.remove(event.participant);
         mAdapter.notifyItemRemoved(index);
-        if(mParticipantList.size()<2){
+        if (mParticipantList.size() < 2) {
             mCheckFields[FIELD_PARTICIPANTS] = false;
         }
+        mCheckFieldsEditMode = true;
     }
 
     @Override

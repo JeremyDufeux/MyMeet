@@ -94,7 +94,6 @@ public class DummyMeetingApiServiceTest {
 
     // All availability check is compared with the first of the list
     // Start on 1/12/20 at 12h00 with a duration of 1h10 in room 0
-
     @Test
     public void checkRoomAvailabilityBeforeMeeting() {
         Room room = service.getRoomList().get(0);

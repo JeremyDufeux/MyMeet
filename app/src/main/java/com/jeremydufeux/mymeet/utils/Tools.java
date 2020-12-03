@@ -1,5 +1,10 @@
 package com.jeremydufeux.mymeet.utils;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
+
+import com.jeremydufeux.mymeet.R;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 
@@ -35,5 +40,17 @@ public class Tools {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal;
+    }
+
+    public static ColorStateList createChipStateColors(Context context) {
+        int[][] backgroundStates = new int[][] {
+                new int[] { android.R.attr.state_checked}, // checked
+                new int[] { -android.R.attr.state_checked}  // unchecked
+        };
+        int[] backgroundColors = new int[] {
+                context.getResources().getColor(R.color.colorPrimary),
+                context.getResources().getColor(R.color.light_grey) // TODO color for night mode
+        };
+        return new ColorStateList(backgroundStates, backgroundColors);
     }
 }
