@@ -97,7 +97,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityBeforeMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,11,0);
+        Calendar start = getCalendarFromDate(2020,11,1,11,0);
         Calendar duration = getCalendarFromTime(0,30);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -107,7 +107,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityAfterMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,18,0);
+        Calendar start = getCalendarFromDate(2020,11,1,18,0);
         Calendar duration = getCalendarFromTime(0,30);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -117,7 +117,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityStartAtTheEndOfMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,13,0);
+        Calendar start = getCalendarFromDate(2020,11,1,13,0);
         Calendar duration = getCalendarFromTime(0,30);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -127,7 +127,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityEndOnMeetingStart() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,11,30);
+        Calendar start = getCalendarFromDate(2020,11,1,11,30);
         Calendar duration = getCalendarFromTime(0,30);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -137,7 +137,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityStartOnMeetingStart() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,12,0);
+        Calendar start = getCalendarFromDate(2020,11,1,12,0);
         Calendar duration = getCalendarFromTime(0,30);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -147,7 +147,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityStartOnMeetingStartInRoom2() {
         Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,12,1,12,0);
+        Calendar start = getCalendarFromDate(2020,11,1,12,0);
         Calendar duration = getCalendarFromTime(0,30);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -157,7 +157,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityEndOnMeetingEnd() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,12,30);
+        Calendar start = getCalendarFromDate(2020,11,1,12,30);
         Calendar duration = getCalendarFromTime(0,30);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -167,7 +167,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityEndOnMeetingEndInRoom2() {
         Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,12,1,12,30);
+        Calendar start = getCalendarFromDate(2020,11,1,12,30);
         Calendar duration = getCalendarFromTime(0,30);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -177,7 +177,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityEndDuringMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,11,30);
+        Calendar start = getCalendarFromDate(2020,11,1,11,30);
         Calendar duration = getCalendarFromTime(1,0);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -187,7 +187,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityEndDuringMeetingInRoom2() {
         Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,12,1,11,30);
+        Calendar start = getCalendarFromDate(2020,11,1,11,30);
         Calendar duration = getCalendarFromTime(1,0);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -197,7 +197,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityStartDuringMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,12,30);
+        Calendar start = getCalendarFromDate(2020,11,1,12,30);
         Calendar duration = getCalendarFromTime(1,0);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -207,7 +207,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityStartDuringMeetingInRoom2() {
         Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,12,1,12,30);
+        Calendar start = getCalendarFromDate(2020,11,1,12,30);
         Calendar duration = getCalendarFromTime(1,0);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -217,7 +217,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityIsDuringMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,12,1,12,10);
+        Calendar start = getCalendarFromDate(2020,11,1,12,10);
         Calendar duration = getCalendarFromTime(0,50);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
@@ -227,7 +227,7 @@ public class DummyMeetingApiServiceTest {
     @Test
     public void checkRoomAvailabilityIsDuringMeetingInRoom2() {
         Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,12,1,12,10);
+        Calendar start = getCalendarFromDate(2020,11,1,12,10);
         Calendar duration = getCalendarFromTime(0,50);
 
         boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);

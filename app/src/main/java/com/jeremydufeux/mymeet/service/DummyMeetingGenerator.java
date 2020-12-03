@@ -19,7 +19,7 @@ public class DummyMeetingGenerator {
         DUMMY_MEETING_LIST = new ArrayList<>();
         DUMMY_MEETING_LIST.add(new Meeting(
                 "Duck jokes",
-                getCalendarFromDate(2019,11,1,12,0),
+                getCalendarFromDate(2020,11,1,12,0),
                 getCalendarFromTime(1,0),
                 new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
                 rooms.get(0)));
