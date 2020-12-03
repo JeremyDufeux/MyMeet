@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.ActivityListMeetingBinding;
 import com.jeremydufeux.mymeet.di.DI;
+import com.jeremydufeux.mymeet.dialog.FilterDialog;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
 import com.jeremydufeux.mymeet.event.OpenMeetingEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
@@ -24,6 +25,7 @@ import com.jeremydufeux.mymeet.ui.add.AddMeetingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Calendar;
 import java.util.List;
 
 import static com.jeremydufeux.mymeet.ui.add.AddMeetingActivity.BUNDLE_EXTRA_MEETING_ADDED_AT;
@@ -105,7 +107,17 @@ public class ListMeetingActivity extends AppCompatActivity {
     }
 
     private void openFilterDialog(){
-        Log.d("Debug", "openFilterDialog");
+        FilterDialog filterDialog = new FilterDialog();
+        filterDialog.setFilterListener(new FilterDialog.FilterDialogListener() {
+            @Override
+            public void onFilterSet(Calendar dateSelection, boolean[] roomSelection) {
+            }
+
+            @Override
+            public void onClearFilter() {
+            }
+        });
+        filterDialog.show(getSupportFragmentManager(), null);
     }
 
     @Override
