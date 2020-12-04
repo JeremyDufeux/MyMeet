@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.view.View.NO_ID;
+import static com.jeremydufeux.mymeet.utils.Tools.checkEmail;
 import static com.jeremydufeux.mymeet.utils.Tools.createChipStateColors;
 import static com.jeremydufeux.mymeet.utils.Tools.getCalendarFromTime;
 import static com.jeremydufeux.mymeet.utils.Tools.getDateFromCal;
@@ -242,8 +243,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     private void addParticipant(){
         EditText participantEt = mBinding.addMeetingParticipantEt;
         String email = participantEt.getText().toString();
-        if(!email.equals("")){
-            // TODO Check email
+        if(checkEmail(email)){
             Participant participant = new Participant(email);
             mParticipantList.add(participant);
             mAdapter.notifyItemInserted(mParticipantList.indexOf(participant));

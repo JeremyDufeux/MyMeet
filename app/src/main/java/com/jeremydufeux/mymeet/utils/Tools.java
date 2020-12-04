@@ -7,6 +7,7 @@ import com.jeremydufeux.mymeet.R;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 public class Tools {
 
@@ -104,5 +105,14 @@ public class Tools {
             }
         }
         return 0xff000000 | (r << 16) | (g << 8) | (b);
+    }
+
+    public static boolean checkEmail(String email){
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        return pattern.matcher(email).matches();
     }
 }
