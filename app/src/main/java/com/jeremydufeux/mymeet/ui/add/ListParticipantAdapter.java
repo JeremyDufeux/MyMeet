@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jeremydufeux.mymeet.R;
-import com.jeremydufeux.mymeet.databinding.ParticipantItemBinding;
+import com.jeremydufeux.mymeet.databinding.ItemParticipantBinding;
 import com.jeremydufeux.mymeet.event.DeleteParticipantEvent;
 import com.jeremydufeux.mymeet.model.Participant;
 
@@ -26,7 +26,7 @@ public class ListParticipantAdapter extends RecyclerView.Adapter<ListParticipant
     @NonNull
     @Override
     public ParticipantHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.participant_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_participant, parent, false);
         return new ParticipantHolder(view);
     }
 
@@ -45,11 +45,11 @@ public class ListParticipantAdapter extends RecyclerView.Adapter<ListParticipant
     }
 
     public class ParticipantHolder extends RecyclerView.ViewHolder{
-        ParticipantItemBinding mBinding;
+        ItemParticipantBinding mBinding;
 
         public ParticipantHolder(View itemView) {
             super(itemView);
-            mBinding = ParticipantItemBinding.bind(itemView);
+            mBinding = ItemParticipantBinding.bind(itemView);
         }
     }
 }

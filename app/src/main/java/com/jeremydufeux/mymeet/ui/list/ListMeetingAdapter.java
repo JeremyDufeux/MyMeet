@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jeremydufeux.mymeet.R;
-import com.jeremydufeux.mymeet.databinding.MeetingItemBinding;
+import com.jeremydufeux.mymeet.databinding.ItemMeetingBinding;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
 import com.jeremydufeux.mymeet.event.OpenMeetingEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
@@ -31,7 +31,7 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
     @NonNull
     @Override
     public MeetingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meeting_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_meeting, parent, false);
         return new MeetingHolder(view);
     }
 
@@ -71,11 +71,11 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
     }
 
     public class MeetingHolder extends RecyclerView.ViewHolder{
-        MeetingItemBinding mBinding;
+        ItemMeetingBinding mBinding;
 
         public MeetingHolder(View itemView) {
             super(itemView);
-            mBinding = MeetingItemBinding.bind(itemView);
+            mBinding = ItemMeetingBinding.bind(itemView);
         }
     }
 }
