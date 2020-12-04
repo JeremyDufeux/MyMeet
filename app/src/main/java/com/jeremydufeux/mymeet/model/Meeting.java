@@ -99,5 +99,4 @@ public class Meeting implements Cloneable{
             return new InternalError("Clone Error");
         }
     }
-
 }

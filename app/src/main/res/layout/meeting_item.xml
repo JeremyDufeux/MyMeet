@@ -9,12 +9,12 @@
     android:paddingTop="10dp"
     android:paddingBottom="15dp">
 
-
-    <ImageView
+    <View
         android:id="@+id/meeting_item_room_im"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:src="@drawable/ic_room"
+        android:background="@drawable/shape_room_item"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@id/meeting_item_participant_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

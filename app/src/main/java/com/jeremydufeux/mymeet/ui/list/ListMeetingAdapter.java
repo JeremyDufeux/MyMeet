@@ -1,5 +1,6 @@
 package com.jeremydufeux.mymeet.ui.list;
 
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,8 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.databinding.MeetingItemBinding;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
@@ -40,10 +39,7 @@ public class ListMeetingAdapter extends RecyclerView.Adapter<ListMeetingAdapter.
     public void onBindViewHolder(@NonNull MeetingHolder holder, int position) {
         Meeting meeting = mMeetingList.get(position);
 
-        Glide.with(holder.mBinding.meetingItemRoomIm.getContext())
-                .load(meeting.getRoom().getImageUrl())
-                .apply(RequestOptions.circleCropTransform())
-                .into(holder.mBinding.meetingItemRoomIm);
+        holder.mBinding.meetingItemRoomIm.getBackground().setColorFilter(meeting.getRoom().getColor(), PorterDuff.Mode.SRC_ATOP);
 
         holder.mBinding.meetingItemRoomNumberTv.setText(String.format(Locale.getDefault(), "%d", meeting.getRoom().getNumber()));
         holder.mBinding.meetingItemSubjectTv.setText(meeting.getSubject());

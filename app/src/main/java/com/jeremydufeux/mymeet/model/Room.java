@@ -5,12 +5,12 @@ import java.util.UUID;
 public class Room {
     private final String mId;
     private int mNumber;
-    private String mImageUrl;
+    private int mColor;
 
-    public Room(int number, String imageUrl) {
+    public Room(int number, int color) {
         mId = UUID.randomUUID().toString();
         mNumber = number;
-        mImageUrl = imageUrl;
+        mColor = color;
     }
 
     public String getId() {
@@ -25,11 +25,11 @@ public class Room {
         mNumber = number;
     }
 
-    public String getImageUrl() {
-        return mImageUrl;
+    public int getColor() {
+        return mColor;
     }
 
-    public void setImageUrl(String imageUrl) {
-        mImageUrl = imageUrl;
+    public void setColor(int color) {
+        mColor = color;
     }
 }

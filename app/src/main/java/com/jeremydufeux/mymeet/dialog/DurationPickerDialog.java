@@ -71,7 +71,7 @@ public class DurationPickerDialog extends DialogFragment {
 
     @Override
     public void onStart() {
-        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.dialog_shape);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog_borders);
         super.onStart();
     }
 

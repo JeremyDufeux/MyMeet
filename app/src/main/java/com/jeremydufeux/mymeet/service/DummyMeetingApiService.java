@@ -8,34 +8,34 @@ import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService{
     public static final int ROOM_AMOUNT = 10;
-    private List<Room> roomList = DummyRoomGenerator.generateRooms(ROOM_AMOUNT);
-    private List<Meeting> meetingList = DummyMeetingGenerator.generateMeetings(roomList);
+    private List<Room> mRoomList = DummyRoomGenerator.generateRooms(ROOM_AMOUNT);
+    private List<Meeting> mMeetingList = DummyMeetingGenerator.generateMeetings(mRoomList);
 
     @Override
     public List<Meeting> getMeetingList() {
-        return meetingList;
+        return mMeetingList;
     }
 
     @Override
     public List<Room> getRoomList() {
-        return roomList;
+        return mRoomList;
     }
 
     @Override
     public void addMeeting(Meeting meeting) {
-        meetingList.add(meeting);
+        mMeetingList.add(meeting);
     }
 
     @Override
     public void deleteMeeting(Meeting meeting) {
-        meetingList.remove(meeting);
+        mMeetingList.remove(meeting);
     }
 
     @Override
     public void updateMeeting(Meeting meetingToUpdate) {
-        for (Meeting meeting : meetingList) {
+        for (Meeting meeting : mMeetingList) {
             if (meeting.getId().equals(meetingToUpdate.getId())) {
-                meetingList.set(meetingList.indexOf(meeting), meetingToUpdate);
+                mMeetingList.set(mMeetingList.indexOf(meeting), meetingToUpdate);
                 break;
             }
         }
@@ -48,7 +48,7 @@ public class DummyMeetingApiService implements MeetingApiService{
         A_End.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
         A_End.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
 
-        for(Meeting meeting : meetingList){
+        for(Meeting meeting : mMeetingList){
             if(!id.equals(meeting.getId())) {
                 if (meeting.getRoom().getNumber() == room.getNumber()) {
                     Calendar B_Start = meeting.getStartDate();
