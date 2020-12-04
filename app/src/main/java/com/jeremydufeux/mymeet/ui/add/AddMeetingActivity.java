@@ -59,12 +59,13 @@ public class AddMeetingActivity extends AppCompatActivity {
     private boolean mEditMode; // false = Add Mode / true = Edit Mode
 
     private boolean[] mCheckFields;
-    public static final int FIELD_SUBJECT       = 0;
-    public static final int FIELD_DATE          = 1;
-    public static final int FIELD_TIME          = 2;
-    public static final int FIELD_DURATION      = 3;
-    public static final int FIELD_ROOM          = 4;
-    public static final int FIELD_PARTICIPANTS  = 5;
+    public static final int FIELD_SUBJECT               = 0;
+    public static final int FIELD_DATE                  = 1;
+    public static final int FIELD_TIME                  = 2;
+    public static final int FIELD_DURATION              = 3;
+    public static final int FIELD_ROOM                  = 4;
+    public static final int FIELD_PARTICIPANTS          = 5;
+    public static final int FIELD_PARTICIPANTS_AMOUNT   = 6;
     private boolean mCheckFieldsEditMode;
 
     private List<Room> mRoomsList;
@@ -85,7 +86,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         mService = DI.getMeetingApiService();
 
-        mCheckFields = new boolean[FIELD_PARTICIPANTS+1];
+        mCheckFields = new boolean[FIELD_PARTICIPANTS_AMOUNT +1];
         Arrays.fill(mCheckFields, false);
 
         mRoomsList = mService.getRoomList();
@@ -137,13 +138,10 @@ public class AddMeetingActivity extends AppCompatActivity {
         });
 
         mBinding.addMeetingDateEt.setOnClickListener(view -> openCalendarDialog());
-
         mBinding.addMeetingTimeEt.setOnClickListener(view -> openTimeDialog());
-
         mBinding.addMeetingDurationEt.setOnClickListener(view -> openDurationDialog());
 
         mBinding.addMeetingAddParticipantBtn.setOnClickListener(v -> addParticipant());
-
         mBinding.addMeetingParticipantEt.setOnEditorActionListener((v, actionId, event) -> {
             if(actionId == EditorInfo.IME_ACTION_DONE) addParticipant();
             return false;
@@ -250,10 +248,8 @@ public class AddMeetingActivity extends AppCompatActivity {
             participantEt.setText("");
             closeKeyboard();
             mBinding.addMeetingListParticipantsRv.smoothScrollToPosition(mParticipantList.size());
-            if(mParticipantList.size()>=2){
-                mCheckFields[FIELD_PARTICIPANTS] = true;
-                mCheckFieldsEditMode = true;
-            }
+            mCheckFields[FIELD_PARTICIPANTS] = true;
+            mCheckFieldsEditMode = true;
         } else {
             Toast.makeText(this, getString(R.string.toast_email_field), Toast.LENGTH_SHORT).show();
         }
@@ -310,6 +306,9 @@ public class AddMeetingActivity extends AppCompatActivity {
         // Check if subject edit text is fill
         if(!mBinding.addMeetingSubjectTv.getText().toString().equals("")){
             mCheckFields[FIELD_SUBJECT] = true;
+        }
+        if(mParticipantList.size()>=2){
+            mCheckFields[FIELD_PARTICIPANTS_AMOUNT] = true;
         }
         if(!mBinding.addMeetingSubjectTv.getText().toString().equals(mMeeting.getSubject())){
             mCheckFieldsEditMode = true;
