@@ -1,114 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/meeting_item"
-    android:paddingHorizontal="10dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="15dp">
+    android:gravity="center"
+    android:padding="10dp">
 
-    <View
-        android:id="@+id/meeting_item_room_im"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:background="@drawable/shape_room_item"
-        android:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/meeting_item_participant_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/room_color" />
-
-    <TextView
-        android:id="@+id/meeting_item_room_label_tv"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/dark_grey"
-        android:text="@string/room"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/meeting_item_room_im"
-        app:layout_constraintStart_toStartOf="@+id/meeting_item_room_im"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:viewBindingIgnore="true" />
+        android:layout_weight = "0">
+        <View
+            android:id="@+id/meeting_item_room_im"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/shape_room_item"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/room_color" />
 
-    <TextView
-        android:id="@+id/meeting_item_room_number_tv"
+        <TextView
+            android:id="@+id/meeting_item_room_label_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/room"
+            android:textColor="@color/dark_grey"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/meeting_item_room_im"
+            app:layout_constraintStart_toStartOf="@+id/meeting_item_room_im"
+            app:layout_constraintTop_toTopOf="@+id/meeting_item_room_im"
+            tools:viewBindingIgnore="true" />
+
+        <TextView
+            android:id="@+id/meeting_item_room_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_1"
+            android:textColor="@color/dark_grey"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="@+id/meeting_item_room_im"
+            app:layout_constraintStart_toStartOf="@+id/meeting_item_room_im"
+            app:layout_constraintBottom_toBottomOf="@+id/meeting_item_room_im"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/dark_grey"
-        android:text="@string/_1"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="@+id/meeting_item_room_im"
-        app:layout_constraintStart_toStartOf="@+id/meeting_item_room_im"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight = "1"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/meeting_item_subject_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/subject"
+            android:textColor="@color/colorOnSecondary"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/meeting_item_subject_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="@string/subject"
-        android:textColor="@color/colorOnSecondary"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/meeting_item_date_tv"
-        app:layout_constraintStart_toStartOf="@+id/meeting_item_participant_tv"
-        app:layout_constraintTop_toTopOf="@+id/meeting_item_room_im" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/meeting_item_date_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight = "1"
+                android:text="@string/_29_11_1990"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/meeting_item_time_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight = "1"
+                android:text="@string/_10_30_12_00"
+                android:textAlignment="textEnd"
+                android:textSize="18sp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/meeting_item_date_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="@string/_29_11_1990"
-        android:textColor="@color/colorOnSecondary"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/meeting_item_remove_iv"
-        app:layout_constraintTop_toTopOf="@+id/meeting_item_subject_tv" />
-
-
-    <TextView
-        android:id="@+id/meeting_item_time_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/_10h55"
-        android:textColor="@color/colorOnSecondary"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/meeting_item_participant_tv"
-        app:layout_constraintEnd_toEndOf="@+id/meeting_item_date_tv" />
-
-
-    <TextView
-        android:id="@+id/meeting_item_participant_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="@string/participants"
-        app:layout_constraintBottom_toBottomOf="@id/meeting_item_room_im"
-        app:layout_constraintEnd_toStartOf="@+id/meeting_item_time_tv"
-        app:layout_constraintStart_toEndOf="@+id/meeting_item_room_im" />
+        <TextView
+            android:id="@+id/meeting_item_participant_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/participants"/>
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/meeting_item_remove_iv"
         android:layout_width="25sp"
         android:layout_height="25dp"
+        android:layout_weight = "0"
         android:layout_marginEnd="5dp"
         android:contentDescription="@string/remove_meeting"
         app:srcCompat="@drawable/ic_bin"
         android:scaleType="fitXY"
         android:background="@null"
         android:tint="@color/grey"
-        app:layout_constraintBottom_toBottomOf="@+id/meeting_item_room_im"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/grey" />
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
