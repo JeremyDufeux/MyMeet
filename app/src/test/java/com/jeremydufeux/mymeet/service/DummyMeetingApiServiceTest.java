@@ -92,145 +92,286 @@ public class DummyMeetingApiServiceTest {
         assertEquals("Hello", service.getMeetingList().get(0).getSubject());
     }
 
-    // All availability check is compared with the first of the list
-    // Start on 1/12/20 at 12h00 with a duration of 1h10 in room 0
+    // All availability check is compared with an event added just before
+    // Start on 20/01/1990 at 10h00 with a duration of 1h30 in room 0
     @Test
     public void checkRoomAvailabilityBeforeMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,11,0);
+
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,9,0);
         Calendar duration = getCalendarFromTime(0,30);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
         assertTrue(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityAfterMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,18,0);
+
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,12,0);
         Calendar duration = getCalendarFromTime(0,30);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
         assertTrue(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityStartAtTheEndOfMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,13,0);
+
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,11,30);
         Calendar duration = getCalendarFromTime(0,30);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
         assertTrue(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityEndOnMeetingStart() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,11,30);
+
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,9,30);
         Calendar duration = getCalendarFromTime(0,30);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
         assertTrue(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityStartOnMeetingStart() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,12,0);
+
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,10,0);
         Calendar duration = getCalendarFromTime(0,30);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
         assertFalse(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityStartOnMeetingStartInRoom2() {
-        Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,11,1,12,0);
+        Room room1 = service.getRoomList().get(0);
+        Room room2 = service.getRoomList().get(1);
+
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room1);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,10,0);
         Calendar duration = getCalendarFromTime(0,30);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        boolean isRoomAvailable = service.checkRoomAvailability("", room2, start, duration);
         assertTrue(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityEndOnMeetingEnd() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,12,30);
+
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,11,0);
         Calendar duration = getCalendarFromTime(0,30);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
         assertFalse(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityEndOnMeetingEndInRoom2() {
-        Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,11,1,12,30);
+        Room room1 = service.getRoomList().get(0);
+        Room room2 = service.getRoomList().get(1);
+
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room1);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,11,0);
         Calendar duration = getCalendarFromTime(0,30);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        boolean isRoomAvailable = service.checkRoomAvailability("", room2, start, duration);
         assertTrue(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityEndDuringMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,11,30);
-        Calendar duration = getCalendarFromTime(1,0);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,9,40);
+        Calendar duration = getCalendarFromTime(0,30);
+
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
         assertFalse(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityEndDuringMeetingInRoom2() {
-        Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,11,1,11,30);
-        Calendar duration = getCalendarFromTime(1,0);
+        Room room1 = service.getRoomList().get(0);
+        Room room2 = service.getRoomList().get(1);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room1);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,9,40);
+        Calendar duration = getCalendarFromTime(0,30);
+
+        boolean isRoomAvailable = service.checkRoomAvailability("", room2, start, duration);
         assertTrue(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityStartDuringMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,12,30);
-        Calendar duration = getCalendarFromTime(1,0);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,11,20);
+        Calendar duration = getCalendarFromTime(0,30);
+
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
         assertFalse(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityStartDuringMeetingInRoom2() {
-        Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,11,1,12,30);
-        Calendar duration = getCalendarFromTime(1,0);
+        Room room1 = service.getRoomList().get(0);
+        Room room2 = service.getRoomList().get(1);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room1);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,11,20);
+        Calendar duration = getCalendarFromTime(0,30);
+
+        boolean isRoomAvailable = service.checkRoomAvailability("", room2, start, duration);
         assertTrue(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityIsDuringMeeting() {
         Room room = service.getRoomList().get(0);
-        Calendar start = getCalendarFromDate(2020,11,1,12,10);
-        Calendar duration = getCalendarFromTime(0,50);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,10,30);
+        Calendar duration = getCalendarFromTime(0,30);
+
+        boolean isRoomAvailable = service.checkRoomAvailability("", room, start, duration);
+        System.out.println(isRoomAvailable);
         assertFalse(isRoomAvailable);
     }
 
     @Test
     public void checkRoomAvailabilityIsDuringMeetingInRoom2() {
-        Room room = service.getRoomList().get(1);
-        Calendar start = getCalendarFromDate(2020,11,1,12,10);
-        Calendar duration = getCalendarFromTime(0,50);
+        Room room1 = service.getRoomList().get(0);
+        Room room2 = service.getRoomList().get(1);
 
-        boolean isRoomAvailable = service.checkRoomAvailability("", room,start, duration);
+        Meeting meeting = new Meeting(
+                "Subject",
+                getCalendarFromDate(1990,1,20,10,0),
+                getCalendarFromTime(1,30),
+                new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
+                room1);
+        service.addMeeting(meeting);
+
+        Calendar start = getCalendarFromDate(1990,1,20,10,30);
+        Calendar duration = getCalendarFromTime(0,30);
+
+        boolean isRoomAvailable = service.checkRoomAvailability("", room2, start, duration);
         assertTrue(isRoomAvailable);
+    }
+
+    @Test
+    public void before() {
+
+        Calendar A = getCalendarFromDate(1990,1,20,10,30);
+        Calendar B = getCalendarFromDate(1990,1,20,18,30);
+
+        assertTrue(A.before(B));
     }
 }

@@ -7,6 +7,7 @@ import com.jeremydufeux.mymeet.model.Room;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.jeremydufeux.mymeet.utils.Tools.getCalendarFromDate;
@@ -53,7 +54,7 @@ public class DummyMeetingGenerator {
                 rooms.get(4)));
 
         DUMMY_MEETING_LIST.add(new Meeting(
-                "Color pens",
+                "Socks colors",
                 getCalendarFromDate(2020,11,5,10,0),
                 getCalendarFromTime(2,40),
                 new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
@@ -79,6 +80,8 @@ public class DummyMeetingGenerator {
                 getCalendarFromTime(1,0),
                 new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
                 rooms.get(9)));
+
+        Collections.sort(DUMMY_MEETING_LIST);
 
         return DUMMY_MEETING_LIST;
     }

@@ -4,6 +4,7 @@ import com.jeremydufeux.mymeet.model.Meeting;
 import com.jeremydufeux.mymeet.model.Room;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService{
@@ -24,6 +25,7 @@ public class DummyMeetingApiService implements MeetingApiService{
     @Override
     public void addMeeting(Meeting meeting) {
         mMeetingList.add(meeting);
+        Collections.sort(mMeetingList);
     }
 
     @Override
@@ -39,6 +41,7 @@ public class DummyMeetingApiService implements MeetingApiService{
                 break;
             }
         }
+        Collections.sort(mMeetingList);
     }
 
     public boolean checkRoomAvailability(String id, Room room, Calendar A_Start, Calendar duration) {
@@ -51,6 +54,8 @@ public class DummyMeetingApiService implements MeetingApiService{
         for(Meeting meeting : mMeetingList){
             if(!id.equals(meeting.getId())) {
                 if (meeting.getRoom().getNumber() == room.getNumber()) {
+
+                    System.out.println(meeting.getSubject());
                     Calendar B_Start = meeting.getStartDate();
                     Calendar B_End = meeting.getEndDate();
 
@@ -59,6 +64,9 @@ public class DummyMeetingApiService implements MeetingApiService{
                         roomAvailable = false;
                     } else if (A_End.compareTo(B_End) == 0) {
                         // The meeting have the same end time than another
+                        roomAvailable = false;
+                    } else if(A_Start.after(B_Start) && A_End.before(B_End)){
+                        // The meeting start after and end before than another
                         roomAvailable = false;
                     } else if (B_Start.after(A_Start)) {
                         if (B_Start.before(A_End) && !(B_Start.compareTo(A_End) == 0)) {

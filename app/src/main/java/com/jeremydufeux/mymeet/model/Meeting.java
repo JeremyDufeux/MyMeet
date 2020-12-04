@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-public class Meeting implements Cloneable{
+public class Meeting implements Cloneable, Comparable<Meeting>{
     private String mId;
     private String mSubject;
     private Calendar mStartDate;
@@ -98,5 +98,10 @@ public class Meeting implements Cloneable{
             e.printStackTrace();
             return new InternalError("Clone Error");
         }
+    }
+
+    @Override
+    public int compareTo(Meeting o) {
+        return this.getStartDate().compareTo(o.getStartDate());
     }
 }
