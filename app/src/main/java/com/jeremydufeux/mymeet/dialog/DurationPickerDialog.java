@@ -20,47 +20,47 @@ import java.util.Objects;
 public class DurationPickerDialog extends DialogFragment {
     private final static String[] DISPLAYED_MINS = { "0", "10", "20", "30", "40", "50" };
     private DurationPickerDialogListener valueChangeListener;
-    private int hour = 0;
-    private int minute = 0;
+    private int mHour = 0;
+    private int mMinute = 0;
 
     @SuppressLint("InflateParams")
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) { // Create the duration picker dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
-        View mView = inflater.inflate(R.layout.dialog_duration_picker, null);
+        View mView = inflater.inflate(R.layout.dialog_duration_picker, null); // inflate dialog_duration_picker.xml
 
-        NumberPicker numberPicker1 = mView.findViewById(R.id.dialog_duration_hour_np);
-        numberPicker1.setMinValue(0);
-        numberPicker1.setMaxValue(23);
-        numberPicker1.setValue(hour);
+        NumberPicker hoursPicker = mView.findViewById(R.id.dialog_duration_hour_np); // Get hours numberPicker and set his min and max values and default values
+        hoursPicker.setMinValue(0);
+        hoursPicker.setMaxValue(23);
+        hoursPicker.setValue(mHour);
 
 
-        NumberPicker numberPicker2 = mView.findViewById(R.id.dialog_duration_minute_np);
-        numberPicker2.setMinValue(0);
-        numberPicker2.setMaxValue(DISPLAYED_MINS.length-1);
-        numberPicker2.setDisplayedValues(DISPLAYED_MINS);
+        NumberPicker minutesPicker = mView.findViewById(R.id.dialog_duration_minute_np); // setup minutes picker to display the array of minutes
+        minutesPicker.setMinValue(0);
+        minutesPicker.setMaxValue(DISPLAYED_MINS.length-1);
+        minutesPicker.setDisplayedValues(DISPLAYED_MINS);
 
         int minuteSelection = 0;
-        for (int i = 0; i < DISPLAYED_MINS.length; i++) {
-            if(DISPLAYED_MINS[i].equals(String.format(Locale.getDefault(),"%02d", minute))){
+        for (int i = 0; i < DISPLAYED_MINS.length; i++) {                               // get index of selected minutes
+            if(DISPLAYED_MINS[i].equals(String.format(Locale.getDefault(),"%02d", mMinute))){
                 minuteSelection = i;
             }
         }
-        numberPicker2.setValue(minuteSelection);
+        minutesPicker.setValue(minuteSelection);
 
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
-            hour = numberPicker1.getValue();
-            minute = numberPicker2.getValue()*10;
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> {                           // Set positive button to send selected values to listener
+            mHour = hoursPicker.getValue();
+            mMinute = minutesPicker.getValue()*10;
 
-            valueChangeListener.onDurationSet(hour, minute);
+            valueChangeListener.onDurationSet(mHour, mMinute);
         });
 
         builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
         });
 
-        View header = inflater.inflate(R.layout.dialog_custom_header, null);
+        View header = inflater.inflate(R.layout.dialog_custom_header, null);      // Inflate custom header and set title
         TextView titleTv = header.findViewById(R.id.dialog_custom_header_title);
         titleTv.setText(R.string.select_meeting_duration);
         builder.setCustomTitle(header);
@@ -71,16 +71,16 @@ public class DurationPickerDialog extends DialogFragment {
 
     @Override
     public void onStart() {
-        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog_borders);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog_borders);  // Add shape to window
         super.onStart();
     }
 
     public void setHour(int hour) {
-        this.hour = hour;
+        this.mHour = hour;
     }
 
     public void setMinute(int minute) {
-        this.minute = minute;
+        this.mMinute = minute;
     }
 
     public void setDurationSetListener(DurationPickerDialogListener valueChangeListener) {

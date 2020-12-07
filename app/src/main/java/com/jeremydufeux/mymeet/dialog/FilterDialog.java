@@ -47,20 +47,20 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View mView = inflater.inflate(R.layout.dialog_filter, null);
 
-        mRoomList = DI.getMeetingApiService().getRoomList();
-        if(mRoomSelection==null) {
+        mRoomList = DI.getMeetingApiService().getRoomList();                                // Get room list
+        if(mRoomSelection==null) {                                                          // Create a Hashpmap to store room number as a key string and selection as boolean
             mRoomSelection = new HashMap<>();
-            setRoomSelectionToAll();
+            setRoomSelectionToAll();                                                        // Select all rooms
         }
 
-        CalendarView calendarView = mView.findViewById(R.id.dialog_filter_cal);
+        CalendarView calendarView = mView.findViewById(R.id.dialog_filter_cal);                         // get Calendar view and set listener to grab selected date
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> mDateSelection = getCalendarFromDate(year, month, dayOfMonth, 0, 0));
-        if(mDateSelection!=null) calendarView.setDate(mDateSelection.getTimeInMillis());
+        if(mDateSelection!=null) calendarView.setDate(mDateSelection.getTimeInMillis());   // if date selection already set, select it in calendar
 
-        ChipGroup chipGroup = mView.findViewById(R.id.dialog_filter_rooms_cpg);
+        ChipGroup chipGroup = mView.findViewById(R.id.dialog_filter_rooms_cpg);             // get chipGroup
         mChipList = new ArrayList<>();
         
-        mChipAll = new Chip(getActivity());
+        mChipAll = new Chip(getActivity());                                                 // Create chip that represent all rooms and select it depending of mRoomSelection
         mChipAll.setText(R.string.all);
         mChipAll.setTag("all");
         mChipAll.setCheckable(true);
@@ -69,7 +69,7 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
         mChipAll.setOnCheckedChangeListener(this);
         chipGroup.addView(mChipAll);
 
-        for (int i = 0; i < mRoomList.size(); i++) {
+        for (int i = 0; i < mRoomList.size(); i++) {                                        // Create chip for each room and select it depending of mRoomSelection
             Room room = mRoomList.get(i);
             mChipList.add(new Chip(getActivity()));
             String roomTitle = String.format(Locale.getDefault(), "%s %d", getString(R.string.room), room.getNumber());
@@ -82,11 +82,11 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
             chipGroup.addView(mChipList.get(i));
         }
 
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> onSetListener.onFilterSet(mDateSelection, mRoomSelection));
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> onSetListener.onFilterSet(mDateSelection, mRoomSelection)); // Set positive button to send filter to listener
         builder.setNegativeButton(R.string.cancel, null);
-        builder.setNeutralButton(R.string.clear_filters, (dialog, which) -> onSetListener.onClearFilter());
+        builder.setNeutralButton(R.string.clear_filters, (dialog, which) -> onSetListener.onClearFilter());                   // Set neutral button to clear filter to listener
 
-        View header = inflater.inflate(R.layout.dialog_custom_header, null);
+        View header = inflater.inflate(R.layout.dialog_custom_header, null);      // Inflate custom header and set title
         TextView titleTv = header.findViewById(R.id.dialog_custom_header_title);
         titleTv.setText(R.string.filter_dialog_title);
         builder.setCustomTitle(header);
@@ -98,22 +98,22 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(buttonView.getTag().equals("all")){
-            if(isChecked){
+            if(isChecked){                                  // If "all" Chip is checked, uncheck all room Chip
                 for (int i = 0; i < mRoomList.size(); i++) {
                     mChipList.get(i).setChecked(false);
                 }
-                setRoomSelectionToAll();
+                setRoomSelectionToAll();                    // change Hashmap selection
             }
         } else {
-            if(mChipAll.isChecked() && isChecked){
+            if(mChipAll.isChecked() && isChecked){          // if "all" checked, uncheck it and turn his value to false in the hashmap
                 mChipAll.setChecked(false);
                 mRoomSelection.put("all", false);
             }
-            mRoomSelection.put(buttonView.getTag().toString(), isChecked);
+            mRoomSelection.put(buttonView.getTag().toString(), isChecked); // Set checked room to true in the hashmap
         }
     }
 
-    private void setRoomSelectionToAll(){
+    private void setRoomSelectionToAll(){ // set hashmap key "all" to true and all the other one to false
         mRoomSelection.put("all", true);
         for (int i = 0; i < mRoomList.size(); i++) {
             mRoomSelection.put(Integer.toString(mRoomList.get(i).getNumber()), false);
@@ -130,7 +130,7 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
 
     @Override
     public void onStart() {
-        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog_borders);
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog_borders);  // Add shape to window
         super.onStart();
     }
 

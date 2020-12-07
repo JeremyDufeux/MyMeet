@@ -81,7 +81,7 @@ public class DummyMeetingGenerator {
                 new ArrayList<>(Arrays.asList(new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"), new Participant("jeremy.dufeux@gmail.com"))),
                 rooms.get(9)));
 
-        Collections.sort(DUMMY_MEETING_LIST);
+        Collections.sort(DUMMY_MEETING_LIST);  // Sort Meeting by date
 
         return DUMMY_MEETING_LIST;
     }

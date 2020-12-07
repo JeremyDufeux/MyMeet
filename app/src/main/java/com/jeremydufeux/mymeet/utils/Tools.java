@@ -11,15 +11,15 @@ import java.util.regex.Pattern;
 
 public class Tools {
 
-    public static String getTimeFromCal(Calendar cal){
+    public static String getTimeFromCal(Calendar cal){  // Get a string representation of time of the given Calendar
         return DateFormat.getTimeInstance(DateFormat.SHORT).format(cal.getTime());
     }
 
-    public static String getDateFromCal(Calendar cal){
+    public static String getDateFromCal(Calendar cal){  // Get a string representation of date of the given Calendar
         return DateFormat.getDateInstance(DateFormat.SHORT).format(cal.getTime());
     }
 
-    public static Calendar getCalendarFromDate(int year, int month, int day, int hour, int minute){
+    public static Calendar getCalendarFromDate(int year, int month, int day, int hour, int minute){ // get calendar a from year, month, day, hour and minute
         Calendar cal = Calendar.getInstance();  // TODO Check clear()
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);
@@ -31,7 +31,7 @@ public class Tools {
         return cal;
     }
 
-    public static Calendar getCalendarFromTime(int hour, int minute){
+    public static Calendar getCalendarFromTime(int hour, int minute){ // get calendar a from hour and minute
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 0);
         cal.set(Calendar.MONTH, 0);
@@ -43,13 +43,13 @@ public class Tools {
         return cal;
     }
 
-    public static boolean isSameDay(Calendar calendarA, Calendar calendarB){
+    public static boolean isSameDay(Calendar calendarA, Calendar calendarB){ // Compare calendars to check if they are same day
         return calendarA.get(Calendar.YEAR) == calendarB.get(Calendar.YEAR) &&
                 calendarA.get(Calendar.MONTH) == calendarB.get(Calendar.MONTH) &&
                 calendarA.get(Calendar.DAY_OF_MONTH) == calendarB.get(Calendar.DAY_OF_MONTH);
     }
 
-    public static ColorStateList createChipStateColors(Context context) {
+    public static ColorStateList createChipStateColors(Context context) { // Generate states colors for chip with theme colors for check state
         int[][] backgroundStates = new int[][] {
                 new int[] { android.R.attr.state_checked}, // checked
                 new int[] { -android.R.attr.state_checked}  // unchecked
@@ -61,7 +61,7 @@ public class Tools {
         return new ColorStateList(backgroundStates, backgroundColors);
     }
 
-    public static int HSBtoRGB(float hue, float saturation, float brightness) {
+    public static int HSBtoRGB(float hue, float saturation, float brightness) { // Method from java.awt.Color to get RGB color From HSB
         int r = 0, g = 0, b = 0;
         if (saturation == 0) {
             r = g = b = (int) (brightness * 255.0f + 0.5f);
@@ -107,7 +107,7 @@ public class Tools {
         return 0xff000000 | (r << 16) | (g << 8) | (b);
     }
 
-    public static boolean checkEmail(String email){
+    public static boolean checkEmail(String email){ // Check if string is a valid email address
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +

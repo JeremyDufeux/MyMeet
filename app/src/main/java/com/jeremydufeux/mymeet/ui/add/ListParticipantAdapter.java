@@ -31,7 +31,7 @@ public class ListParticipantAdapter extends RecyclerView.Adapter<ListParticipant
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ParticipantHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ParticipantHolder holder, int position) { // Set Meeting data for each view holder
         Participant participant = mParticipantsList.get(position);
 
         holder.mBinding.participantItemEmailEt.setText(participant.getEmail());

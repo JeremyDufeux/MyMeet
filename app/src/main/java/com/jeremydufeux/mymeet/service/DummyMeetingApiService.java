@@ -23,7 +23,7 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
-    public void addMeeting(Meeting meeting) {
+    public void addMeeting(Meeting meeting) {   // Add meeting to list and sort
         mMeetingList.add(meeting);
         Collections.sort(mMeetingList);
     }
@@ -34,14 +34,14 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
-    public void updateMeeting(Meeting meetingToUpdate) {
+    public void updateMeeting(Meeting meetingToUpdate) {    // update the meeting, it must have the same id than the one to update
         for (Meeting meeting : mMeetingList) {
             if (meeting.getId().equals(meetingToUpdate.getId())) {
                 mMeetingList.set(mMeetingList.indexOf(meeting), meetingToUpdate);
                 break;
             }
         }
-        Collections.sort(mMeetingList);
+        Collections.sort(mMeetingList);                     // Sort list by date
     }
 
     public boolean checkRoomAvailability(String id, Room room, Calendar A_Start, Calendar duration) {
@@ -52,30 +52,28 @@ public class DummyMeetingApiService implements MeetingApiService{
         A_End.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
 
         for(Meeting meeting : mMeetingList){
-            if(!id.equals(meeting.getId())) {
-                if (meeting.getRoom().getNumber() == room.getNumber()) {
+            if(!id.equals(meeting.getId())) {                               // Avoid to check availability with the edited Meeting
+                if (meeting.getRoom().getNumber() == room.getNumber()) {    // Check to compare meeting of the selected room
 
-                    System.out.println(meeting.getSubject());
                     Calendar B_Start = meeting.getStartDate();
                     Calendar B_End = meeting.getEndDate();
 
-                    if (A_Start.compareTo(B_Start) == 0) {
-                        // The meeting have the same start time than another
+                    if (A_Start.compareTo(B_Start) == 0) {                               // The meeting have the same start time than another
                         roomAvailable = false;
-                    } else if (A_End.compareTo(B_End) == 0) {
-                        // The meeting have the same end time than another
+                    }
+                    else if (A_End.compareTo(B_End) == 0) {                              // The meeting have the same end time than another
                         roomAvailable = false;
-                    } else if(A_Start.after(B_Start) && A_End.before(B_End)){
-                        // The meeting start after and end before than another
+                    }
+                    else if(A_Start.after(B_Start) && A_End.before(B_End)){              // The meeting start after and end before than another
                         roomAvailable = false;
-                    } else if (B_Start.after(A_Start)) {
-                        if (B_Start.before(A_End) && !(B_Start.compareTo(A_End) == 0)) {
-                            // The meeting end during another / But can end at the beginning of another one
+                    }
+                    else if (A_Start.before(B_Start)) {
+                        if (A_End.after(B_Start) && !(A_End.compareTo(B_Start) == 0)) { // The meeting end during another / But can end at the beginning of another one
                             roomAvailable = false;
                         }
-                    } else if (B_End.after(A_Start)) {
-                        if (B_End.before(A_End)) {
-                            // The meeting start during another
+                    }
+                    else if (A_Start.before(B_End)) {
+                        if (A_End.after(B_End)) {                                       // The meeting start during another
                             roomAvailable = false;
                         }
                     }

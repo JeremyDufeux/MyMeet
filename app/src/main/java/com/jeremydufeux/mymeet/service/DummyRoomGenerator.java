@@ -13,7 +13,7 @@ public class DummyRoomGenerator {
     public static List<Room> generateRooms(int amount) {
         DUMMY_ROOM_LIST = new ArrayList<>();
 
-        for (int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {      // create rooms with a unique color calculated with a hue and converted in RGB via tool method
             float hue = (1f/amount)*i;
             DUMMY_ROOM_LIST.add(new Room(i+1, HSBtoRGB(hue, 0.2f, 1)));
         }

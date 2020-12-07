@@ -21,7 +21,7 @@ public class DiscardDialog extends DialogFragment {
     @SuppressLint("InflateParams")
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) { // Create a Dialog with custom text, window shape and header
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
 

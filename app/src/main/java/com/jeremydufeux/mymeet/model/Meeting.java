@@ -18,13 +18,13 @@ public class Meeting implements Cloneable, Comparable<Meeting>{
 
 
     public Meeting(String subject, Calendar startDate, Calendar duration, List<Participant> participants, Room room) {
-        mId = UUID.randomUUID().toString();
+        mId = UUID.randomUUID().toString(); // Use UUID to fin a unique object id
         mSubject = subject;
         mStartDate = startDate;
         mDuration = duration;
         mParticipants = participants;
         mRoom = room;
-        setDuration(duration);
+        addDurationToEndDate(duration);
     }
 
     public String getId() {
@@ -59,7 +59,7 @@ public class Meeting implements Cloneable, Comparable<Meeting>{
         return mDuration;
     }
 
-    public void setDuration(Calendar duration) {
+    public void addDurationToEndDate(Calendar duration) {  // set EndDate with mDuration values
         mEndDate = (Calendar) mStartDate.clone();
         mEndDate.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
         mEndDate.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
@@ -81,9 +81,14 @@ public class Meeting implements Cloneable, Comparable<Meeting>{
         mRoom = room;
     }
 
+    @Override
+    public int compareTo(Meeting o) { // Implement Comparable to sort lists of meetings by date
+        return this.getStartDate().compareTo(o.getStartDate());
+    }
+
     @NonNull
     @Override
-    public Object clone() {
+    public Object clone() {     // Implement Cloneable to have the possibility to edit it easily
         try {
             Meeting clone = (Meeting) super.clone();
             clone.mId = this.mId;
@@ -98,10 +103,5 @@ public class Meeting implements Cloneable, Comparable<Meeting>{
             e.printStackTrace();
             return new InternalError("Clone Error");
         }
-    }
-
-    @Override
-    public int compareTo(Meeting o) {
-        return this.getStartDate().compareTo(o.getStartDate());
     }
 }
