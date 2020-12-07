@@ -10,7 +10,7 @@
         android:id="@+id/list_meetings_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_meeting"/>
+        tools:listitem="@layout/item_meeting" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/list_meetings_fab"

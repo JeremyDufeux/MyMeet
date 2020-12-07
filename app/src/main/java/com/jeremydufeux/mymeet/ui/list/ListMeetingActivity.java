@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.jeremydufeux.mymeet.R;
@@ -71,6 +72,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         mAdapter = new ListMeetingAdapter(mMeetingList);
         mBinding.listMeetingsRv.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.listMeetingsRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mBinding.listMeetingsRv.setAdapter(mAdapter);
     }
 

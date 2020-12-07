@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.add.AddMeetingActivity"
-    android:padding="10dp">
+    android:padding="@dimen/adm_root_padding">
 
     <TextView
         android:id="@+id/add_meeting_subject_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/subject"
+        android:textSize="@dimen/adm_cat_text_size"
         app:layout_constraintEnd_toEndOf="@+id/add_meeting_subject_tv"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_subject_tv"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,13 +22,13 @@
         android:id="@+id/add_meeting_subject_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="@dimen/adm_margin"
         android:autofillHints=""
         android:gravity="center"
         android:hint="@string/subject"
         android:imeOptions="actionDone"
         android:inputType="text"
-        android:textSize="20sp"
+        android:textSize="@dimen/adm_title_text_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,8 +38,9 @@
         android:id="@+id/add_meeting_date_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/adm_margin"
         android:text="@string/date"
+        android:textSize="@dimen/adm_cat_text_size"
         app:layout_constraintEnd_toEndOf="@+id/add_meeting_date_et"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_date_et"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_subject_tv"
@@ -48,14 +50,14 @@
         android:id="@+id/add_meeting_date_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="@dimen/adm_margin"
+        android:layout_marginHorizontal="@dimen/adm_margin"
+        android:textSize="@dimen/adm_edit_text_size"
         android:autofillHints=""
         android:clickable="false"
         android:focusable="false"
         android:hint="@string/_29_11_1990"
         android:inputType="date"
-        android:textSize="20sp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,8 +67,9 @@
         android:id="@+id/add_meeting_time_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/adm_margin"
         android:text="@string/time"
+        android:textSize="@dimen/adm_cat_text_size"
         app:layout_constraintEnd_toEndOf="@+id/add_meeting_time_et"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_time_et"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_date_et"
@@ -76,8 +79,9 @@
         android:id="@+id/add_meeting_time_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="@dimen/adm_margin"
+        android:layout_marginHorizontal="@dimen/adm_margin"
+        android:textSize="@dimen/adm_edit_text_size"
         android:autofillHints=""
         android:clickable="false"
         android:focusable="false"
@@ -92,8 +96,9 @@
         android:id="@+id/add_meeting_duration_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/adm_margin"
         android:text="@string/duration"
+        android:textSize="@dimen/adm_cat_text_size"
         app:layout_constraintEnd_toEndOf="@+id/add_meeting_duration_et"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_duration_et"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_date_et"
@@ -103,8 +108,9 @@
         android:id="@+id/add_meeting_duration_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="@dimen/adm_margin"
+        android:layout_marginHorizontal="@dimen/adm_margin"
+        android:textSize="@dimen/adm_edit_text_size"
         android:autofillHints=""
         android:clickable="false"
         android:focusable="false"
@@ -119,8 +125,8 @@
         android:id="@+id/add_meeting_add_room_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="@dimen/adm_margin"
+        android:layout_marginTop="@dimen/adm_margin"
         android:text="@string/select_a_meeting_room"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_time_et"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_time_et"
@@ -130,7 +136,8 @@
         android:id="@+id/add_meeting_rooms_scv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:padding="1dp"
+        android:background="@drawable/shape_rounded_rectangle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_add_room_label_tv"
@@ -142,48 +149,60 @@
             android:layout_height="wrap_content"
             app:singleLine="true"
             app:singleSelection="true"
-            />
+            >
+            <!--
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test"
+                android:textSize="8sp"/> -->
+        </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
-    <ImageView
-        android:id="@+id/add_meeting_add_room_availability_im"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginHorizontal="5dp"
-        android:src="@drawable/ic_check"
-        app:layout_constraintEnd_toStartOf="@+id/add_meeting_add_room_availability_tv"
-        app:layout_constraintTop_toBottomOf="@+id/add_meeting_rooms_scv"
-        android:contentDescription="@string/availability_status" />
-
-    <TextView
-        android:id="@+id/add_meeting_add_room_availability_tv"
+    <LinearLayout
+        android:id="@+id/add_meeting_add_room_availability_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/available_text"
-        app:layout_constraintBottom_toBottomOf="@+id/add_meeting_add_room_availability_im"
+        android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/add_meeting_add_room_availability_im"
-        tools:viewBindingIgnore="true" />
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_rooms_scv"
+        tools:ignore="UseCompoundDrawables">
+        <ImageView
+            android:id="@+id/add_meeting_add_room_availability_im"
+            android:layout_width="@dimen/adm_availability_icon_size"
+            android:layout_height="@dimen/adm_availability_icon_size"
+            android:layout_marginHorizontal="@dimen/adm_margin"
+            android:src="@drawable/ic_check"
+            android:contentDescription="@string/availability_status" />
 
+        <TextView
+            android:id="@+id/add_meeting_add_room_availability_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/available_text"
+            tools:viewBindingIgnore="true" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/add_meeting_add_participant_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="@dimen/adm_margin"
+        android:layout_marginTop="@dimen/adm_margin"
         android:text="@string/add_at_least_two_participants"
         app:layout_constraintStart_toStartOf="@+id/add_meeting_participant_et"
-        app:layout_constraintTop_toBottomOf="@+id/add_meeting_add_room_availability_tv"
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_add_room_availability_ll"
         tools:viewBindingIgnore="true" />
 
     <EditText
         android:id="@+id/add_meeting_participant_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="@dimen/adm_margin"
+        android:layout_marginHorizontal="@dimen/adm_margin"
+        android:textSize="@dimen/adm_edit_text_size"
         android:autofillHints=""
         android:hint="@string/participant_e_mail"
         android:imeOptions="actionDone"
@@ -194,10 +213,9 @@
 
     <ImageView
         android:id="@+id/add_meeting_add_participant_btn"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:padding="5dp"
-        android:layout_margin="5dp"
+        android:layout_width="@dimen/adm_add_participant_icon_size"
+        android:layout_height="@dimen/adm_add_participant_icon_size"
+        android:layout_margin="@dimen/adm_margin"
         android:src="@drawable/ic_add"
         app:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/add_meeting_participant_et"
@@ -209,10 +227,10 @@
         android:id="@+id/add_meeting_participant_list_label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="@dimen/adm_margin"
+        android:layout_marginTop="@dimen/adm_margin"
         android:text="@string/participants_list"
-        app:layout_constraintStart_toStartOf="@+id/add_meeting_list_participants_rv"
+        app:layout_constraintStart_toStartOf="@+id/add_meeting_participant_et"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_participant_et"
         tools:viewBindingIgnore="true" />
 
