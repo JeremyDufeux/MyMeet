@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- item_meeting -->
+    <dimen name="im_root_padding">10dp</dimen>
+    <dimen name="im_room_image">55dp</dimen>
+    <dimen name="im_remove_image">25dp</dimen>
+    <dimen name="im_room_text">15sp</dimen>
+    <dimen name="im_room_number_text">25sp</dimen>
+    <dimen name="im_title_text">20sp</dimen>
+    <dimen name="im_text">12sp</dimen>
+    <dimen name="im_margin">5dp</dimen>
+    <dimen name="im_margin_horizontal">5dp</dimen>
+
+    <!-- activity_add_meeting -->
+    <dimen name="adm_root_padding">5dp</dimen>
+    <dimen name="adm_title_text_size">16sp</dimen>
+    <dimen name="adm_availability_icon_size">18dp</dimen>
+    <dimen name="adm_add_participant_icon_size">25dp</dimen>
+    <dimen name="adm_margin">2dp</dimen>
+    <dimen name="adm_cat_text_size">13sp</dimen>
+    <dimen name="adm_edit_text_size">13sp</dimen>
+
+    <!-- item_participant -->
+    <dimen name="ip_margin">5dp</dimen>
+    <dimen name="ip_icon_size">20dp</dimen>
+    <dimen name="ip_text_size">13sp</dimen>
+
+    <!-- filter_dialog -->
+    <dimen name="fd_margin">5dp</dimen>
+
+</resources>
