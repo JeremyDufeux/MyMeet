@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:background="@color/blue">
+    android:background="@color/dialog_header">
 
     <TextView
         android:id="@+id/dialog_custom_header_title"

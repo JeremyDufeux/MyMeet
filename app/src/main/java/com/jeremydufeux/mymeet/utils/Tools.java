@@ -51,7 +51,7 @@ public class Tools {
         };
         int[] backgroundColors = new int[] {
                 context.getResources().getColor(R.color.colorPrimary),
-                context.getResources().getColor(R.color.light_grey) // TODO color for night mode
+                context.getResources().getColor(R.color.chip_background) // TODO color for night mode
         };
         return new ColorStateList(backgroundStates, backgroundColors);
     }

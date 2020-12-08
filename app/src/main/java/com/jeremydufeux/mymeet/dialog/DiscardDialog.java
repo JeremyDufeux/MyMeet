@@ -25,7 +25,7 @@ public class DiscardDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
 
-        builder.setMessage(R.string.discard_dialog_message); // TODO
+        builder.setMessage(R.string.discard_dialog_message);
 
         builder.setPositiveButton(R.string.yes, (dialog, which) -> responseListener.onPositiveClicked());
         builder.setNegativeButton(R.string.cancel, null);
