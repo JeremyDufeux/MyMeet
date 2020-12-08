@@ -153,7 +153,7 @@ public class AddMeetingTest {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                13),
+                                12),
                         isDisplayed()));
         appCompatEditText6.perform(replaceText("jeremy.dufeux@gmail.com"), closeSoftKeyboard());
 
@@ -163,7 +163,7 @@ public class AddMeetingTest {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                14),
+                                13),
                         isDisplayed()));
         appCompatImageView.perform(click());
 
@@ -173,7 +173,7 @@ public class AddMeetingTest {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                13),
+                                12),
                         isDisplayed()));
         appCompatEditText7.perform(click());
 
@@ -183,7 +183,7 @@ public class AddMeetingTest {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                13),
+                                12),
                         isDisplayed()));
         appCompatEditText8.perform(replaceText("jeremy.dufeux@gmail.com"), closeSoftKeyboard());
 
@@ -193,7 +193,7 @@ public class AddMeetingTest {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                14),
+                                13),
                         isDisplayed()));
         appCompatImageView2.perform(click());
 

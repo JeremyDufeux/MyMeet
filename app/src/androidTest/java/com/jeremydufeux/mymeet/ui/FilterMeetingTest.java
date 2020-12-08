@@ -31,11 +31,13 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.jeremydufeux.mymeet.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -69,7 +71,7 @@ public class FilterMeetingTest {
                         childAtPosition(
                                 allOf(withId(R.id.dialog_filter_rooms_cpg),
                                         childAtPosition(
-                                                withId(R.id.dialog_duration_time_picker),
+                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                                                 1)),
                                 roomNumber),
                         isDisplayed()));
