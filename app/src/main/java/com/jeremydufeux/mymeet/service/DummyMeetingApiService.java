@@ -9,8 +9,8 @@ import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService{
     public static final int ROOM_AMOUNT = 10;
-    private List<Room> mRoomList = DummyRoomGenerator.generateRooms(ROOM_AMOUNT);
-    private List<Meeting> mMeetingList = DummyMeetingGenerator.generateMeetings(mRoomList);
+    private final List<Room> mRoomList = DummyRoomGenerator.generateRooms(ROOM_AMOUNT);
+    private final List<Meeting> mMeetingList = DummyMeetingGenerator.generateMeetings(mRoomList);
 
     @Override
     public List<Meeting> getMeetingList() {
@@ -58,22 +58,24 @@ public class DummyMeetingApiService implements MeetingApiService{
                     Calendar B_Start = meeting.getStartDate();
                     Calendar B_End = meeting.getEndDate();
 
-                    if (A_Start.compareTo(B_Start) == 0) {                               // The meeting have the same start time than another
+                    if (A_Start.compareTo(B_Start) == 0) {                   // The meeting have the same start time than another
                         roomAvailable = false;
                     }
-                    else if (A_End.compareTo(B_End) == 0) {                              // The meeting have the same end time than another
+                    else if (A_End.compareTo(B_End) == 0) {                  // The meeting have the same end time than another
                         roomAvailable = false;
                     }
-                    else if(A_Start.after(B_Start) && A_End.before(B_End)){              // The meeting start after and end before than another
+                    else if(A_Start.after(B_Start) && A_End.before(B_End)){  // The meeting start after and end before than another
                         roomAvailable = false;
                     }
                     else if (A_Start.before(B_Start)) {
-                        if (A_End.after(B_Start) && !(A_End.compareTo(B_Start) == 0)) { // The meeting end during another / But can end at the beginning of another one
-                            roomAvailable = false;
+                        if (A_End.after(B_Start)) {                          // The meeting end during another / But can end at the beginning of another one
+                            if(!(A_End.compareTo(B_Start) == 0)) {
+                                roomAvailable = false;
+                            }
                         }
                     }
                     else if (A_Start.before(B_End)) {
-                        if (A_End.after(B_End)) {                                       // The meeting start during another
+                        if (A_End.after(B_End)) {                           // The meeting start during another
                             roomAvailable = false;
                         }
                     }
