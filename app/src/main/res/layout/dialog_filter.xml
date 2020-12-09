@@ -7,38 +7,34 @@
     android:paddingHorizontal="@dimen/fd_margin"
     android:id="@+id/dialog_duration_time_picker">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
         android:background="@drawable/shape_rounded_rectangle"
         >
-    <CalendarView
-        android:id="@+id/dialog_filter_cal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fd_margin"
-        android:background="@drawable/shape_rounded_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/dialog_filter_rooms_cpg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/fd_margin"
-        app:selectionRequired="true"
-        app:layout_constraintTop_toBottomOf="@id/dialog_filter_cal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <!--
-        <com.google.android.material.chip.Chip
+        <CalendarView
+            android:id="@+id/dialog_filter_cal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test"
-            android:textSize="8sp"/> -->
-    </com.google.android.material.chip.ChipGroup>
+            android:layout_margin="@dimen/fd_margin"
+            android:background="@drawable/shape_rounded_rectangle" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/dialog_filter_rooms_cpg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/fd_margin"
+            app:selectionRequired="true">
+            <!--
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test"
+                android:textSize="8sp"/>
+            -->
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
 </ScrollView>
