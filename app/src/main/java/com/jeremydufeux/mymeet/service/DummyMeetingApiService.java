@@ -44,7 +44,7 @@ public class DummyMeetingApiService implements MeetingApiService{
         Collections.sort(mMeetingList);                     // Sort list by date
     }
 
-    public boolean checkRoomAvailability(String id, Room room, Calendar A_Start, Calendar duration) {
+    public boolean checkRoomAvailability(String meetingId, Room room, Calendar A_Start, Calendar duration) {
         boolean roomAvailable = true;
 
         Calendar A_End = (Calendar) A_Start.clone();
@@ -52,7 +52,7 @@ public class DummyMeetingApiService implements MeetingApiService{
         A_End.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
 
         for(Meeting meeting : mMeetingList){
-            if(!id.equals(meeting.getId())) {                               // Avoid to check availability with the edited Meeting
+            if(!meetingId.equals(meeting.getId())) {                               // Avoid to check availability with the edited Meeting
                 if (meeting.getRoom().getNumber() == room.getNumber()) {    // Check to compare meeting of the selected room
 
                     Calendar B_Start = meeting.getStartDate();
