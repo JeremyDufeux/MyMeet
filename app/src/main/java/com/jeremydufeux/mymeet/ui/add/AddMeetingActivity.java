@@ -69,8 +69,9 @@ public class AddMeetingActivity extends AppCompatActivity {
     public static final int FIELD_TIME                  = 2;
     public static final int FIELD_DURATION              = 3;
     public static final int FIELD_ROOM                  = 4;
-    public static final int FIELD_PARTICIPANTS          = 5;
-    public static final int FIELD_PARTICIPANTS_AMOUNT   = 6;
+    public static final int FIELD_ROOM_FOUND            = 5;
+    public static final int FIELD_PARTICIPANTS          = 6;
+    public static final int FIELD_PARTICIPANTS_AMOUNT   = 7;
     private boolean mCheckFieldsEditMode;
 
     private List<Room> mRoomsList;  // Values needed for Meeting:
@@ -144,11 +145,11 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         mBinding.addMeetingRoomsCpg.setOnCheckedChangeListener((chipGroup, checkedId) -> { // When a Chip is clicked
             if(checkedId != NO_ID) {
-                mCheckFields[FIELD_ROOM] = true;    // set corresponding check field to true
+                mCheckFields[FIELD_ROOM] = true;    // set room check field to true
                 mRoom = mRoomsList.get(checkedId);  // get selected room via id, who correspond to list index
                 checkAvailability();                // check room availability
             } else {                                // if no chip selected
-                mCheckFields[FIELD_ROOM] = false;   // set corresponding check field to false
+                mCheckFields[FIELD_ROOM] = false;   // set room check field to false
                 hideAvailabilityMessage();          // Hide availability message
             }
         });
@@ -220,9 +221,11 @@ public class AddMeetingActivity extends AppCompatActivity {
             if (mService.checkRoomAvailability(mMeeting.getId(), mRoom, mCalendar, mDuration)) { // Check room availability via service and change availability message text and image depending of result
                 mBinding.addMeetingAddRoomAvailabilityIm.setImageResource(R.drawable.ic_check);
                 mBinding.addMeetingAddRoomAvailabilityTv.setText(getString(R.string.available_text));
+                mCheckFields[FIELD_ROOM_FOUND] = true;   // set room found check field to true
             } else {
                 mBinding.addMeetingAddRoomAvailabilityIm.setImageResource(R.drawable.ic_close);
                 mBinding.addMeetingAddRoomAvailabilityTv.setText(getString(R.string.not_available_text));
+                mCheckFields[FIELD_ROOM_FOUND] = false;   // set room found check field to false
             }
             showAvailabilityMessage(); // Display availability message
         }
