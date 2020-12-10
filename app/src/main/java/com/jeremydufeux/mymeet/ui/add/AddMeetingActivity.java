@@ -245,6 +245,12 @@ public class AddMeetingActivity extends AppCompatActivity {
         EditText participantEt = mBinding.addMeetingParticipantEt;
         String email = participantEt.getText().toString();                             // Get editText value
         if(checkEmail(email)){                                                         // if string match e-mail address pattern, via tool method
+            for(Participant participant : mParticipantList){
+                if(participant.getEmail().equals(email)){
+                    Toast.makeText(this, getString(R.string.toast_email_in_the_list), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
             Participant participant = new Participant(email);                          // create a new participant and add it to the list
             mParticipantList.add(participant);
             mAdapter.notifyItemInserted(mParticipantList.indexOf(participant));

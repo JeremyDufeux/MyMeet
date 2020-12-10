@@ -45,4 +45,5 @@
     <string name="all">Toutes</string>
     <string name="clear_filters">Effacer</string>
     <string name="_10_30_12_00">10:30 – 12:00</string>
+    <string name="toast_email_in_the_list">Ce participant est déjà dans la liste</string>
 </resources>

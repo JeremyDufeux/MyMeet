@@ -34,7 +34,7 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
-    public void updateMeeting(Meeting meetingToUpdate) {    // update the meeting, it must have the same id than the one to update
+    public void updateMeeting(Meeting meetingToUpdate) {    // the meeting should be a clone of the original with the same id
         for (Meeting meeting : mMeetingList) {
             if (meeting.getId().equals(meetingToUpdate.getId())) {
                 mMeetingList.set(mMeetingList.indexOf(meeting), meetingToUpdate);
