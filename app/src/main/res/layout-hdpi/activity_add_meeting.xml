@@ -164,7 +164,6 @@
                     android:layout_height="wrap_content"
                     android:text="Test"
                     android:textSize="8sp"/> -->
-
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 

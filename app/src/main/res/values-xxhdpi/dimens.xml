@@ -17,8 +17,8 @@
     <dimen name="adm_availability_icon_size">20dp</dimen>
     <dimen name="adm_add_participant_icon_size">35dp</dimen>
     <dimen name="adm_margin">5dp</dimen>
-    <dimen name="adm_cat_text_size">21sp</dimen>
-    <dimen name="adm_edit_text_size">20sp</dimen>
+    <dimen name="adm_cat_text_size">20sp</dimen>
+    <dimen name="adm_edit_text_size">18sp</dimen>
 
     <!-- item_participant -->
     <dimen name="ip_margin">5dp</dimen>
