@@ -27,6 +27,12 @@ public class Meeting implements Cloneable, Comparable<Meeting>{
         addDurationToEndDate(duration);
     }
 
+    public void addDurationToEndDate(Calendar duration) {  // set EndDate with mDuration values
+        mEndDate = (Calendar) mStartDate.clone();
+        mEndDate.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
+        mEndDate.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
+    }
+
     public String getId() {
         return mId;
     }
@@ -59,10 +65,8 @@ public class Meeting implements Cloneable, Comparable<Meeting>{
         return mDuration;
     }
 
-    public void addDurationToEndDate(Calendar duration) {  // set EndDate with mDuration values
-        mEndDate = (Calendar) mStartDate.clone();
-        mEndDate.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
-        mEndDate.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
+    public void setDuration(Calendar duration) {
+        mDuration = duration;
     }
 
     public List<Participant> getParticipants() {
