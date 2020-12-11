@@ -40,10 +40,8 @@ import static com.jeremydufeux.mymeet.utils.Tools.isSameDay;
 public class ListMeetingActivity extends AppCompatActivity {
     public static final int ADD_MEETING_ADD_REQUEST_CODE = 1;
     public static final int ADD_MEETING_EDIT_REQUEST_CODE = 2;
-    private MeetingApiService mApiService;
     private ActivityListMeetingBinding mBinding;
     private ListMeetingAdapter mAdapter;
-    private List<Room> mRoomList;
     private List<Meeting> mMeetingList;
     private List<Meeting> mFilteredMeetingList;
 
@@ -65,10 +63,10 @@ public class ListMeetingActivity extends AppCompatActivity {
     }
 
     private void setupApiService() {  // get instance of MeetingApiService and et get Meetings Rooms and initialise the filteredMeetingList
-        mApiService = DI.getMeetingApiService();
-        mMeetingList = mApiService.getMeetingList();
+        MeetingApiService apiService = DI.getMeetingApiService();
+        mMeetingList = apiService.getMeetingList();
         mFilteredMeetingList = new ArrayList<>();
-        mRoomList = mApiService.getRoomList();
+        List<Room> roomList = apiService.getRoomList();
     }
 
     private void setupRecyclerView() {  // Create an adapter and set it to recycler view

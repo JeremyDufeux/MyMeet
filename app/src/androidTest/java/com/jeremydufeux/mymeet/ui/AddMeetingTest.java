@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.ui.list.ListMeetingActivity;
@@ -39,12 +39,12 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 public class AddMeetingTest {
     final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     @Rule
-    public ActivityTestRule<ListMeetingActivity> mActivityTestRule = new ActivityTestRule<>(ListMeetingActivity.class);
+    public ActivityScenarioRule<ListMeetingActivity> mActivityTestRule = new ActivityScenarioRule<>(ListMeetingActivity.class);
 
     @Test
     public void addMeeting() {
@@ -185,7 +185,7 @@ public class AddMeetingTest {
                                         0),
                                 12),
                         isDisplayed()));
-        appCompatEditText8.perform(replaceText("jeremy.dufeux@gmail.com"), closeSoftKeyboard());
+        appCompatEditText8.perform(replaceText("jeremy.dufeux2@gmail.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatImageView2 = onView(
                 allOf(withId(R.id.add_meeting_add_participant_btn), withContentDescription(context.getString(R.string.add_participant)),

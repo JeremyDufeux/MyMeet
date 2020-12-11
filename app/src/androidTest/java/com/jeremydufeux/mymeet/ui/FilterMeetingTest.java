@@ -8,10 +8,10 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.di.DI;
@@ -40,12 +40,12 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 public class FilterMeetingTest {
     final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     @Rule
-    public ActivityTestRule<ListMeetingActivity> mActivityTestRule = new ActivityTestRule<>(ListMeetingActivity.class);
+    public ActivityScenarioRule<ListMeetingActivity> mActivityTestRule = new ActivityScenarioRule<>(ListMeetingActivity.class);
 
     @Test
     public void filterMeetingTest() {
@@ -66,16 +66,15 @@ public class FilterMeetingTest {
                         isDisplayed()));
         actionMenuItemView3.perform(click());
 
-        ViewInteraction chip2 = onView(
+        ViewInteraction chip = onView(
                 allOf(withText(context.getString(R.string.room) + " " + roomNumber),
                         childAtPosition(
                                 allOf(withId(R.id.dialog_filter_rooms_cpg),
                                         childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                                withClassName(is("android.widget.LinearLayout")),
                                                 1)),
-                                roomNumber),
-                        isDisplayed()));
-        chip2.perform(click());
+                                roomNumber)));
+        chip.perform(scrollTo(), click());
 
         ViewInteraction materialButton3 = onView(
                 allOf(withId(android.R.id.button1), withText(context.getString(R.string.ok)),

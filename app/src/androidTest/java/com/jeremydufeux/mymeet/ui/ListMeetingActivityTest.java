@@ -8,10 +8,10 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.jeremydufeux.mymeet.R;
 import com.jeremydufeux.mymeet.di.DI;
@@ -36,12 +36,12 @@ import static com.jeremydufeux.mymeet.utils.RecyclerViewItemCountAssertion.withI
 import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 public class ListMeetingActivityTest {
     final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     @Rule
-    public ActivityTestRule<ListMeetingActivity> mActivityTestRule = new ActivityTestRule<>(ListMeetingActivity.class);
+    public ActivityScenarioRule<ListMeetingActivity> mActivityTestRule = new ActivityScenarioRule<>(ListMeetingActivity.class);
 
     @Test
     public void shouldDisplayMeetingItems() {
