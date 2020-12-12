@@ -70,8 +70,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     public static final int FIELD_DURATION              = 3;
     public static final int FIELD_ROOM                  = 4;
     public static final int FIELD_ROOM_FOUND            = 5;
-    public static final int FIELD_PARTICIPANTS          = 6;
-    public static final int FIELD_PARTICIPANTS_AMOUNT   = 7;
+    public static final int FIELD_PARTICIPANTS_AMOUNT   = 6;
     private boolean mCheckFieldsEditMode;
 
     private List<Room> mRoomsList;  // Values needed for Meeting:
@@ -156,35 +155,35 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     private void setupDialogs(){
-        mDatePickerDialog = new DatePickerDialog(AddMeetingActivity.this, (datePicker, year, month, dayOfMonth) -> { // Create calendar picker dialog and create his listener
-            mCalendar.set(Calendar.YEAR, year);                           // set selected year to mCalendar value
-            mCalendar.set(Calendar.MONTH, month);                         // set selected year to mCalendar value
-            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);             // set selected day to mCalendar value
-            mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar)); // set selected date to EditText via tools method
-            mCheckFields[FIELD_DATE] = true;                              // set corresponding check field to true
-            mCheckFieldsEditMode = true;                                  // set mCheckFieldsEditMode to true, used in edit mode
-            checkAvailability();                                          // check room availability
-        }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH)); // set default values to calendar picker
+        mDatePickerDialog = new DatePickerDialog(AddMeetingActivity.this, (datePicker, year, month, dayOfMonth) -> {    // Create calendar picker dialog and create his listener
+            mCalendar.set(Calendar.YEAR, year);                                                                                 // set selected year to mCalendar value
+            mCalendar.set(Calendar.MONTH, month);                                                                               // set selected year to mCalendar value
+            mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);                                                                   // set selected day to mCalendar value
+            mBinding.addMeetingDateEt.setText(getDateFromCal(mCalendar));                                                       // set selected date to EditText via tools method
+            mCheckFields[FIELD_DATE] = true;                                                                                    // set corresponding check field to true
+            mCheckFieldsEditMode = true;                                                                                        // set mCheckFieldsEditMode to true, used in edit mode
+            checkAvailability();                                                                                                // check room availability
+        }, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));                  // set default values to calendar picker
 
-        mTimePickerDialog = new TimePickerDialog(AddMeetingActivity.this, (timePicker, hour, minute) -> {  // Create time picker dialog and create his listener
-            mCalendar.set(Calendar.HOUR_OF_DAY, hour);                     // set selected hour to mCalendar value
-            mCalendar.set(Calendar.MINUTE, minute);                        // set selected minute to mCalendar value
-            mCalendar.set(Calendar.SECOND, 0);                             // set mCalendar second to 0
-            mCalendar.set(Calendar.MILLISECOND, 0);                        // set mCalendar millisecond to 0
-            mBinding.addMeetingTimeEt.setText(getTimeFromCal(mCalendar));  // set selected time to EditText via tools method
-            mCheckFields[FIELD_TIME] = true;                               // set corresponding check field to true
-            mCheckFieldsEditMode = true;                                   // set mCheckFieldsEditMode to true, used in edit mode
-            checkAvailability();                                           // check room availability
-        }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);   // set default values to calendar picker
+        mTimePickerDialog = new TimePickerDialog(AddMeetingActivity.this, (timePicker, hour, minute) -> {               // Create time picker dialog and create his listener
+            mCalendar.set(Calendar.HOUR_OF_DAY, hour);                                                                          // set selected hour to mCalendar value
+            mCalendar.set(Calendar.MINUTE, minute);                                                                             // set selected minute to mCalendar value
+            mCalendar.set(Calendar.SECOND, 0);                                                                                  // set mCalendar second to 0
+            mCalendar.set(Calendar.MILLISECOND, 0);                                                                             // set mCalendar millisecond to 0
+            mBinding.addMeetingTimeEt.setText(getTimeFromCal(mCalendar));                                                       // set selected time to EditText via tools method
+            mCheckFields[FIELD_TIME] = true;                                                                                    // set corresponding check field to true
+            mCheckFieldsEditMode = true;                                                                                        // set mCheckFieldsEditMode to true, used in edit mode
+            checkAvailability();                                                                                                // check room availability
+        }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);                              // set default values to calendar picker
 
-        mDurationPickerDialog = new DurationPickerDialog();                   // Create duration picker dialog
-        mDurationPickerDialog.setDurationSetListener((hour, minute) -> {      // set listener
-            mDuration.set(Calendar.HOUR_OF_DAY, hour);                        // set selected hour to mDuration value
-            mDuration.set(Calendar.MINUTE, minute);                           // set selected minute to mDuration value
-            mBinding.addMeetingDurationEt.setText(getTimeFromCal(mDuration)); // set selected time to EditText via tools method
-            mCheckFields[FIELD_DURATION] = true;                              // set corresponding check field to true
-            mCheckFieldsEditMode = true;                                      // set mCheckFieldsEditMode to true, used in edit mode
-            checkAvailability();                                              // check room availability
+        mDurationPickerDialog = new DurationPickerDialog();                                                                     // Create duration picker dialog
+        mDurationPickerDialog.setDurationSetListener((hour, minute) -> {                                                        // set listener
+            mDuration.set(Calendar.HOUR_OF_DAY, hour);                                                                          // set selected hour to mDuration value
+            mDuration.set(Calendar.MINUTE, minute);                                                                             // set selected minute to mDuration value
+            mBinding.addMeetingDurationEt.setText(getTimeFromCal(mDuration));                                                   // set selected time to EditText via tools method
+            mCheckFields[FIELD_DURATION] = true;                                                                                // set corresponding check field to true
+            mCheckFieldsEditMode = true;                                                                                        // set mCheckFieldsEditMode to true, used in edit mode
+            checkAvailability();                                                                                                // check room availability
         });
 
         mDiscardDialog = new DiscardDialog();
@@ -208,26 +207,26 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     private void openDiscardDialog(){
-        int score = checkField();      // Check field and get the fill score
-        if((mEditMode && mCheckFieldsEditMode) || (!mEditMode && score>0)){ // Open dialog if edit mode and fields was changed or when in add mode if a field was edited
+        int score = checkField();                                               // Check field and get the fill score
+        if((mEditMode && mCheckFieldsEditMode) || (!mEditMode && score>0)){     // Open dialog if edit mode and fields was changed or when in add mode if a field was edited
             mDiscardDialog.show(getSupportFragmentManager(), null);
-        } else {    // If nothing change finish activity
+        } else {                                                                // If nothing change finish activity
             finish();
         }
     }
 
     private void checkAvailability(){
-        if(mCheckFields[FIELD_DATE] && mCheckFields[FIELD_TIME] && mCheckFields[FIELD_DURATION] && mCheckFields[FIELD_ROOM]) { // Check if all needed fields are fill
-            if (mService.checkRoomAvailability(mMeeting.getId(), mRoom, mCalendar, mDuration)) { // Check room availability via service and change availability message text and image depending of result
+        if(mCheckFields[FIELD_DATE] && mCheckFields[FIELD_TIME] && mCheckFields[FIELD_DURATION] && mCheckFields[FIELD_ROOM]) {  // Check if all needed fields are fill
+            if (mService.checkRoomAvailability(mMeeting.getId(), mRoom, mCalendar, mDuration)) {                                // Check room availability via service and change availability message text and image depending of result
                 mBinding.addMeetingAddRoomAvailabilityIm.setImageResource(R.drawable.ic_check);
                 mBinding.addMeetingAddRoomAvailabilityTv.setText(getString(R.string.available_text));
-                mCheckFields[FIELD_ROOM_FOUND] = true;   // set room found check field to true
+                mCheckFields[FIELD_ROOM_FOUND] = true;                                                                          // set room found check field to true
             } else {
                 mBinding.addMeetingAddRoomAvailabilityIm.setImageResource(R.drawable.ic_close);
                 mBinding.addMeetingAddRoomAvailabilityTv.setText(getString(R.string.not_available_text));
-                mCheckFields[FIELD_ROOM_FOUND] = false;   // set room found check field to false
+                mCheckFields[FIELD_ROOM_FOUND] = false;                                                                         // set room found check field to false
             }
-            showAvailabilityMessage(); // Display availability message
+            showAvailabilityMessage();                                                                                          // Display availability message
         }
     }
 
@@ -257,7 +256,6 @@ public class AddMeetingActivity extends AppCompatActivity {
             participantEt.setText("");
             closeKeyboard();
             mBinding.addMeetingListParticipantsRv.smoothScrollToPosition(mParticipantList.size());
-            mCheckFields[FIELD_PARTICIPANTS] = true;
             mCheckFieldsEditMode = true;
         } else {                                                                       // if string doesn't match e-mail address pattern, show a toast message
             Toast.makeText(this, getString(R.string.toast_email_field), Toast.LENGTH_SHORT).show();
@@ -312,9 +310,8 @@ public class AddMeetingActivity extends AppCompatActivity {
         if(!mBinding.addMeetingSubjectTv.getText().toString().equals("")){                      // Check if subject edit text is fill
             mCheckFields[FIELD_SUBJECT] = true;
         }
-        if(mParticipantList.size()>=2){                                                         // Check if at least 2 participant are in the list
-            mCheckFields[FIELD_PARTICIPANTS_AMOUNT] = true;
-        }
+        // Check if at least 2 participant are in the list
+        mCheckFields[FIELD_PARTICIPANTS_AMOUNT] = mParticipantList.size() >= 2;
         if(!mBinding.addMeetingSubjectTv.getText().toString().equals(mMeeting.getSubject())){   // Check if subject field is different than original, for edit mode
             mCheckFieldsEditMode = true;
         }
@@ -400,9 +397,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         int index = mParticipantList.indexOf(event.participant);
         mParticipantList.remove(event.participant);
         mAdapter.notifyItemRemoved(index);
-        if (mParticipantList.size() < 2) {
-            mCheckFields[FIELD_PARTICIPANTS] = false;
-        }
         mCheckFieldsEditMode = true;
     }
 
