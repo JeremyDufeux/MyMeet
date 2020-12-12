@@ -19,7 +19,6 @@ import com.jeremydufeux.mymeet.dialog.FilterDialog;
 import com.jeremydufeux.mymeet.event.DeleteMeetingEvent;
 import com.jeremydufeux.mymeet.event.OpenMeetingEvent;
 import com.jeremydufeux.mymeet.model.Meeting;
-import com.jeremydufeux.mymeet.model.Room;
 import com.jeremydufeux.mymeet.service.MeetingApiService;
 import com.jeremydufeux.mymeet.ui.add.AddMeetingActivity;
 
@@ -66,7 +65,6 @@ public class ListMeetingActivity extends AppCompatActivity {
         MeetingApiService apiService = DI.getMeetingApiService();
         mMeetingList = apiService.getMeetingList();
         mFilteredMeetingList = new ArrayList<>();
-        List<Room> roomList = apiService.getRoomList();
     }
 
     private void setupRecyclerView() {  // Create an adapter and set it to recycler view
@@ -160,15 +158,15 @@ public class ListMeetingActivity extends AppCompatActivity {
             }
         }
 
-        mAdapter = new ListMeetingAdapter(mFilteredMeetingList); // Create a new adapter with this list and set it to recycler view
-        mBinding.listMeetingsRv.setAdapter(mAdapter);
+        mAdapter.setMeetingList(mFilteredMeetingList); // Create a new adapter with this list and set it to recycler view
+        mAdapter.notifyDataSetChanged();
     }
 
     private void removeListFilters(){ // Set filter value to null and create a new adapter
         roomFilter = null;
         dateFilter = null;
-        mAdapter = new ListMeetingAdapter(mMeetingList);
-        mBinding.listMeetingsRv.setAdapter(mAdapter);
+        mAdapter.setMeetingList(mMeetingList);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
