@@ -47,13 +47,13 @@ public class FilterDialog extends DialogFragment implements Chip.OnCheckedChange
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View mView = inflater.inflate(R.layout.dialog_filter, null);
 
-        mRoomList = DI.getMeetingApiService().getRoomList();                                // Get room list
-        if(mRoomSelection==null) {                                                          // Create a Hashpmap to store room number as a key string and selection as boolean
+        mRoomList = DI.getMeetingApiService().getRoomList();                                 // Get room list
+        if(mRoomSelection==null) {                                                           // Create a Hashpmap to store room number as a key string and selection as boolean
             mRoomSelection = new HashMap<>();
-            setRoomSelectionToAll();                                                        // Select all rooms
+            setRoomSelectionToAll();                                                         // Select all rooms
         }
 
-        CalendarView calendarView = mView.findViewById(R.id.dialog_filter_cal);                         // get Calendar view and set listener to grab selected date
+        CalendarView calendarView = mView.findViewById(R.id.dialog_filter_cal);              // get Calendar view and set listener to grab selected date
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> mDateSelection = getCalendarFromDate(year, month, dayOfMonth, 0, 0));
         if(mDateSelection!=null) calendarView.setDate(mDateSelection.getTimeInMillis());   // if date selection already set, select it in calendar
 

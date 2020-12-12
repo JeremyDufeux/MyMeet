@@ -52,30 +52,30 @@ public class DummyMeetingApiService implements MeetingApiService{
         A_End.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
 
         for(Meeting meeting : mMeetingList){
-            if(!meetingId.equals(meeting.getId())) {                               // Avoid to check availability with the edited Meeting
-                if (meeting.getRoom().getNumber() == room.getNumber()) {    // Check to compare meeting of the selected room
+            if(!meetingId.equals(meeting.getId())) {                                // Avoid to check availability with the edited Meeting
+                if (meeting.getRoom().getNumber() == room.getNumber()) {            // Check to compare meeting of the selected room
 
                     Calendar B_Start = meeting.getStartDate();
                     Calendar B_End = meeting.getEndDate();
 
-                    if (A_Start.compareTo(B_Start) == 0) {                   // The meeting have the same start time than another
+                    if (A_Start.compareTo(B_Start) == 0) {                          // The meeting have the same start time than another
                         roomAvailable = false;
                     }
-                    else if (A_End.compareTo(B_End) == 0) {                  // The meeting have the same end time than another
+                    else if (A_End.compareTo(B_End) == 0) {                         // The meeting have the same end time than another
                         roomAvailable = false;
                     }
-                    else if(A_Start.after(B_Start) && A_End.before(B_End)){  // The meeting start after and end before than another
+                    else if(A_Start.after(B_Start) && A_End.before(B_End)){         // The meeting start after and end before than another
                         roomAvailable = false;
                     }
                     else if (A_Start.before(B_Start)) {
-                        if (A_End.after(B_Start)) {                          // The meeting end during another / But can end at the beginning of another one
+                        if (A_End.after(B_Start)) {                                 // The meeting end during another / But can end at the beginning of another one
                             if(!(A_End.compareTo(B_Start) == 0)) {
                                 roomAvailable = false;
                             }
                         }
                     }
                     else if (A_Start.before(B_End)) {
-                        if (A_End.after(B_End)) {                           // The meeting start during another
+                        if (A_End.after(B_End)) {                                   // The meeting start during another
                             roomAvailable = false;
                         }
                     }

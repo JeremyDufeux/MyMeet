@@ -52,7 +52,7 @@ public class EditMeetingTest {
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.list_meetings_rv),
                         childAtPosition(
-                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                withClassName(is("android.widget.FrameLayout")),
                                 0)));
         recyclerView.perform(actionOnItemAtPosition(0, click()));
 

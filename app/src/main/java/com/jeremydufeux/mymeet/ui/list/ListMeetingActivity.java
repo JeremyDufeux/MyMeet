@@ -98,6 +98,44 @@ public class ListMeetingActivity extends AppCompatActivity {
         });
     }
 
+    private void openFilterDialog(){
+        filterDialog.setDateSelection(dateFilter); // set date and room filter if already gets from this dialog, whatever if null or not
+        filterDialog.setRoomSelection(roomFilter);
+        filterDialog.show(getSupportFragmentManager(), null);
+    }
+
+    private void filterMeetings(){  // check all Meetings if they match the filter and add it to mFilteredMeetingList
+        mFilteredMeetingList.clear();
+        if(dateFilter!=null){
+            for(Meeting meeting : mMeetingList){
+                if(isSameDay(meeting.getStartDate(), dateFilter)){
+                    if(Objects.requireNonNull(roomFilter.get("all")) || Objects.requireNonNull(roomFilter.get(Integer.toString(meeting.getRoom().getNumber())))) {
+                        mFilteredMeetingList.add(meeting);
+                    }
+                }
+            }
+        } else if(!Objects.requireNonNull(roomFilter.get("all"))){
+            for(Meeting meeting : mMeetingList) {
+                if(Objects.requireNonNull(roomFilter.get(Integer.toString(meeting.getRoom().getNumber())))) {
+                    mFilteredMeetingList.add(meeting);
+                }
+            }
+        } else {            // No date selected and room filter is back to "all"
+            removeListFilters();
+            return;
+        }
+
+        mAdapter.setMeetingList(mFilteredMeetingList); // Create a new adapter with this list and set it to recycler view
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void removeListFilters(){ // Set filter value to null and create a new adapter
+        roomFilter = null;
+        dateFilter = null;
+        mAdapter.setMeetingList(mMeetingList);
+        mAdapter.notifyDataSetChanged();
+    }
+
     @Subscribe
     public void onDeleteMeetingEvent(DeleteMeetingEvent event){  // Method invoked by Event Bus to delete a Meeting in te list
         int index = mMeetingList.indexOf(event.meeting);
@@ -132,41 +170,6 @@ public class ListMeetingActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
-
-    private void openFilterDialog(){
-        filterDialog.setDateSelection(dateFilter); // set date and room filter if already gets from this dialog, whatever if null or not
-        filterDialog.setRoomSelection(roomFilter);
-        filterDialog.show(getSupportFragmentManager(), null);
-    }
-
-    private void filterMeetings(){  // check all Meetings if they match the filter and add it to mFilteredMeetingList
-        mFilteredMeetingList.clear();
-        if(dateFilter!=null){
-            for(Meeting meeting : mMeetingList){
-                if(isSameDay(meeting.getStartDate(), dateFilter)){
-                    if(Objects.requireNonNull(roomFilter.get("all")) || Objects.requireNonNull(roomFilter.get(Integer.toString(meeting.getRoom().getNumber())))) {
-                        mFilteredMeetingList.add(meeting);
-                    }
-                }
-            }
-        } else if(!Objects.requireNonNull(roomFilter.get("all"))){
-            for(Meeting meeting : mMeetingList) {
-                if(Objects.requireNonNull(roomFilter.get(Integer.toString(meeting.getRoom().getNumber())))) {
-                    mFilteredMeetingList.add(meeting);
-                }
-            }
-        }
-
-        mAdapter.setMeetingList(mFilteredMeetingList); // Create a new adapter with this list and set it to recycler view
-        mAdapter.notifyDataSetChanged();
-    }
-
-    private void removeListFilters(){ // Set filter value to null and create a new adapter
-        roomFilter = null;
-        dateFilter = null;
-        mAdapter.setMeetingList(mMeetingList);
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
